@@ -1,0 +1,2 @@
+-keep class com.gdevelopers.movies.MsvAuthority
+-keepclassmembers class com.gdevelopers.movies.** { *; }

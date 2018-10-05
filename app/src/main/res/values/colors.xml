@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#363F44</color>
+    <color name="colorPrimaryDark">#FF1A1F23</color>
+    <color name="colorAccent">#F9AA33</color>
+    <color name="theme_window_background">#5A6A72</color>
+    <color name="cardDetailsColor">#778389</color>
+
+    <color name="fab_color">#BDBDBD</color>
+</resources>

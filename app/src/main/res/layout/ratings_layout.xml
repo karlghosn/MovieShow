@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp"
+    android:layout_marginTop="15dp"
+    android:baselineAligned="false"
+    android:orientation="horizontal"
+    tools:showIn="@layout/content_movie_details">
+
+
+    <com.tolstykh.textviewrichdrawable.TextViewRichDrawable
+        android:id="@+id/rating_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:clickable="true"
+        android:drawablePadding="5dp"
+        android:drawableTop="@drawable/star_rate_yellow"
+        android:focusable="true"
+        android:gravity="center"
+        android:text="@string/rate"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+        android:textColor="@android:color/white"
+        app:compoundDrawableHeight="@dimen/rating_image_height" />
+
+    <com.tolstykh.textviewrichdrawable.TextViewRichDrawable
+        android:id="@+id/imdb"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:drawablePadding="5dp"
+        android:drawableTop="@drawable/imdb"
+        android:gravity="center"
+        android:text="@string/empty_text"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+        android:textColor="@android:color/white"
+        app:compoundDrawableHeight="@dimen/rating_image_height" />
+
+
+    <com.tolstykh.textviewrichdrawable.TextViewRichDrawable
+        android:id="@+id/rotten_tomatoes"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:drawablePadding="5dp"
+        android:drawableTop="@drawable/rotten_tomato"
+        android:gravity="center"
+        android:text="@string/empty_text"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+        android:textColor="@android:color/white"
+        app:compoundDrawableHeight="@dimen/rating_image_height" />
+
+
+    <com.tolstykh.textviewrichdrawable.TextViewRichDrawable
+        android:id="@+id/metacritic"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:drawablePadding="5dp"
+        android:drawableTop="@drawable/metacritic"
+        android:gravity="center"
+        android:text="@string/empty_text"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+        android:textColor="@android:color/white"
+        app:compoundDrawableHeight="@dimen/rating_image_height" />
+
+    <com.tolstykh.textviewrichdrawable.TextViewRichDrawable
+        android:id="@+id/trakt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:drawablePadding="5dp"
+        android:drawableTop="@drawable/trakt"
+        android:gravity="center"
+        android:text="@string/empty_text"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+        android:textColor="@android:color/white"
+        app:compoundDrawableHeight="@dimen/rating_image_height" />
+
+
+    <com.tolstykh.textviewrichdrawable.TextViewRichDrawable
+        android:id="@+id/vote_average"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:drawablePadding="5dp"
+        android:drawableTop="@drawable/tmdb"
+        android:gravity="center"
+        android:text="@string/empty_text"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+        android:textColor="@android:color/white"
+        app:compoundDrawableHeight="@dimen/rating_image_height" />
+
+
+</LinearLayout>

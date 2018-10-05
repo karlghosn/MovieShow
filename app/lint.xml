@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <issue id="IconColors">
+        <ignore path="src/main/res/drawable-hdpi/ic_action_lamp.png" />
+        <ignore path="src/main/res/drawable-hdpi/ic_action_locked.png" />
+        <ignore path="src/main/res/drawable-hdpi/ic_action_tmdb.png" />
+        <ignore path="src/main/res/drawable-mdpi/ic_action_lamp.png" />
+        <ignore path="src/main/res/drawable-mdpi/ic_action_locked.png" />
+        <ignore path="src/main/res/drawable-mdpi/ic_action_tmdb.png" />
+        <ignore path="src/main/res/drawable-xhdpi/ic_action_lamp.png" />
+        <ignore path="src/main/res/drawable-xhdpi/ic_action_locked.png" />
+        <ignore path="src/main/res/drawable-xhdpi/ic_action_tmdb.png" />
+        <ignore path="src/main/res/drawable-xxhdpi/ic_action_lamp.png" />
+        <ignore path="src/main/res/drawable-xxhdpi/ic_action_locked.png" />
+        <ignore path="src/main/res/drawable-xxhdpi/ic_action_tmdb.png" />
+    </issue>
+    <issue id="IconDipSize">
+        <ignore path="src/main/res/drawable-hdpi/imdb.png" />
+        <ignore path="src/main/res/drawable-hdpi/metacritic.png" />
+        <ignore path="src/main/res/drawable-hdpi/placeholder.png" />
+        <ignore path="src/main/res/drawable-hdpi/powered_by.png" />
+        <ignore path="src/main/res/drawable-hdpi/rotten_tomato.png" />
+        <ignore path="src/main/res/drawable-hdpi/tmdb.png" />
+        <ignore path="src/main/res/drawable-mdpi/imdb.png" />
+        <ignore path="src/main/res/drawable-mdpi/metacritic.png" />
+        <ignore path="src/main/res/drawable-mdpi/placeholder.png" />
+        <ignore path="src/main/res/drawable-mdpi/powered_by.png" />
+        <ignore path="src/main/res/drawable-mdpi/rotten_tomato.png" />
+        <ignore path="src/main/res/drawable-mdpi/tmdb.png" />
+        <ignore path="src/main/res/drawable-xhdpi/imdb.png" />
+        <ignore path="src/main/res/drawable-xhdpi/metacritic.png" />
+        <ignore path="src/main/res/drawable-xhdpi/placeholder.png" />
+        <ignore path="src/main/res/drawable-xhdpi/powered_by.png" />
+        <ignore path="src/main/res/drawable-xhdpi/rotten_tomato.png" />
+        <ignore path="src/main/res/drawable-xhdpi/tmdb.png" />
+        <ignore path="src/main/res/drawable-xxhdpi/imdb.png" />
+        <ignore path="src/main/res/drawable-xxhdpi/metacritic.png" />
+        <ignore path="src/main/res/drawable-xxhdpi/placeholder.png" />
+        <ignore path="src/main/res/drawable-xxhdpi/powered_by.png" />
+        <ignore path="src/main/res/drawable-xxhdpi/rotten_tomato.png" />
+        <ignore path="src/main/res/drawable-xxhdpi/tmdb.png" />
+    </issue>
+    <issue id="IconDuplicatesConfig">
+        <ignore path="src/main/res/drawable-xhdpi/rotten_tomato.png" />
+        <ignore path="src/main/res/drawable-xxhdpi/rotten_tomato.png" />
+    </issue>
+    <issue id="IconLauncherShape">
+        <ignore path="src/main/res/mipmap-hdpi/ic_logo.png" />
+        <ignore path="src/main/res/mipmap-mdpi/ic_logo.png" />
+        <ignore path="src/main/res/mipmap-xhdpi/ic_logo.png" />
+        <ignore path="src/main/res/mipmap-xxhdpi/ic_logo.png" />
+        <ignore path="src/main/res/mipmap-xxxhdpi/ic_logo.png" />
+    </issue>
+    <issue id="IconLocation">
+        <ignore path="src/main/res/drawable/bg_no_item_cactus.png" />
+        <ignore path="src/main/res/drawable/ic_empty_search.png" />
+        <ignore path="src/main/res/drawable/trakt.png" />
+    </issue>
+</lint>

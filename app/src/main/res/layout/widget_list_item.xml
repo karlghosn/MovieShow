@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/container_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="10dp">
+
+    <ImageView
+        android:id="@+id/movie_image"
+        android:layout_width="35dp"
+        android:layout_height="50dp"
+        android:contentDescription="@string/cast_image"
+        android:scaleType="centerCrop" />
+
+
+    <TextView
+        android:id="@+id/movie_name"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@+id/movie_image"
+        android:layout_toLeftOf="@+id/movie_rating"
+        android:layout_toRightOf="@+id/movie_image"
+        android:layout_toStartOf="@+id/movie_rating" />
+
+    <TextView
+        android:id="@+id/movie_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/movie_name"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_toEndOf="@+id/movie_image"
+        android:layout_toRightOf="@+id/movie_image"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2" />
+
+
+    <TextView
+        android:id="@+id/movie_rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2" />
+</RelativeLayout>

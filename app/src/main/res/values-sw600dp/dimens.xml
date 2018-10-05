@@ -1,0 +1,14 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="parallax_image_height">400dp</dimen>
+    <dimen name="show_row_width">150dp</dimen>
+    <dimen name="movie_images_height">180dp</dimen>
+    <dimen name="season_image_width">110dp</dimen>
+    <dimen name="season_image_height">140dp</dimen>
+    <dimen name="banner_height">90dp</dimen>
+    <dimen name="trailer_width">230dp</dimen>
+    <dimen name="trailer_height">170dp</dimen>
+    <dimen name="actor_details_bar_height">520dp</dimen>
+    <dimen name="actor_details_container_bar_height">410dp</dimen>
+    <dimen name="actor_details_image_bar_height">360dp</dimen>
+</resources>

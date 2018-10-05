@@ -1,0 +1,43 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /Users/apple/Desktop/Apps/Android/Movies/library/src/main/AndroidManifest.xml:1:1-23:12
+INJECTED from /Users/apple/Desktop/Apps/Android/Movies/library/src/main/AndroidManifest.xml:1:1-23:12
+INJECTED from /Users/apple/Desktop/Apps/Android/Movies/library/src/main/AndroidManifest.xml:1:1-23:12
+INJECTED from /Users/apple/Desktop/Apps/Android/Movies/library/src/main/AndroidManifest.xml:1:1-23:12
+INJECTED from /Users/apple/Desktop/Apps/Android/Movies/library/src/main/AndroidManifest.xml:1:1-23:12
+INJECTED from /Users/apple/Desktop/Apps/Android/Movies/library/src/main/AndroidManifest.xml:1:1-23:12
+INJECTED from /Users/apple/Desktop/Apps/Android/Movies/library/src/main/AndroidManifest.xml:1:1-23:12
+	package
+		ADDED from /Users/apple/Desktop/Apps/Android/Movies/library/src/main/AndroidManifest.xml:2:11-53
+		INJECTED from /Users/apple/Desktop/Apps/Android/Movies/library/src/main/AndroidManifest.xml
+		INJECTED from /Users/apple/Desktop/Apps/Android/Movies/library/src/main/AndroidManifest.xml
+	android:versionName
+		INJECTED from /Users/apple/Desktop/Apps/Android/Movies/library/src/main/AndroidManifest.xml
+		ADDED from /Users/apple/Desktop/Apps/Android/Movies/library/src/main/AndroidManifest.xml:1:1-23:12
+		INJECTED from /Users/apple/Desktop/Apps/Android/Movies/library/src/main/AndroidManifest.xml
+	android:versionCode
+		INJECTED from /Users/apple/Desktop/Apps/Android/Movies/library/src/main/AndroidManifest.xml
+		ADDED from /Users/apple/Desktop/Apps/Android/Movies/library/src/main/AndroidManifest.xml:1:1-23:12
+		INJECTED from /Users/apple/Desktop/Apps/Android/Movies/library/src/main/AndroidManifest.xml
+	xmlns:android
+		ADDED from /Users/apple/Desktop/Apps/Android/Movies/library/src/main/AndroidManifest.xml:1:11-69
+application
+ADDED from /Users/apple/Desktop/Apps/Android/Movies/library/src/main/AndroidManifest.xml:4:5-7:11
+	android:supportsRtl
+		ADDED from /Users/apple/Desktop/Apps/Android/Movies/library/src/main/AndroidManifest.xml:6:9-35
+	android:allowBackup
+		ADDED from /Users/apple/Desktop/Apps/Android/Movies/library/src/main/AndroidManifest.xml:5:9-35
+uses-sdk
+INJECTED from /Users/apple/Desktop/Apps/Android/Movies/library/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /Users/apple/Desktop/Apps/Android/Movies/library/src/main/AndroidManifest.xml
+INJECTED from /Users/apple/Desktop/Apps/Android/Movies/library/src/main/AndroidManifest.xml
+INJECTED from /Users/apple/Desktop/Apps/Android/Movies/library/src/main/AndroidManifest.xml
+INJECTED from /Users/apple/Desktop/Apps/Android/Movies/library/src/main/AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from /Users/apple/Desktop/Apps/Android/Movies/library/src/main/AndroidManifest.xml
+		ADDED from /Users/apple/Desktop/Apps/Android/Movies/library/src/main/AndroidManifest.xml
+		INJECTED from /Users/apple/Desktop/Apps/Android/Movies/library/src/main/AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from /Users/apple/Desktop/Apps/Android/Movies/library/src/main/AndroidManifest.xml
+		ADDED from /Users/apple/Desktop/Apps/Android/Movies/library/src/main/AndroidManifest.xml
+		INJECTED from /Users/apple/Desktop/Apps/Android/Movies/library/src/main/AndroidManifest.xml

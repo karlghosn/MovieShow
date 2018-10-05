@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.gdevelopers.movies">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <application
+        android:name=".helpers.MovieDB"
+        android:allowBackup="true"
+        android:fullBackupContent="@xml/backup_descriptor"
+        android:icon="@mipmap/ic_logo"
+        android:label="@string/app_name"
+        android:largeHeap="true"
+        android:roundIcon="@mipmap/ic_logo"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true"
+        tools:ignore="GoogleAppIndexingWarning"
+        tools:targetApi="m">
+        <activity
+            android:name=".activities.MainActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan">
+            <intent-filter
+                android:autoVerify="true"
+                tools:targetApi="m">
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activities.MoreActivity"
+            android:label="@string/title_activity_more"
+            android:parentActivityName=".activities.MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/DetailsTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.gdevelopers.movies.activities.MainActivity" />
+        </activity>
+        <activity
+            android:name=".activities.MovieDetailsActivity"
+            android:label="@string/title_activity_movie_details"
+            android:parentActivityName=".activities.MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/DetailsTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.gdevelopers.movies.activities.MainActivity" />
+        </activity>
+
+        <service
+            android:name=".model.ModelService"
+            android:enabled="true"
+            android:exported="false" />
+
+        <activity
+            android:name=".activities.ExtendedDetailsActivity"
+            android:label="@string/title_activity_extended_details"
+            android:parentActivityName=".activities.MovieDetailsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/DetailsTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.gdevelopers.movies.activities.MovieDetailsActivity" />
+        </activity>
+        <activity
+            android:name=".activities.GalleryPreviewActivity"
+            android:label="@string/title_activity_gallery_preview"
+            android:parentActivityName=".activities.ExtendedDetailsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/GalleryTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.gdevelopers.movies.activities.ExtendedDetailsActivity" />
+        </activity>
+        <activity
+            android:name=".activities.SearchActivity"
+            android:label="@string/search"
+            android:parentActivityName=".activities.MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/DetailsTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.gdevelopers.movies.activities.MainActivity" />
+        </activity>
+        <activity
+            android:name=".activities.TVDetailsActivity"
+            android:label="@string/title_activity_tvdetails"
+            android:parentActivityName=".activities.MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/DetailsTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.gdevelopers.movies.activities.MainActivity" />
+        </activity>
+        <activity
+            android:name=".activities.EpisodesActivity"
+            android:label="@string/title_activity_episodes"
+            android:parentActivityName=".activities.TVDetailsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/DetailsTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.gdevelopers.movies.activities.TVDetailsActivity" />
+        </activity>
+        <activity
+            android:name=".activities.ReviewsActivity"
+            android:label="@string/title_activity_reviews"
+            android:parentActivityName=".activities.MovieDetailsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/DetailsTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.gdevelopers.movies.activities.MovieDetailsActivity" />
+        </activity>
+        <activity
+            android:name=".activities.WebViewActivity"
+            android:label="@string/title_activity_web_view"
+            android:theme="@style/DetailsTheme.NoActionBar" />
+        <activity
+            android:name=".activities.MoreShowsActivity"
+            android:label="@string/title_activity_more_shows"
+            android:parentActivityName=".activities.ActorDetailsActivity"
+            android:theme="@style/DetailsTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.gdevelopers.movies.activities.ActorDetailsActivity" />
+        </activity>
+        <activity
+            android:name=".activities.CompanyActivity"
+            android:label="@string/title_activity_company"
+            android:parentActivityName=".activities.SearchActivity"
+            android:theme="@style/DetailsTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.gdevelopers.movies.activities.SearchActivity" />
+        </activity>
+        <activity
+            android:name=".activities.GalleryActivity"
+            android:label="@string/title_activity_gallery"
+            android:parentActivityName=".activities.MovieDetailsActivity"
+            android:theme="@style/DetailsTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.gdevelopers.movies.activities.MovieDetailsActivity" />
+        </activity>
+        <activity
+            android:name=".activities.CollectionActivity"
+            android:label="@string/title_activity_collection"
+            android:parentActivityName=".activities.MovieDetailsActivity"
+            android:theme="@style/DetailsTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.gdevelopers.movies.activities.MovieDetailsActivity" />
+        </activity>
+
+        <service
+            android:name=".widget.WidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
+
+        <receiver android:name=".widget.NewAppWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/new_app_widget_info" />
+        </receiver>
+
+        <activity
+            android:name=".activities.ActorDetailsActivity"
+            android:label="@string/title_activity_main2"
+            android:parentActivityName=".activities.MovieDetailsActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.gdevelopers.movies.activities.MovieDetailsActivity" />
+        </activity>
+
+        <provider
+            android:name="br.com.mauker.materialsearchview.db.HistoryProvider"
+            android:authorities="com.gdevelopers.movies.searchhistorydatabase"
+            android:exported="false"
+            android:protectionLevel="signature"
+            android:syncable="true" />
+
+    </application>
+
+</manifest>

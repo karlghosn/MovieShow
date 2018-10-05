@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group
+        android:id="@+id/group1"
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_home_black_24dp"
+            android:title="@string/home" />
+
+        <item
+            android:id="@+id/nav_movies"
+            android:icon="@drawable/ic_menu_movies"
+            android:title="@string/movies" />
+        <item
+            android:id="@+id/nav_tv_shows"
+            android:icon="@drawable/ic_menu_tv_shows"
+            android:title="@string/tv_shows" />
+
+        <item
+            android:id="@+id/nav_discover"
+            android:icon="@drawable/ic_menu_discover"
+            android:title="@string/discover" />
+
+        <item
+            android:id="@+id/nav_advanced_search"
+            android:icon="@drawable/ic_search_black_24dp"
+            android:title="@string/advanced_search" />
+        <item
+            android:id="@+id/nav_popular"
+            android:icon="@drawable/ic_popular"
+            android:title="@string/popular_people" />
+    </group>
+
+
+    <group
+        android:id="@+id/group2"
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_lists"
+            android:icon="@drawable/ic_list_black_24dp"
+            android:title="@string/your_lists" />
+
+        <item
+            android:id="@+id/nav_favourites"
+            android:icon="@drawable/ic_favorite_black_24dp"
+            android:title="@string/favourites" />
+
+        <item
+            android:id="@+id/nav_watchlist"
+            android:icon="@drawable/ic_visibility_black_24dp"
+            android:title="@string/watchlist" />
+
+        <item
+            android:id="@+id/nav_rated"
+            android:icon="@drawable/ic_star_black_24dp"
+            android:title="@string/rated" />
+
+        <item
+            android:id="@+id/nav_sign_in"
+            android:icon="@drawable/ic_sign_in"
+            android:title="@string/sign_in" />
+
+        <item
+            android:id="@+id/nav_sign_out"
+            android:icon="@drawable/ic_sign_out"
+            android:title="@string/sign_out" />
+    </group>
+
+    <group
+        android:id="@+id/group3"
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_apps"
+            android:icon="@drawable/ic_apps_white_24dp"
+            android:title="@string/apps" />
+
+        <item
+            android:id="@+id/nav_contact_us"
+            android:icon="@drawable/ic_help_black_24dp"
+            android:title="@string/contact_us" />
+
+        <item
+            android:id="@+id/nav_share"
+            android:icon="@drawable/ic_share_black_24dp"
+            android:title="@string/share" />
+        <item
+            android:id="@+id/nav_about"
+            android:icon="@drawable/ic_menu_about"
+            android:title="@string/about" />
+
+    </group>
+
+</menu>

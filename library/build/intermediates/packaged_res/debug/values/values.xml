@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#ff000000</color>
+    <color name="gray">#ff888888</color>
+    <color name="gray_50">#88888888</color>
+    <color name="search_field_bg">@color/white_ish</color>
+    <color name="search_layover_bg">@color/gray</color>
+    <color name="transparent">#00FFFFFF</color>
+    <color name="white_ish">#fffefefe</color>
+    <declare-styleable name="MaterialSearchView">
+        <attr format="integer" name="searchBackground"/>
+        <attr format="integer" name="searchVoiceIcon"/>
+        <attr format="integer" name="searchCloseIcon"/>
+        <attr format="integer" name="searchBackIcon"/>
+        <attr format="integer" name="searchSuggestionBackground"/>
+        <attr format="dimension" name="searchBarHeight"/>
+        <attr format="string" name="voiceHintPrompt"/>
+        <attr name="android:fitsSystemWindows"/>
+        <attr name="android:hint"/>
+        <attr name="android:textColor"/>
+        <attr name="android:textColorHint"/>
+        <attr name="android:inputType"/>
+    </declare-styleable>
+    <dimen name="search_icon_padding">12dp</dimen>
+    <dimen name="search_view_text_padding">8dp</dimen>
+    <string name="app_name" translatable="false">Material Search Library</string>
+    <string name="cd_clear_button" translatable="false">Clear field</string>
+    <string name="cd_suggestion_icon" translatable="false">List item icon</string>
+    <string name="cd_up_button" translatable="false">Up navigation button</string>
+    <string name="clear_history" translatable="false">Clear History</string>
+    <string name="search_hint" translatable="false">Search Movie Show</string>
+</resources>

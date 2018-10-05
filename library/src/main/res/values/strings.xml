@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name" translatable="false">Material Search Library</string>
+    <string name="search_hint" translatable="false">Search Movie Show</string>
+
+    <string name="cd_up_button" translatable="false">Up navigation button</string>
+    <string name="cd_clear_button" translatable="false">Clear field</string>
+    <string name="cd_suggestion_icon" translatable="false">List item icon</string>
+    <string name="clear_history" translatable="false">Clear History</string>
+</resources>

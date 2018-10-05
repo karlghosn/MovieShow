@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Movie Show</string>
+    <string name="related_movies">Filmes Relacionados</string>
+    <string name="genre">Gênero</string>
+    <string name="now_playing">Jogando agora</string>
+    <string name="popular">Popular</string>
+    <string name="top_rated">Mais votado</string>
+    <string name="production_countries">Países de produção</string>
+    <string name="production_companies">Empresas de produção</string>
+    <string name="budget">Despesas</string>
+    <string name="gallery_image">Imagem da galeria</string>
+    <string name="see_all">Veja tudo</string>
+    <string name="play">Toque</string>
+    <string name="search">Pesquisa</string>
+    <string name="died">Morreu %1$s</string>
+    <string name="images">Imagens</string>
+    <string name="videos">Vídeos</string>
+    <string name="tagline">Tagline</string>
+    <string name="airing_today">Exibindo Hoje</string>
+    <string name="first_air_date">Primeira data do ar</string>
+    <string name="last_air_date">Última data do ar</string>
+    <string name="related_tv_shows">Programas de TV relacionados</string>
+    <string name="movies">Filmes</string>
+    <string name="tv_shows">Programas de televisão</string>
+    <string name="number_of_votes">%1$s votos</string>
+    <string name="season_number">Temporada %1$s</string>
+    <string name="episode_number">Episódio %1$s</string>
+    <string name="episodes_number">%1$s Episódios</string>
+    <string name="number_of_seasons">%1$s Estações</string>
+    <string name="advanced_search">Busca Avançada</string>
+    <string name="discover">Descobrir</string>
+    <string name="guest_stars">Estrelas convidadas</string>
+    <string name="empty_results">Nenhum resultado encontrado</string>
+    <string name="you_are_offline">Você está offline</string>
+    <string name="about">Sobre</string>
+    <string name="from">A partir de</string>
+    <string name="to">Para</string>
+    <string name="rate">Taxa</string>
+    <string name="watchlist">Lista de Favoritos</string>
+    <string name="sign_out">Sair</string>
+    <string name="rated">Avaliado</string>
+    <string name="cancel">Cancelar</string>
+    <string name="favourites">Favoritos</string>
+    <string name="sign_in">Assinar em</string>
+    <string name="welcome_user">Bem-vindo %1$s</string>
+    <string name="sort">Ordenar</string>
+    <string name="contact_us">Contate-Nos</string>
+    <string name="revenue">receita</string>
+    <string name="popular_people">Pessoas populares</string>
+    <string name="your_lists">Suas listas</string>
+    <string name="create_list">Criar lista</string>
+    <string name="name">Nome</string>
+    <string name="create">Crio</string>
+    <string name="tap_watchlist">Toque neste ícone @ para adicionar os filmes à sua lista de observação.</string>
+    <string name="tap_favourites">Toque neste ícone @ para adicionar os filmes aos seus favoritos.</string>
+    <string name="tap_rated">Toque neste ícone @ para classificar filmes e adicioná-los à sua lista.</string>
+    <string name="sync">Sincronizar</string>
+    <string name="seasons">Temporadas</string>
+    <string name="keep_track_of_everything">Acompanhe tudo</string>
+    <string name="browsing_lists_watch">Ao navegar na lista de filmes, você pode adicioná-los diretamente à sua lista de vigilância.</string>
+    <string name="browsing_lists_favourites">Ao navegar na lista de filmes, você pode adicioná-los diretamente aos seus favoritos.</string>
+    <string name="browsing_lists_rated">Ao navegar na lista de filmes, você pode avaliá-los diretamente.</string>
+    <string name="browsing_lists_list">Ao navegar na lista de filmes, você pode adicioná-los diretamente a qualquer uma das suas listas.</string>
+    <string name="give_it_a_try">De uma chance</string>
+    <string name="clear">Claro</string>
+    <string name="tap_add_list">Toque neste ícone @ ou no botão abaixo para adicionar os filmes a qualquer uma das suas listas.</string>
+    <string name="add_to_list">Adicionado a lista</string>
+    <string name="share">Compartilhar</string>
+    <string name="next">Próximo</string>
+    <string name="remove_favourite">Remova dos favoritos</string>
+    <string name="favorite_image">Imagem favorita</string>
+    <string name="image">Imagem</string>
+    <string name="watchlist_icon">Ícone da lista de vigilância</string>
+    <string name="about_description">Movie Show é uma fonte para conteúdo de filmes, TV e celebridades. Explore filmes, programas de TV e celebridades. Assista trailers, procure revisões, avaliações e muito mais conteúdo. Procure filmes e programas de TV usando o recurso Pesquisa Avançada. Acompanhe o que você deseja assistir em sua lista de seguidores, faça uma lista de seus favoritos e classifique filmes.</string>
+    <string name="unlock_pro">Pro versão em breve com experiência sem anúncios, lembretes e muitos mais recursos!</string>
+    <string name="reminder">Lembrete</string>
+    <string name="add_to_watchlist">Adicionar à lista de observação</string>
+    <string name="add_favourites">Adicionar aos favoritos</string>
+    <string name="delete_from_watchlist">Remover da lista de observação</string>
+    <string name="home">Casa</string>
+    <string name="movies_amp_series">Filmes e Séries</string>
+    <string name="clear_list">Limpar %1$s</string>
+    <string name="delete">Excluir</string>
+    <string name="tmdb_critic_reviews">Comentários da crítica TMDb</string>
+    <string name="show_more_reviews">Mostrar mais comentários (%1$s)</string>
+    <string name="cast_crew">Atores e Equipes</string>
+    <string name="coming_soon">Em breve</string>
+    <string name="view_collection">Ver a coleção</string>
+    <string name="no_created_lists">Ainda não possui listas criadas</string>
+    <string name="there_are_no_lists">Não há listas disponíveis</string>
+    <string name="tap_button_below_to_add_new_list">Toque no botão abaixo para adicionar uma nova lista</string>
+    <string name="description">Descrição</string>
+    <string name="season_date">Época %1$s (%2$s)</string>
+    <string name="as_crew">Um parafuso</string>
+    <string name="photos">Fotos</string>
+    <string name="see_all_photos">Ver todas as fotos</string>
+    <string name="home_advanced_search_message">Procure filmes que você esqueceu ou não conseguiu encontrar em nenhum outro lugar. Clique no botão abaixo para procurar esses filmes.</string>
+    <string name="tell_us_what_you_want">Conte-nos o que você quer</string>
+    <string name="what_you_want">Não sabe o que deseja?</string>
+    <string name="no_connection">Não pode se conectar à internet. Verifique suas configurações ou tente novamente mais tarde.</string>
+    <string name="try_again">Por favor, tente novamente</string>
+    <string name="no_search_results">Nenhum resultado de pesquisa</string>
+    <string name="view_all">Ver tudo</string>
+    <string name="part_of_the_collection">Parte do %1$s</string>
+    <string name="add">Adicionar</string>
+    <string name="add_movie_to_list">Adicione %1$s a qualquer uma das suas listas</string>
+    <string name="already_exists">já existe em</string>
+    <string name="change_rating">Alterar Classificação</string>
+    <string name="add_delete_rating">Deseja adicionar ou excluir uma classificação?</string>
+    <string name="no_reviews_available">Ainda não há comentários disponíveis</string>
+    <string name="ok">Está bem</string>
+    <string name="all">Todos</string>
+    <string name="unknown">Desconhecido</string>
+
+    <string-array name="years">
+        <item>Desconhecido</item>
+        <item>2022</item>
+        <item>2021</item>
+        <item>2020</item>
+        <item>2019</item>
+        <item>2018</item>
+        <item>2017</item>
+        <item>2016</item>
+        <item>2015</item>
+        <item>2014</item>
+        <item>2013</item>
+        <item>2012</item>
+        <item>2011</item>
+        <item>2010</item>
+        <item>2009</item>
+        <item>2008</item>
+        <item>2007</item>
+        <item>2006</item>
+        <item>2005</item>
+        <item>2004</item>
+        <item>2003</item>
+        <item>2002</item>
+        <item>2001</item>
+        <item>2000</item>
+        <item>1999</item>
+        <item>1998</item>
+        <item>1997</item>
+        <item>1996</item>
+        <item>1995</item>
+        <item>1994</item>
+        <item>1993</item>
+        <item>1992</item>
+        <item>1991</item>
+        <item>1990</item>
+        <item>1989</item>
+        <item>1988</item>
+        <item>1987</item>
+        <item>1986</item>
+        <item>1985</item>
+        <item>1984</item>
+        <item>1983</item>
+        <item>1982</item>
+        <item>1981</item>
+        <item>1980</item>
+        <item>1979</item>
+        <item>1978</item>
+        <item>1977</item>
+        <item>1976</item>
+        <item>1975</item>
+        <item>1974</item>
+        <item>1973</item>
+        <item>1972</item>
+        <item>1971</item>
+        <item>1970</item>
+        <item>1969</item>
+        <item>1968</item>
+        <item>1967</item>
+        <item>1966</item>
+        <item>1965</item>
+        <item>1964</item>
+        <item>1963</item>
+        <item>1962</item>
+        <item>1961</item>
+        <item>1960</item>
+        <item>1959</item>
+        <item>1958</item>
+        <item>1957</item>
+        <item>1956</item>
+        <item>1955</item>
+        <item>1954</item>
+        <item>1953</item>
+        <item>1952</item>
+        <item>1951</item>
+        <item>1950</item>
+    </string-array>
+
+    <string-array name="rating">
+        <item>Avaliação</item>
+        <item>Desconhecido</item>
+        <item>Pelo menos 10</item>
+        <item>Pelo menos 9</item>
+        <item>Pelo menos 8</item>
+        <item>Pelo menos 7</item>
+        <item>Pelo menos 6</item>
+        <item>Pelo menos 5</item>
+        <item>Pelo menos 4</item>
+        <item>Pelo menos 3</item>
+        <item>Pelo menos 2</item>
+        <item>Pelo menos 1</item>
+    </string-array>
+
+    <string-array name="rating_text">
+        <item>Eu odeio isso!</item>
+        <item>Terrível :(</item>
+        <item>Ruim</item>
+        <item>Pobre</item>
+        <item>Meh</item>
+        <item>Feira</item>
+        <item>Bom</item>
+        <item>Excelente</item>
+        <item>Magnífico</item>
+        <item>Eu adorei!</item>
+    </string-array>
+
+    <string-array name="sort">
+        <item>Ascendente Popularidade</item>
+        <item>Popularidade decrescente</item>
+        <item>Título ascendente</item>
+        <item>Título decrescente</item>
+        <item>Data de lançamento ascendente</item>
+        <item>Data de lançamento decrescente</item>        
+        <item>Ranking ascendente</item>
+        <item>Ranking descendente</item>
+    </string-array>
+
+    <string-array name="advanced_search_types">
+        <item>Filmes</item>
+        <item>Programas de televisão</item>
+    </string-array>
+
+    <string name="libraries">Livraria</string>
+    <string name="connect_with_us">Conecte-se conosco</string>
+    <string name="version_number">Versão %1$s</string>
+
+    <string name="born_on">Nascido em <![CDATA[<b> %1$s </b>]]></string>
+    <string name="died_on">Morreu em <![CDATA[<b> %1$s </b>]]></string>
+    <string name="from_place_of_birth">De <![CDATA[<b> %1$s </b>]]></string>
+    <string name="aka">Também conhecido como <![CDATA[<b> %1$s </b>]]></string>
+    <string name="info">Info</string>
+    <string name="on_tv">Na TV</string>
+    <string name="remove_from_search">Remover do histórico de pesquisas</string>
+    <string name="remove">Remover</string>
+    <string name="settings">Configurações</string>
+    <string name="reload">Recarregar</string>
+    <string name="looks_like_no_connection">Parece que você não está conectado. Não importa, basta clicar em Configurações para ativar sua conexão.</string>
+    <string name="search_actors">Pesquisar atores</string>
+    <string name="send">Enviar</string>
+    <string name="trakt_community">Comunidade Trakt.tv</string>
+    <string name="ratings">Classificações</string>
+    <string name="number_of_votes_enclosed">(%1$s votos)</string>
+    <string name="keywords">Palavras-chave</string>
+    <string name="collections">Coleções</string>
+    <string name="companies">Empresas</string>
+    <string name="people">Pessoas</string>
+    <string name="global">Global</string>
+    <string name="main_actors">Atores principais</string>
+</resources>
