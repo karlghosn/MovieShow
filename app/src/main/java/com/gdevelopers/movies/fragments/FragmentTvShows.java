@@ -111,6 +111,8 @@ public class FragmentTvShows extends KFragment implements TVPageAdapter.OnLoadMo
 
         fetchOnAir(1);
 
+        fetchAiringToday(1);
+
         this.update(service, false);
         return rootView;
     }
@@ -140,7 +142,28 @@ public class FragmentTvShows extends KFragment implements TVPageAdapter.OnLoadMo
     }
 
     private void fetchAiringToday(int page) {
+        TVShowService.getInstance().getAiringToday(context, loadMore, page, new TVShowService.ServiceCallBack() {
+            @Override
+            public void successful(TVShowWrapper response) {
+                if (!loadMore) {
+                    airingTodayList = new ArrayList<>();
+                    airingTodayAdapter = new TVPageAdapter(getContext(), airingTodayList, Constants.STRINGS.AIRING_TODAY);
+                    airingTodayRv.setAdapter(airingTodayAdapter);
+                } else mItems.remove(mItems.size() - 1);
 
+
+                airingTodayAdapter.setCurrentPage(response.getPage());
+                airingTodayAdapter.setTotalPages(response.getTotalPages());
+                airingTodayList.addAll(response.getTvShows());
+
+
+                airingTodayAdapter.notifyDataChanged();
+
+                airingTodayAdapter.setLoadMoreListener(onLoadMoreListener);
+                airingTodayAdapter.setOnItemClickListener(onItemClickListener);
+                progressBar2.setVisibility(View.GONE);
+            }
+        });
     }
 
 
@@ -282,7 +305,16 @@ public class FragmentTvShows extends KFragment implements TVPageAdapter.OnLoadMo
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                fetchOnAir(current_page + 1);
+                switch (type) {
+                    case Constants.STRINGS.ON_AIR:
+                        fetchOnAir(current_page + 1);
+                        break;
+                    case Constants.STRINGS.AIRING_TODAY:
+                        fetchAiringToday(current_page + 1);
+                        break;
+
+                }
+
 //                        service.getTvShows(type, String.valueOf(current_page + 1), true, RequestType.getTVRequestType(type), true);
             }
         }, 500);
