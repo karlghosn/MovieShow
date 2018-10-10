@@ -144,6 +144,7 @@ public class FragmentHome extends KFragment implements View.OnClickListener {
         tv1.setOnClickListener(this);
         tv2.setOnClickListener(this);
 
+        this.update(service, false);
         return rootView;
     }
 
