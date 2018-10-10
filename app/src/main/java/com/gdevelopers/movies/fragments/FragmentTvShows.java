@@ -166,6 +166,9 @@ public class FragmentTvShows extends KFragment implements TVPageAdapter.OnLoadMo
         });
     }
 
+    private void fetchPopular() {
+
+    }
 
     @Override
     public void serviceResponse(int responseID, List<KObject> objects) {
@@ -318,21 +321,6 @@ public class FragmentTvShows extends KFragment implements TVPageAdapter.OnLoadMo
 //                        service.getTvShows(type, String.valueOf(current_page + 1), true, RequestType.getTVRequestType(type), true);
             }
         }, 500);
-    }
-
-    private int getCurrentPage(String type) {
-        switch (type) {
-            case "on_air":
-                return upComingCurrentPage;
-            case "airing_today":
-                return nowPlayingCurrentPage;
-            case "popular":
-                return popularCurrentPage;
-            case "top_rated":
-                return topRatedCurrentPage;
-            default:
-                return Constants.UPCOMING;
-        }
     }
 
     @Override
