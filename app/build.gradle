@@ -95,10 +95,3 @@ sonarqube {
 repositories {
     mavenCentral()
 }
-
-/*
-allprojects {
-    ext.baseVersion = "0.1" ext.snapshotVersion = true
-    group = "org.sonarqube" version = "$baseVersion" + (snapshotVersion ? "-SNAPSHOT" : "")
-}
-*/

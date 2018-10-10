@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -108,14 +109,14 @@ public class FragmentTvShows extends KFragment implements TVPageAdapter.OnLoadMo
         topRatedRv.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         topRatedRv.setNestedScrollingEnabled(false);
 
-        fetchOnAir();
+        fetchOnAir(1);
 
         this.update(service, false);
         return rootView;
     }
 
-    private void fetchOnAir() {
-        TVShowService.getInstance().getOnTV(context, false, 1, new TVShowService.ServiceCallBack() {
+    private void fetchOnAir(int page) {
+        TVShowService.getInstance().getOnTV(context, loadMore, page, new TVShowService.ServiceCallBack() {
             @Override
             public void successful(TVShowWrapper response) {
                 if (!loadMore) {
@@ -125,8 +126,8 @@ public class FragmentTvShows extends KFragment implements TVPageAdapter.OnLoadMo
                 } else mItems.remove(mItems.size() - 1);
 
 
-                upComingCurrentPage = response.getPage();
-                upComingTotalPages = response.getTotalPages();
+                onAirAdapter.setCurrentPage(response.getPage());
+                onAirAdapter.setTotalPages(response.getTotalPages());
                 onAirList.addAll(response.getTvShows());
 
                 onAirAdapter.notifyDataChanged();
@@ -137,6 +138,11 @@ public class FragmentTvShows extends KFragment implements TVPageAdapter.OnLoadMo
             }
         });
     }
+
+    private void fetchAiringToday(int page) {
+
+    }
+
 
     @Override
     public void serviceResponse(int responseID, List<KObject> objects) {
@@ -251,12 +257,6 @@ public class FragmentTvShows extends KFragment implements TVPageAdapter.OnLoadMo
 
     @Override
     public void onLoadMore(TVPageAdapter adapter) {
-        if ((adapter.getType().equals(Constants.STRINGS.ON_AIR) && upComingCurrentPage >= upComingTotalPages)
-                || (adapter.getType().equals(Constants.STRINGS.AIRING_TODAY) && nowPlayingCurrentPage >= nowPlayingTotalPages)
-                || (adapter.getType().equals(Constants.STRINGS.POPULAR) && popularCurrentPage >= popularTotalPages)
-                || (adapter.getType().equals(Constants.STRINGS.TOP_RATED) && topRatedCurrentPage >= topRatedTotalPages))
-            return;
-
         loadMore(adapter);
     }
 
@@ -275,20 +275,15 @@ public class FragmentTvShows extends KFragment implements TVPageAdapter.OnLoadMo
 
         loadMore = true;
         final String type = adapter.getType();
-        final int current_page = getCurrentPage(type);
+        final int current_page = adapter.getCurrentPage();
+        Log.d("Current Page", String.valueOf(current_page));
 
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (service != null) {
-                    boolean hasConnection = Connection.isNetworkAvailable(context);
-                    if (hasConnection && service != null) {
-
-                    }
+                fetchOnAir(current_page + 1);
 //                        service.getTvShows(type, String.valueOf(current_page + 1), true, RequestType.getTVRequestType(type), true);
-                    else DialogHelper.noConnectionDialog(getContext());
-                }
             }
         }, 500);
     }
