@@ -45,7 +45,6 @@ import butterknife.Unbinder;
 @SuppressWarnings("WeakerAccess")
 public class FragmentTvShows extends KFragment implements TVPageAdapter.OnLoadMoreListener, TVPageAdapter.OnItemClickListener {
     private MainActivity activity;
-    private ModelService service;
     @BindView(R.id.on_air_list)
     RecyclerView onAirRv;
     @BindView(R.id.airing_today_list)
@@ -66,15 +65,7 @@ public class FragmentTvShows extends KFragment implements TVPageAdapter.OnLoadMo
     private List<TVShow> topRatedList;
     private boolean loadMore = false;
     private List<TVShow> mItems;
-    private int upComingTotalPages;
-    private int upComingCurrentPage;
     private Context context;
-    private int nowPlayingTotalPages;
-    private int nowPlayingCurrentPage;
-    private int popularTotalPages;
-    private int popularCurrentPage;
-    private int topRatedTotalPages;
-    private int topRatedCurrentPage;
     @BindView(R.id.progressBar1)
     ProgressBar progressBar1;
     @BindView(R.id.progressBar2)
@@ -98,7 +89,7 @@ public class FragmentTvShows extends KFragment implements TVPageAdapter.OnLoadMo
         context = getContext();
         assert activity != null;
         activity.setVisibleFragment(this);
-        service = activity.getService();
+        ModelService service = activity.getService();
 
         onAirRv.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         onAirRv.setNestedScrollingEnabled(false);
@@ -115,7 +106,8 @@ public class FragmentTvShows extends KFragment implements TVPageAdapter.OnLoadMo
 
         fetchPopular(1);
 
-        this.update(service, false);
+        fetchTopRated(1);
+
         return rootView;
     }
 
@@ -191,26 +183,31 @@ public class FragmentTvShows extends KFragment implements TVPageAdapter.OnLoadMo
         });
     }
 
+    private void fetchTopRated(int page) {
+        TVShowService.getInstance().getTopRated(context, loadMore, page, new TVShowService.ServiceCallBack() {
+            @Override
+            public void successful(TVShowWrapper response) {
+                if (!loadMore) {
+                    topRatedList = new ArrayList<>();
+                    topRatedAdapter = new TVPageAdapter(getContext(), topRatedList, Constants.STRINGS.TOP_RATED);
+                    topRatedRv.setAdapter(topRatedAdapter);
+                } else mItems.remove(mItems.size() - 1);
+
+                topRatedAdapter.setCurrentPage(response.getPage());
+                topRatedAdapter.setTotalPages(response.getTotalPages());
+                topRatedList.addAll(response.getTvShows());
+
+                topRatedAdapter.notifyDataChanged();
+
+                topRatedAdapter.setLoadMoreListener(onLoadMoreListener);
+                topRatedAdapter.setOnItemClickListener(onItemClickListener);
+                progressBar4.setVisibility(View.GONE);
+            }
+        });
+    }
+
     @Override
     public void serviceResponse(int responseID, List<KObject> objects) {
-        if (responseID == Constants.TV_TOP_RATED && objects != null) {
-            if (!loadMore)
-                topRatedList = new ArrayList<>();
-            else mItems.remove(mItems.size() - 1);
-
-            Section section = (Section) objects.get(0);
-            topRatedCurrentPage = (int) section.id();
-            topRatedTotalPages = section.getTotalPages();
-            topRatedList.addAll(section.getTvShowList());
-
-            if (!loadMore) {
-                topRatedAdapter = new TVPageAdapter(getContext(), topRatedList, Constants.STRINGS.TOP_RATED);
-                topRatedRv.setAdapter(topRatedAdapter);
-            } else topRatedAdapter.notifyDataChanged();
-            topRatedAdapter.setLoadMoreListener(this);
-            topRatedAdapter.setOnItemClickListener(this);
-            progressBar4.setVisibility(View.GONE);
-        }
     }
 
     @Override
@@ -270,6 +267,9 @@ public class FragmentTvShows extends KFragment implements TVPageAdapter.OnLoadMo
                         break;
                     case Constants.STRINGS.POPULAR:
                         fetchPopular(current_page + 1);
+                        break;
+                    case Constants.STRINGS.TOP_RATED:
+                        fetchTopRated(current_page + 1);
                         break;
                 }
             }

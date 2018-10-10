@@ -100,9 +100,6 @@ public class FragmentMovies extends KFragment implements MoviesPageAdapter.OnLoa
         fetchPopular(1);
 
         fetchTopRated(1);
-
-
-        this.update(service, false);
         return rootView;
     }
 
@@ -201,13 +198,6 @@ public class FragmentMovies extends KFragment implements MoviesPageAdapter.OnLoa
 
     @Override
     public void update(ModelService service, boolean reload) {
-        boolean hasConnection = Connection.isNetworkAvailable(context);
-        if (hasConnection && service != null) {
-//            service.getMovies(Constants.STRINGS.UPCOMING, "", false, Constants.UPCOMING, reload);
-            /*service.getMovies(Constants.STRINGS.NOW_PLAYING, "", false, Constants.NOW_PLAYING, reload);
-            service.getMovies(Constants.STRINGS.POPULAR, "", false, Constants.POPULAR, reload);
-            service.getMovies(Constants.STRINGS.TOP_RATED, "", false, Constants.TOP_RATED, reload);*/
-        } else isOffline();
     }
 
     private void loadMore(final MoviesPageAdapter adapter) {

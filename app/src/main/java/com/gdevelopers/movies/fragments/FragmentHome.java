@@ -144,7 +144,6 @@ public class FragmentHome extends KFragment implements View.OnClickListener {
         tv1.setOnClickListener(this);
         tv2.setOnClickListener(this);
 
-        this.update(service, false);
         return rootView;
     }
 
@@ -196,10 +195,6 @@ public class FragmentHome extends KFragment implements View.OnClickListener {
 
     @Override
     public void update(ModelService service, boolean reload) {
-        boolean hasConnection = Connection.isNetworkAvailable(context);
-        if (hasConnection && service != null) {
-            service.getPopularPeople("1", false, reload);
-        } else isOffline();
     }
 
     private void isOffline() {
