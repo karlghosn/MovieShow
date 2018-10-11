@@ -18,16 +18,13 @@ import com.gdevelopers.movies.R;
 import com.gdevelopers.movies.activities.MainActivity;
 import com.gdevelopers.movies.activities.TVDetailsActivity;
 import com.gdevelopers.movies.adapters.TVPageAdapter;
-import com.gdevelopers.movies.helpers.Connection;
 import com.gdevelopers.movies.helpers.Constants;
-import com.gdevelopers.movies.helpers.DialogHelper;
 import com.gdevelopers.movies.model.KFragment;
 import com.gdevelopers.movies.model.KObject;
 import com.gdevelopers.movies.model.ModelService;
-import com.gdevelopers.movies.objects.Section;
 import com.gdevelopers.movies.objects.TVShow;
-import com.gdevelopers.movies.objects.TVShowService;
-import com.gdevelopers.movies.objects.TVShowWrapper;
+import com.gdevelopers.movies.rest.services.TVShowService;
+import com.gdevelopers.movies.wrappers.TVShowWrapper;
 
 import java.util.ArrayList;
 import java.util.List;

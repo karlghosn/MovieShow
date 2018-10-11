@@ -2,8 +2,10 @@ package com.gdevelopers.movies.adapters;
 
 import android.content.Context;
 import android.os.Handler;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.gdevelopers.movies.R;
+import com.gdevelopers.movies.helpers.MovieDB;
 import com.gdevelopers.movies.objects.Actor;
 
 import java.util.List;
@@ -79,7 +82,9 @@ public class PopularActorsAdapter extends RecyclerView.Adapter<RecyclerView.View
             Actor actor = mItems.get(i);
             String name = isHome ? actor.getName().replace(" ", "\n") : actor.getName();
             holder.nameTv.setText(name);
-            Glide.with(context).load(actor.getProfilePath()).into(holder.imageIv);
+            Glide.with(context)
+                    .load(MovieDB.IMAGE_URL + context.getResources().getString(R.string.imageSize) + actor.getProfilePath())
+                    .into(holder.imageIv);
         }
 
     }

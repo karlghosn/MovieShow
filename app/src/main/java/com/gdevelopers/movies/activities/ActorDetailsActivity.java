@@ -23,6 +23,7 @@ import com.gdevelopers.movies.fragments.FragmentMoreShows;
 import com.gdevelopers.movies.helpers.Connection;
 import com.gdevelopers.movies.helpers.Constants;
 import com.gdevelopers.movies.helpers.DialogHelper;
+import com.gdevelopers.movies.helpers.MovieDB;
 import com.gdevelopers.movies.model.KObject;
 import com.gdevelopers.movies.model.ModelService;
 import com.gdevelopers.movies.model.ServiceBinder;
@@ -97,14 +98,12 @@ public class ActorDetailsActivity extends AppCompatActivity implements ServiceCo
 
         String image = extra.getString(Constants.STRINGS.IMAGE);
 
-        Glide.with(ActorDetailsActivity.this).load(image)
+        Glide.with(ActorDetailsActivity.this).load(MovieDB.IMAGE_URL + getString(R.string.imageSize) + image)
                 .apply(RequestOptions.circleCropTransform())
                 .into(posterIv);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-
-//        AdBuilder.buildAd(this);
 
         TabLayout tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);

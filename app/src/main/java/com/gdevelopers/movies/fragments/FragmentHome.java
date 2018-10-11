@@ -1,32 +1,39 @@
 package com.gdevelopers.movies.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.gdevelopers.movies.R;
+import com.gdevelopers.movies.activities.ActorDetailsActivity;
 import com.gdevelopers.movies.activities.MainActivity;
 import com.gdevelopers.movies.adapters.HomeAdapter;
+import com.gdevelopers.movies.adapters.PopularActorsAdapter;
 import com.gdevelopers.movies.database.DatabaseHandler;
-import com.gdevelopers.movies.helpers.Connection;
 import com.gdevelopers.movies.helpers.MovieDB;
 import com.gdevelopers.movies.model.KFragment;
 import com.gdevelopers.movies.model.KObject;
 import com.gdevelopers.movies.model.ModelService;
-import com.gdevelopers.movies.objects.MovieService;
-import com.gdevelopers.movies.objects.MoviesWrapper;
-import com.gdevelopers.movies.objects.TVShowService;
-import com.gdevelopers.movies.objects.TVShowWrapper;
+import com.gdevelopers.movies.objects.Actor;
+import com.gdevelopers.movies.rest.services.MovieService;
+import com.gdevelopers.movies.rest.services.PeopleService;
+import com.gdevelopers.movies.wrappers.MoviesWrapper;
+import com.gdevelopers.movies.rest.services.TVShowService;
+import com.gdevelopers.movies.wrappers.PeopleWrapper;
+import com.gdevelopers.movies.wrappers.TVShowWrapper;
 
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityOptionsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
@@ -37,7 +44,6 @@ import butterknife.Unbinder;
 @SuppressWarnings("WeakerAccess")
 public class FragmentHome extends KFragment implements View.OnClickListener {
     private MainActivity activity;
-    private ModelService service;
     @BindView(R.id.movies_list)
     RecyclerView moviesRv;
     @BindView(R.id.tv_list)
@@ -74,6 +80,7 @@ public class FragmentHome extends KFragment implements View.OnClickListener {
         activity = (MainActivity) getActivity();
         context = getContext();
 
+        activity.setVisibleFragment(this);
 
         MovieService.getInstance().getUpComingMovies(context, false, 1, new MovieService.ServiceCallBack() {
             @Override
@@ -111,10 +118,27 @@ public class FragmentHome extends KFragment implements View.OnClickListener {
             }
         });
 
-        if (activity != null) {
-            activity.setVisibleFragment(this);
-            service = activity.getService();
-        }
+        PeopleService.getInstance().getPopularPeople(false, 1, new PeopleService.ServiceCallBack() {
+            @Override
+            public void successful(PeopleWrapper response) {
+                final PopularActorsAdapter actorsAdapter = new PopularActorsAdapter(getContext(), response.getActorList(), true);
+                actorsRv.setAdapter(actorsAdapter);
+
+                actorsAdapter.setOnItemClickListener(new PopularActorsAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(int position, ImageView imageView) {
+                        Actor actor = (Actor) actorsAdapter.getItem(position);
+                        Intent intent = new Intent(getContext(), ActorDetailsActivity.class);
+                        intent.putExtra("id", String.valueOf(actor.getId()));
+                        intent.putExtra("title", actor.getName());
+                        intent.putExtra("image", actor.getProfilePath());
+
+                        Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, imageView, getString(R.string.actor_transition)).toBundle();
+                        startActivity(intent, bundle);
+                    }
+                });
+            }
+        });
 
         databaseHandler = MovieDB.getAppContext().getDatabaseHandler();
         count = databaseHandler.getCount();
@@ -143,8 +167,6 @@ public class FragmentHome extends KFragment implements View.OnClickListener {
         movies2.setOnClickListener(this);
         tv1.setOnClickListener(this);
         tv2.setOnClickListener(this);
-
-        this.update(service, false);
         return rootView;
     }
 

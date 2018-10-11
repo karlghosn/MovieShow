@@ -3,9 +3,10 @@ package com.gdevelopers.movies.rest;
 import com.gdevelopers.movies.helpers.MovieDB;
 import com.gdevelopers.movies.helpers.PostRetrofit;
 import com.gdevelopers.movies.helpers.Response;
-import com.gdevelopers.movies.objects.MoviesWrapper;
+import com.gdevelopers.movies.wrappers.MoviesWrapper;
 import com.gdevelopers.movies.objects.OMDb;
-import com.gdevelopers.movies.objects.TVShowWrapper;
+import com.gdevelopers.movies.wrappers.PeopleWrapper;
+import com.gdevelopers.movies.wrappers.TVShowWrapper;
 import com.gdevelopers.movies.objects.User;
 
 import io.reactivex.Single;
@@ -56,5 +57,8 @@ public interface ApiInterface {
 
     @GET("tv/{type}?api_key=" + MovieDB.API_KEY)
     Call<TVShowWrapper> getTVShows(@Path("type") String type, @Query("language") String language, @Query("page") int page);
+
+    @GET("person/popular?api_key=" + MovieDB.API_KEY)
+    Call<PeopleWrapper> getPopularPeople(@Query("page") int page);
 }
 

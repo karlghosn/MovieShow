@@ -5,7 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+
 import androidx.core.app.ActivityOptionsCompat;
+
 import android.widget.ImageView;
 
 import com.gdevelopers.movies.R;

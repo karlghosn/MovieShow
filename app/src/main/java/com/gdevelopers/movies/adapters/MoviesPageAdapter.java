@@ -134,7 +134,7 @@ public class MoviesPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         public void onClick(View v) {
             Movie movie = mItems.get(getAdapterPosition());
             OnClickHelper.movieClicked(v.getContext(), movie.getTitle(), movie.getPosterPath(),
-                    String.valueOf(movie.id()), movieIv);
+                    String.valueOf(movie.getId()), movieIv);
         }
     }
 

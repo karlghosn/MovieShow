@@ -1,5 +1,6 @@
-package com.gdevelopers.movies.objects;
+package com.gdevelopers.movies.wrappers;
 
+import com.gdevelopers.movies.objects.TVShow;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;

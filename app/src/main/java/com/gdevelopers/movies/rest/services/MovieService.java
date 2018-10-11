@@ -1,10 +1,11 @@
-package com.gdevelopers.movies.objects;
+package com.gdevelopers.movies.rest.services;
 
 import android.content.Context;
 
 import com.gdevelopers.movies.helpers.PreferencesHelper;
 import com.gdevelopers.movies.rest.ApiClient;
 import com.gdevelopers.movies.rest.ApiInterface;
+import com.gdevelopers.movies.wrappers.MoviesWrapper;
 
 import retrofit2.Call;
 import retrofit2.Callback;

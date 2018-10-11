@@ -1,18 +1,23 @@
 package com.gdevelopers.movies.objects;
 
 import com.gdevelopers.movies.model.KObject;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Actor extends KObject {
+    @SerializedName("id")
+    private int id;
     private String biography;
     private String birthday;
     private String deathday;
     private String aka;
+    @SerializedName("name")
     private String name;
     private String type;
     private String placeOfBirth;
+    @SerializedName("profile_path")
     private String profilePath;
     private List<String> images;
     private List<Show> crewList;
@@ -50,6 +55,14 @@ public class Actor extends KObject {
         if (movieList == null)
             movieList = new ArrayList<>();
         return movieList;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public List<Show> getTvList() {

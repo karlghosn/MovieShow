@@ -1,23 +1,24 @@
-package com.gdevelopers.movies.objects;
+package com.gdevelopers.movies.wrappers;
 
+import com.gdevelopers.movies.objects.Actor;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class MoviesWrapper {
+public class PeopleWrapper {
     @SerializedName("results")
-    private List<Movie> movies;
+    private List<Actor> actorList;
     @SerializedName("page")
     private int page;
     @SerializedName("total_pages")
     private int totalPages;
 
-    public List<Movie> getMovies() {
-        return movies;
+    public List<Actor> getActorList() {
+        return actorList;
     }
 
-    public void setMovies(List<Movie> movies) {
-        this.movies = movies;
+    public void setActorList(List<Actor> actorList) {
+        this.actorList = actorList;
     }
 
     public int getPage() {

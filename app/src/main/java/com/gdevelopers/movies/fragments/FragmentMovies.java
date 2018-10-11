@@ -11,15 +11,14 @@ import android.widget.ProgressBar;
 
 import com.gdevelopers.movies.activities.MainActivity;
 import com.gdevelopers.movies.R;
-import com.gdevelopers.movies.helpers.Connection;
 import com.gdevelopers.movies.helpers.Constants;
 import com.gdevelopers.movies.model.KFragment;
 import com.gdevelopers.movies.model.KObject;
 import com.gdevelopers.movies.model.ModelService;
 import com.gdevelopers.movies.adapters.MoviesPageAdapter;
 import com.gdevelopers.movies.objects.Movie;
-import com.gdevelopers.movies.objects.MovieService;
-import com.gdevelopers.movies.objects.MoviesWrapper;
+import com.gdevelopers.movies.rest.services.MovieService;
+import com.gdevelopers.movies.wrappers.MoviesWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
