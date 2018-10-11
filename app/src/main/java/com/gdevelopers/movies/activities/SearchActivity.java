@@ -27,6 +27,8 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.gdevelopers.movies.R;
 import com.gdevelopers.movies.helpers.Constants;
@@ -35,6 +37,7 @@ import com.gdevelopers.movies.helpers.OnClickHelper;
 import com.gdevelopers.movies.model.KObject;
 import com.gdevelopers.movies.model.ModelService;
 import com.gdevelopers.movies.model.ServiceBinder;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,8 +79,6 @@ public class SearchActivity extends AppCompatActivity implements ServiceConnecti
         searchView.openSearch();
 
         final ChipGroup chipGroup = findViewById(R.id.search_type_container);
-        Chip chip = chipGroup.findViewById(R.id.firstChip);
-        chip.setChecked(true);
 
         Chip companiesChip = findViewById(R.id.companiesChip);
         Chip collectionsChip = findViewById(R.id.collectionsChip);
@@ -91,17 +92,20 @@ public class SearchActivity extends AppCompatActivity implements ServiceConnecti
             @Override
             public void onCheckedChanged(ChipGroup chipGroup, int i) {
                 Chip selectedChip = chipGroup.findViewById(chipGroup.getCheckedChipId());
-                String tag = (String) selectedChip.getTag();
-                String type = getType(Integer.valueOf(tag));
-                if (!selectedType.equals(type)) {
-                    String query = searchView.getCurrentQuery();
-                    selectedType = type;
+                if (selectedChip != null) {
+                    String tag = (String) selectedChip.getTag();
+                    String type = getType(Integer.valueOf(tag));
+                    if (!selectedType.equals(type)) {
+                        String query = searchView.getCurrentQuery();
+                        selectedType = type;
 
-                    if (!query.equals("")) {
-                        service.getSearch(type, query);
-                        showProgress();
+                        if (!query.equals("")) {
+                            service.getSearch(type, query);
+                            showProgress();
+                        }
                     }
                 }
+
             }
         });
 
@@ -109,19 +113,23 @@ public class SearchActivity extends AppCompatActivity implements ServiceConnecti
             @Override
             public boolean onQueryTextSubmit(String query) {
                 Chip selectedChip = chipGroup.findViewById(chipGroup.getCheckedChipId());
-                String tag = (String) selectedChip.getTag();
-                selectedType = getType(Integer.valueOf(tag));
-                final String newQuery = query.replaceAll("[\\s%\"^#<>{}\\\\|`]", "%20");
-                if (newQuery.length() > 0) {
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (service != null) {
-                                service.getSearch(selectedType, newQuery);
+                if (selectedChip != null) {
+                    String tag = (String) selectedChip.getTag();
+                    selectedType = getType(Integer.valueOf(tag));
+                    final String newQuery = query.replaceAll("[\\s%\"^#<>{}\\\\|`]", "%20");
+                    if (newQuery.length() > 0) {
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (service != null) {
+                                    service.getSearch(selectedType, newQuery);
+                                }
                             }
-                        }
-                    }).start();
-                }
+                        }).start();
+                    }
+                } else
+                    Toast.makeText(SearchActivity.this, "Please choose a filter", Toast.LENGTH_SHORT).show();
+
                 return false;
             }
         });
