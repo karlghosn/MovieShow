@@ -2,44 +2,38 @@ package com.gdevelopers.movies.activities;
 
 import android.app.Service;
 import android.content.ComponentName;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
-
-import com.gdevelopers.movies.objects.Search;
-import com.gdevelopers.movies.adapters.SearchAdapter;
-import com.google.android.material.chip.Chip;
-import com.google.android.material.chip.ChipGroup;
-
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.Toolbar;
-
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.gdevelopers.movies.R;
+import com.gdevelopers.movies.adapters.SearchAdapter;
 import com.gdevelopers.movies.helpers.Constants;
 import com.gdevelopers.movies.helpers.DialogHelper;
 import com.gdevelopers.movies.helpers.OnClickHelper;
 import com.gdevelopers.movies.model.KObject;
 import com.gdevelopers.movies.model.ModelService;
 import com.gdevelopers.movies.model.ServiceBinder;
+import com.gdevelopers.movies.objects.Search;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import br.com.mauker.materialsearchview.MaterialSearchView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -128,11 +122,7 @@ public class SearchActivity extends AppCompatActivity implements ServiceConnecti
 
         searchView.setOnItemLongClickListener((adapterView, view, i, l) -> {
             final String suggestion = searchView.getSuggestionAtPosition(i);
-            AlertDialog.Builder builder;
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-                builder = new AlertDialog.Builder(SearchActivity.this, android.R.style.ThemeOverlay_Material_Dialog);
-            } else
-                builder = new AlertDialog.Builder(SearchActivity.this);
+            AlertDialog.Builder builder = new AlertDialog.Builder(SearchActivity.this);
             builder.setTitle(suggestion);
             builder.setMessage(R.string.remove_from_search);
             builder.setPositiveButton(R.string.remove, (dialogInterface, i1) -> searchView.removeHistory(suggestion));
