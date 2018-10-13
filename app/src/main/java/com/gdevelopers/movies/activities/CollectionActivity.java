@@ -34,6 +34,7 @@ import butterknife.BindColor;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+@SuppressWarnings("WeakerAccess")
 public class CollectionActivity extends AppCompatActivity implements ServiceConnection, ModelService.ResponseListener,
         ObservableScrollViewCallbacks {
     private ModelService service;
@@ -90,12 +91,7 @@ public class CollectionActivity extends AppCompatActivity implements ServiceConn
         mScrollView.setScrollViewCallbacks(this);
         mParallaxImageHeight = getResources().getDimensionPixelSize(R.dimen.parallax_image_height);
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                CollectionActivity.super.onBackPressed();
-            }
-        });
+        toolbar.setNavigationOnClickListener(view -> CollectionActivity.super.onBackPressed());
     }
 
     @Override

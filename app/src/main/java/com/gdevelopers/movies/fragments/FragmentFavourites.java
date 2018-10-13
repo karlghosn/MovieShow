@@ -109,17 +109,14 @@ public class FragmentFavourites extends KFragment implements UserMoviesAdapter.O
         tryLayout.setVisibility(View.VISIBLE);
         final ImageView watchlistIv = rootView.findViewById(R.id.watchlist_icon);
         watchlistIv.setImageResource(R.drawable.ic_action_favourite);
-        watchlistIv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Drawable.ConstantState state = watchlistIv.getDrawable().getConstantState();
-                assert state != null;
-                Drawable drawable = ContextCompat.getDrawable(context, R.drawable.ic_action_favourite);
-                assert drawable != null;
-                if (state.equals(drawable.getConstantState())) {
-                    watchlistIv.setImageResource(R.drawable.ic_action_favourite_filled);
-                } else watchlistIv.setImageResource(R.drawable.ic_action_favourite);
-            }
+        watchlistIv.setOnClickListener(view -> {
+            Drawable.ConstantState state = watchlistIv.getDrawable().getConstantState();
+            assert state != null;
+            Drawable drawable = ContextCompat.getDrawable(context, R.drawable.ic_action_favourite);
+            assert drawable != null;
+            if (state.equals(drawable.getConstantState())) {
+                watchlistIv.setImageResource(R.drawable.ic_action_favourite_filled);
+            } else watchlistIv.setImageResource(R.drawable.ic_action_favourite);
         });
 
 
@@ -149,24 +146,18 @@ public class FragmentFavourites extends KFragment implements UserMoviesAdapter.O
             } else adapter.notifyDataChanged();
 
             adapter.setLoadMoreListener(this);
-            adapter.setOnItemClickListener(new UserMoviesAdapter.OnItemClickListener() {
-                @Override
-                public void onItemClick(int position, ImageView imageView) {
-                    Movie movie = movieList.get(position);
-                    OnClickHelper.movieClicked(context, movie.getTitle(), movie.getPosterPath(),
-                            String.valueOf(movie.id()), imageView);
-                }
+            adapter.setOnItemClickListener((position, imageView) -> {
+                Movie movie = movieList.get(position);
+                OnClickHelper.movieClicked(context, movie.getTitle(), movie.getPosterPath(),
+                        String.valueOf(movie.id()), imageView);
             });
 
-            adapter.setOnRemoveListener(new UserMoviesAdapter.OnRemoveListener() {
-                @Override
-                public void onRemove(Movie movie, int pos) {
-                    deletedPos = pos;
-                    ChangeMovieState changeMovieState = new ChangeMovieState(context, "favorite", String.valueOf(movie.id()),
-                            service, fillJSON(movie), true);
-                    changeMovieState.setOnCallBackListener(onCallBackListener);
-                    changeMovieState.execute();
-                }
+            adapter.setOnRemoveListener((movie, pos) -> {
+                deletedPos = pos;
+                ChangeMovieState changeMovieState = new ChangeMovieState(context, "favorite", String.valueOf(movie.id()),
+                        service, fillJSON(movie), true);
+                changeMovieState.setOnCallBackListener(onCallBackListener);
+                changeMovieState.execute();
             });
         }
     }
@@ -196,24 +187,18 @@ public class FragmentFavourites extends KFragment implements UserMoviesAdapter.O
         if (id == R.id.sort) {
             new AlertDialog.Builder(context)
                     .setTitle("Sort By")
-                    .setSingleChoiceItems(new String[]{"Date created ascending", "Date created descending"}, pos, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            boolean isSimilar = pos == whichButton;
-                            pos = whichButton;
-                            sortBy = whichButton == 0 ? "created_at.asc" : "created_at.desc";
-                            if (!isSimilar) {
-                                service.getFavouriteMovies(PreferencesHelper.getAccountId(context), PreferencesHelper.getSessionId(context)
-                                        , "1", false, sortBy, true);
-                                progressBar.setVisibility(View.VISIBLE);
-                            }
-                            dialog.cancel();
+                    .setSingleChoiceItems(new String[]{"Date created ascending", "Date created descending"}, pos, (dialog, whichButton) -> {
+                        boolean isSimilar = pos == whichButton;
+                        pos = whichButton;
+                        sortBy = whichButton == 0 ? "created_at.asc" : "created_at.desc";
+                        if (!isSimilar) {
+                            service.getFavouriteMovies(PreferencesHelper.getAccountId(context), PreferencesHelper.getSessionId(context)
+                                    , "1", false, sortBy, true);
+                            progressBar.setVisibility(View.VISIBLE);
                         }
+                        dialog.cancel();
                     })
-                    .setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            dialog.cancel();
-                        }
-                    }).create().show();
+                    .setPositiveButton("Cancel", (dialog, whichButton) -> dialog.cancel()).create().show();
         }
         if (id == R.id.sync) {
             loadMore = false;
@@ -260,13 +245,8 @@ public class FragmentFavourites extends KFragment implements UserMoviesAdapter.O
         loadMore = true;
 
         final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                service.getFavouriteMovies(PreferencesHelper.getAccountId(context), PreferencesHelper.getSessionId(context)
-                        , String.valueOf(currentPage + 1), true, sortBy, true);
-            }
-        }, 500);
+        handler.postDelayed(() -> service.getFavouriteMovies(PreferencesHelper.getAccountId(context), PreferencesHelper.getSessionId(context)
+                , String.valueOf(currentPage + 1), true, sortBy, true), 500);
     }
 
     @Override

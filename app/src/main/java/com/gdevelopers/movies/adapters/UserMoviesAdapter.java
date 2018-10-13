@@ -66,11 +66,7 @@ public class UserMoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         if (i >= getItemCount() - 1 && !isLoading && loadMoreListener != null) {
             isLoading = true;
             Handler handler = new Handler();
-            final Runnable r = new Runnable() {
-                public void run() {
-                    loadMoreListener.onLoadMore(adapter);
-                }
-            };
+            final Runnable r = () -> loadMoreListener.onLoadMore(adapter);
 
             handler.post(r);
         }
@@ -85,12 +81,7 @@ public class UserMoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     .error(R.drawable.placeholder)
                     .into(holder.movieIv);
 
-            holder.removeIv.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    onRemoveListener.onRemove(movie, holder.getAdapterPosition());
-                }
-            });
+            holder.removeIv.setOnClickListener(view -> onRemoveListener.onRemove(movie, holder.getAdapterPosition()));
         }
 
     }

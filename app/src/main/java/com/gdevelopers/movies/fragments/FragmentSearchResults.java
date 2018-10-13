@@ -108,26 +108,23 @@ public class FragmentSearchResults extends KFragment implements GenreMovieAdapte
             } else adapter.notifyDataChanged();
 
             adapter.setLoadMoreListener(currentPage == totalPages ? null : this);
-            adapter.setOnItemClickListener(new GenreMovieAdapter.OnItemClickListener() {
-                @Override
-                public void onItemClick(int position, ImageView imageView) {
-                    Movie movie = (Movie) adapter.getItem(position);
-                    if (type.equals("movie")) {
-                        OnClickHelper.movieClicked(getContext(), movie.getTitle(), movie.getPosterPath(),
-                                String.valueOf(movie.id()), imageView);
-                    } else {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                            imageView.setTransitionName(getString(R.string.movie_poster));
-                        }
-                        Intent intent = new Intent(getContext(), TVDetailsActivity.class);
-                        intent.putExtra("title", movie.getTitle());
-                        intent.putExtra("image", movie.getPosterPath());
-                        intent.putExtra("id", String.valueOf(movie.id()));
-                        Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, imageView, getString(R.string.movie_poster)).toBundle();
-                        startActivity(intent, bundle);
+            adapter.setOnItemClickListener((position, imageView) -> {
+                Movie movie = (Movie) adapter.getItem(position);
+                if (type.equals("movie")) {
+                    OnClickHelper.movieClicked(getContext(), movie.getTitle(), movie.getPosterPath(),
+                            String.valueOf(movie.id()), imageView);
+                } else {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        imageView.setTransitionName(getString(R.string.movie_poster));
                     }
-
+                    Intent intent = new Intent(getContext(), TVDetailsActivity.class);
+                    intent.putExtra("title", movie.getTitle());
+                    intent.putExtra("image", movie.getPosterPath());
+                    intent.putExtra("id", String.valueOf(movie.id()));
+                    Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, imageView, getString(R.string.movie_poster)).toBundle();
+                    startActivity(intent, bundle);
                 }
+
             });
         }
     }
@@ -150,12 +147,7 @@ public class FragmentSearchResults extends KFragment implements GenreMovieAdapte
         loadMore = true;
 
         final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                service.getAdvancedSearch(type, String.valueOf(currentPage + 1), hashMap, true, true);
-            }
-        }, 500);
+        handler.postDelayed(() -> service.getAdvancedSearch(type, String.valueOf(currentPage + 1), hashMap, true, true), 500);
     }
 
     @Override

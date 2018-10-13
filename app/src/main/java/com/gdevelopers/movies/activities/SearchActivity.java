@@ -44,6 +44,7 @@ import br.com.mauker.materialsearchview.MaterialSearchView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+@SuppressWarnings("WeakerAccess")
 public class SearchActivity extends AppCompatActivity implements ServiceConnection, ModelService.ResponseListener, View.OnClickListener {
     private ModelService service;
     @BindView(R.id.search_list)
@@ -65,12 +66,7 @@ public class SearchActivity extends AppCompatActivity implements ServiceConnecti
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SearchActivity.this.onBackPressed();
-            }
-        });
+        toolbar.setNavigationOnClickListener(view -> SearchActivity.this.onBackPressed());
 
         searchRv.setLayoutManager(new LinearLayoutManager(SearchActivity.this));
 
@@ -86,83 +82,63 @@ public class SearchActivity extends AppCompatActivity implements ServiceConnecti
         collectionsChip.setOnClickListener(this);
         keywordsChip.setOnClickListener(this);
 
-        chipGroup.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(ChipGroup chipGroup, int i) {
-                Chip selectedChip = chipGroup.findViewById(chipGroup.getCheckedChipId());
-                if (selectedChip != null) {
-                    String tag = (String) selectedChip.getTag();
-                    String type = getType(Integer.valueOf(tag));
-                    if (!selectedType.equals(type)) {
-                        String query = searchView.getCurrentQuery();
-                        selectedType = type;
+        chipGroup.setOnCheckedChangeListener((chipGroup1, i) -> {
+            Chip selectedChip = chipGroup1.findViewById(chipGroup1.getCheckedChipId());
+            if (selectedChip != null) {
+                String tag = (String) selectedChip.getTag();
+                String type = getType(Integer.valueOf(tag));
+                if (!selectedType.equals(type)) {
+                    String query = searchView.getCurrentQuery();
+                    selectedType = type;
 
-                        if (!query.equals("")) {
-                            service.getSearch(type, query);
-                            showProgress();
-                        }
+                    if (!query.equals("")) {
+                        service.getSearch(type, query);
+                        showProgress();
                     }
                 }
-
             }
+
         });
 
-        searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                Chip selectedChip = chipGroup.findViewById(chipGroup.getCheckedChipId());
-                if (selectedChip != null) {
-                    String tag = (String) selectedChip.getTag();
-                    selectedType = getType(Integer.valueOf(tag));
-                    final String newQuery = query.replaceAll("[\\s%\"^#<>{}\\\\|`]", "%20");
-                    if (newQuery.length() > 0) {
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                if (service != null) {
-                                    service.getSearch(selectedType, newQuery);
-                                }
-                            }
-                        }).start();
-                    }
-                } else
-                    Toast.makeText(SearchActivity.this, "Please choose a filter", Toast.LENGTH_SHORT).show();
+        searchView.setOnQueryTextListener(query -> {
+            Chip selectedChip = chipGroup.findViewById(chipGroup.getCheckedChipId());
+            if (selectedChip != null) {
+                String tag = (String) selectedChip.getTag();
+                selectedType = getType(Integer.valueOf(tag));
+                final String newQuery = query.replaceAll("[\\s%\"^#<>{}\\\\|`]", "%20");
+                if (newQuery.length() > 0) {
+                    new Thread(() -> {
+                        if (service != null) {
+                            service.getSearch(selectedType, newQuery);
+                        }
+                    }).start();
+                }
+            } else
+                Toast.makeText(SearchActivity.this, "Please choose a filter", Toast.LENGTH_SHORT).show();
 
-                return false;
-            }
+            return false;
         });
 
 
-        searchView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String suggestion = searchView.getSuggestionAtPosition(i);
-                searchView.setQuery(suggestion);
-                searchView.dismissSuggestions();
-            }
+        searchView.setOnItemClickListener((adapterView, view, i, l) -> {
+            String suggestion = searchView.getSuggestionAtPosition(i);
+            searchView.setQuery(suggestion);
+            searchView.dismissSuggestions();
         });
 
-        searchView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                final String suggestion = searchView.getSuggestionAtPosition(i);
-                AlertDialog.Builder builder;
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-                    builder = new AlertDialog.Builder(SearchActivity.this, android.R.style.ThemeOverlay_Material_Dialog);
-                } else
-                    builder = new AlertDialog.Builder(SearchActivity.this);
-                builder.setTitle(suggestion);
-                builder.setMessage(R.string.remove_from_search);
-                builder.setPositiveButton(R.string.remove, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        searchView.removeHistory(suggestion);
-                    }
-                });
-                builder.setNegativeButton(R.string.cancel, null);
-                builder.create().show();
-                return true;
-            }
+        searchView.setOnItemLongClickListener((adapterView, view, i, l) -> {
+            final String suggestion = searchView.getSuggestionAtPosition(i);
+            AlertDialog.Builder builder;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                builder = new AlertDialog.Builder(SearchActivity.this, android.R.style.ThemeOverlay_Material_Dialog);
+            } else
+                builder = new AlertDialog.Builder(SearchActivity.this);
+            builder.setTitle(suggestion);
+            builder.setMessage(R.string.remove_from_search);
+            builder.setPositiveButton(R.string.remove, (dialogInterface, i1) -> searchView.removeHistory(suggestion));
+            builder.setNegativeButton(R.string.cancel, null);
+            builder.create().show();
+            return true;
         });
 
         searchView.setOnBackClickListener(SearchActivity.this::onBackPressed);
@@ -274,32 +250,29 @@ public class SearchActivity extends AppCompatActivity implements ServiceConnecti
             adapter = new SearchAdapter(SearchActivity.this, searchList, R.layout.search_row_layout);
             searchRv.setAdapter(adapter);
 
-            adapter.setOnItemClickListener(new SearchAdapter.OnItemClickListener() {
-                @Override
-                public void onItemClick(int position, ImageView imageView) {
-                    Search search = (Search) adapter.getItem(position);
-                    String mediaType = search.getMediaType() == null ? selectedType : search.getMediaType();
-                    switch (mediaType) {
-                        case "movie":
-                            OnClickHelper.movieClicked(SearchActivity.this, search.getTitle(), search.getPosterPath(),
-                                    String.valueOf(search.id()), imageView);
-                            break;
-                        case "person":
-                            Intent intent = new Intent(SearchActivity.this, ActorDetailsActivity.class);
-                            intent.putExtra("id", String.valueOf(search.id()));
-                            intent.putExtra("title", search.getTitle());
-                            intent.putExtra("image", search.getPosterPath());
-                            startActivity(intent);
-                            break;
-                        case "tv":
-                            OnClickHelper.tvClicked(SearchActivity.this, search.getTitle(), search.getPosterPath(),
-                                    String.valueOf(search.id()), imageView);
-                            break;
-                        default:
-                            break;
-                    }
-
+            adapter.setOnItemClickListener((position, imageView) -> {
+                Search search = (Search) adapter.getItem(position);
+                String mediaType = search.getMediaType() == null ? selectedType : search.getMediaType();
+                switch (mediaType) {
+                    case "movie":
+                        OnClickHelper.movieClicked(SearchActivity.this, search.getTitle(), search.getPosterPath(),
+                                String.valueOf(search.id()), imageView);
+                        break;
+                    case "person":
+                        Intent intent = new Intent(SearchActivity.this, ActorDetailsActivity.class);
+                        intent.putExtra("id", String.valueOf(search.id()));
+                        intent.putExtra("title", search.getTitle());
+                        intent.putExtra("image", search.getPosterPath());
+                        startActivity(intent);
+                        break;
+                    case "tv":
+                        OnClickHelper.tvClicked(SearchActivity.this, search.getTitle(), search.getPosterPath(),
+                                String.valueOf(search.id()), imageView);
+                        break;
+                    default:
+                        break;
                 }
+
             });
         }
     }

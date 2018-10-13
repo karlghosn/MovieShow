@@ -132,47 +132,41 @@ public class FragmentListDetails extends KFragment implements MovieListAdapter.O
         super.onResume();
         FloatingActionButton fab = activity.getAddFab();
         fab.show();
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setTitle("Add Movie");
-                View alertView = LayoutInflater.from(context).inflate(R.layout.search_dialog, container, false);
-                builder.setView(alertView);
-                TextInputLayout searchTl = alertView.findViewById(R.id.search_text_layout);
-                searchRv = alertView.findViewById(R.id.movies_list);
-                searchRv.setLayoutManager(new LinearLayoutManager(context));
-                EditText editText = searchTl.getEditText();
-                if (editText != null) {
-                    editText.addTextChangedListener(new TextWatcher() {
-                        @Override
-                        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                            //No Need
-                        }
+        fab.setOnClickListener(view -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setTitle("Add Movie");
+            View alertView = LayoutInflater.from(context).inflate(R.layout.search_dialog, container, false);
+            builder.setView(alertView);
+            TextInputLayout searchTl = alertView.findViewById(R.id.search_text_layout);
+            searchRv = alertView.findViewById(R.id.movies_list);
+            searchRv.setLayoutManager(new LinearLayoutManager(context));
+            EditText editText = searchTl.getEditText();
+            if (editText != null) {
+                editText.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                        //No Need
+                    }
 
-                        @Override
-                        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                            final String finalQuery = charSequence.toString();
-                            new Thread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    if (service != null) {
-                                        service.getSearch("movie", finalQuery);
-                                    }
-                                }
-                            }).start();
-                        }
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                        final String finalQuery = charSequence.toString();
+                        new Thread(() -> {
+                            if (service != null) {
+                                service.getSearch("movie", finalQuery);
+                            }
+                        }).start();
+                    }
 
-                        @Override
-                        public void afterTextChanged(Editable editable) {
-                            //No Need
-                        }
-                    });
-                }
-                builder.setPositiveButton("Cancel", null);
-                alertDialog = builder.create();
-                alertDialog.show();
+                    @Override
+                    public void afterTextChanged(Editable editable) {
+                        //No Need
+                    }
+                });
             }
+            builder.setPositiveButton("Cancel", null);
+            alertDialog = builder.create();
+            alertDialog.show();
         });
         if (activity.getSupportActionBar() != null)
             activity.getSupportActionBar().setTitle(title);
@@ -192,36 +186,33 @@ public class FragmentListDetails extends KFragment implements MovieListAdapter.O
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
             builder.setTitle(getString(R.string.clear_list, title));
             builder.setMessage("You are about to clear all movies from this list. Do you want to continue?");
-            builder.setPositiveButton("Clear", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    if (movieList.isEmpty())
-                        Snackbar.make(activity.findViewById(R.id.adView), "Cannot clear empty list",
-                                Snackbar.LENGTH_SHORT).show();
-                    else {
-                        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-                        Call<Response> call = apiService.clearList(Integer.parseInt(listId), PreferencesHelper.getSessionId(context));
-                        call.enqueue(new Callback<Response>() {
-                            @Override
-                            public void onResponse(@NonNull Call<Response> call, @NonNull retrofit2.Response<Response> response) {
-                                int statusCode = response.code();
-                                if (statusCode == 201) {
-                                    update(service, true);
-                                }
-                                //noinspection ConstantConditions
-                                Snackbar.make(activity.findViewById(R.id.adView), response.body().getMessage(),
-                                        Snackbar.LENGTH_SHORT).show();
+            builder.setPositiveButton("Clear", (dialogInterface, i) -> {
+                if (movieList.isEmpty())
+                    Snackbar.make(activity.findViewById(R.id.adView), "Cannot clear empty list",
+                            Snackbar.LENGTH_SHORT).show();
+                else {
+                    ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+                    Call<Response> call = apiService.clearList(Integer.parseInt(listId), PreferencesHelper.getSessionId(context));
+                    call.enqueue(new Callback<Response>() {
+                        @Override
+                        public void onResponse(@NonNull Call<Response> call, @NonNull retrofit2.Response<Response> response) {
+                            int statusCode = response.code();
+                            if (statusCode == 201) {
+                                update(service, true);
                             }
+                            //noinspection ConstantConditions
+                            Snackbar.make(activity.findViewById(R.id.adView), response.body().getMessage(),
+                                    Snackbar.LENGTH_SHORT).show();
+                        }
 
-                            @Override
-                            public void onFailure(@NonNull Call<Response> call, @NonNull Throwable t) {
-                                // Log error here since request failed
-                                Log.e("Failure", t.toString());
-                            }
-                        });
-                    }
-
+                        @Override
+                        public void onFailure(@NonNull Call<Response> call, @NonNull Throwable t) {
+                            // Log error here since request failed
+                            Log.e("Failure", t.toString());
+                        }
+                    });
                 }
+
             });
             builder.setNegativeButton("Cancel", null);
             AlertDialog dialog = builder.create();
@@ -252,13 +243,10 @@ public class FragmentListDetails extends KFragment implements MovieListAdapter.O
             ItemTouchHelper mItemTouchHelper = new ItemTouchHelper(callback);
             mItemTouchHelper.attachToRecyclerView(moviesRv);
 
-            adapter.setOnItemClickListener(new MovieListAdapter.OnItemClickListener() {
-                @Override
-                public void onItemClick(int position, ImageView imageView) {
-                    Movie movie = (Movie) adapter.getItem(position);
-                    OnClickHelper.movieClicked(context, movie.getTitle(), movie.getPosterPath(),
-                            String.valueOf(movie.id()), imageView);
-                }
+            adapter.setOnItemClickListener((position, imageView) -> {
+                Movie movie = (Movie) adapter.getItem(position);
+                OnClickHelper.movieClicked(context, movie.getTitle(), movie.getPosterPath(),
+                        String.valueOf(movie.id()), imageView);
             });
 
         }
@@ -273,34 +261,31 @@ public class FragmentListDetails extends KFragment implements MovieListAdapter.O
             final SearchAdapter searchAdapter = new SearchAdapter(context, searchList, R.layout.search_dialog_row_layout);
             searchRv.setAdapter(searchAdapter);
 
-            searchAdapter.setOnItemClickListener(new SearchAdapter.OnItemClickListener() {
-                @Override
-                public void onItemClick(int position, ImageView imageView) {
-                    Search search = searchList.get(position);
-                    PostRetrofit postRetrofit = new PostRetrofit();
-                    postRetrofit.setId((int) search.id());
-                    ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-                    Call<Response> call = apiService.addMovie(Integer.parseInt(listId), PreferencesHelper.getSessionId(context), postRetrofit);
-                    call.enqueue(new Callback<Response>() {
-                        @Override
-                        public void onResponse(@NonNull Call<Response> call, @NonNull retrofit2.Response<Response> response) {
-                            int statusCode = response.code();
-                            if (statusCode == 201) {
-                                update(service, true);
-                                alertDialog.cancel();
-                            }
-                            //noinspection ConstantConditions
-                            Snackbar.make(activity.findViewById(R.id.adView), response.body().getMessage(),
-                                    Snackbar.LENGTH_SHORT).show();
+            searchAdapter.setOnItemClickListener((position, imageView) -> {
+                Search search = searchList.get(position);
+                PostRetrofit postRetrofit = new PostRetrofit();
+                postRetrofit.setId((int) search.id());
+                ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+                Call<Response> call = apiService.addMovie(Integer.parseInt(listId), PreferencesHelper.getSessionId(context), postRetrofit);
+                call.enqueue(new Callback<Response>() {
+                    @Override
+                    public void onResponse(@NonNull Call<Response> call, @NonNull retrofit2.Response<Response> response) {
+                        int statusCode = response.code();
+                        if (statusCode == 201) {
+                            update(service, true);
+                            alertDialog.cancel();
                         }
+                        //noinspection ConstantConditions
+                        Snackbar.make(activity.findViewById(R.id.adView), response.body().getMessage(),
+                                Snackbar.LENGTH_SHORT).show();
+                    }
 
-                        @Override
-                        public void onFailure(@NonNull Call<Response> call, @NonNull Throwable t) {
-                            // Log error here since request failed
-                            Log.e("Failure", t.toString());
-                        }
-                    });
-                }
+                    @Override
+                    public void onFailure(@NonNull Call<Response> call, @NonNull Throwable t) {
+                        // Log error here since request failed
+                        Log.e("Failure", t.toString());
+                    }
+                });
             });
         }
     }
@@ -318,13 +303,10 @@ public class FragmentListDetails extends KFragment implements MovieListAdapter.O
         // showing snack bar with Undo option
         Snackbar snackbar = Snackbar
                 .make(activity.findViewById(R.id.ads_layout), movie.getTitle() + " removed from list", Snackbar.LENGTH_LONG);
-        snackbar.setAction("UNDO", new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // undo is selected, restore the deleted item
-                clicked = true;
-                adapter.restoreItem(movie, position);
-            }
+        snackbar.setAction("UNDO", view -> {
+            // undo is selected, restore the deleted item
+            clicked = true;
+            adapter.restoreItem(movie, position);
         });
 
         snackbar.addCallback(new Snackbar.Callback() {

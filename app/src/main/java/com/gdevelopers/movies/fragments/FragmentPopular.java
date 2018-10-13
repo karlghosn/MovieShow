@@ -147,16 +147,13 @@ public class FragmentPopular extends KFragment implements PopularActorsAdapter.O
         loadMore = true;
 
         final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (service != null) {
-                    boolean hasConnection = Connection.isNetworkAvailable(context);
-                    if (hasConnection && service != null)
-                        service.getPopularPeople(String.valueOf(currentPage + 1), true, true);
-                    else DialogHelper.noConnectionDialog(getContext());
+        handler.postDelayed(() -> {
+            if (service != null) {
+                boolean hasConnection = Connection.isNetworkAvailable(context);
+                if (hasConnection && service != null)
+                    service.getPopularPeople(String.valueOf(currentPage + 1), true, true);
+                else DialogHelper.noConnectionDialog(getContext());
 
-                }
             }
         }, 500);
     }

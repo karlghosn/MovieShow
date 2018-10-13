@@ -137,41 +137,32 @@ public class FragmentRatedMovies extends KFragment implements UserMoviesAdapter.
             } else adapter.notifyDataChanged();
 
             adapter.setLoadMoreListener(this);
-            adapter.setOnItemClickListener(new UserMoviesAdapter.OnItemClickListener() {
-                @Override
-                public void onItemClick(int position, ImageView imageView) {
-                    Movie movie = (Movie) adapter.getItem(position);
-                    Intent intent = new Intent(context, MovieDetailsActivity.class);
-                    intent.putExtra("title", movie.getTitle());
-                    intent.putExtra("image", movie.getPosterPath());
-                    intent.putExtra("id", String.valueOf(movie.id()));
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        imageView.setTransitionName(getString(R.string.movie_poster));
-                    }
-                    Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, imageView,
-                            getString(R.string.movie_poster)).toBundle();
-                    startActivityForResult(intent, 1, bundle);
+            adapter.setOnItemClickListener((position, imageView) -> {
+                Movie movie = (Movie) adapter.getItem(position);
+                Intent intent = new Intent(context, MovieDetailsActivity.class);
+                intent.putExtra("title", movie.getTitle());
+                intent.putExtra("image", movie.getPosterPath());
+                intent.putExtra("id", String.valueOf(movie.id()));
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    imageView.setTransitionName(getString(R.string.movie_poster));
                 }
+                Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, imageView,
+                        getString(R.string.movie_poster)).toBundle();
+                startActivityForResult(intent, 1, bundle);
             });
 
-            adapter.setOnRemoveListener(new UserMoviesAdapter.OnRemoveListener() {
-                @Override
-                public void onRemove(final Movie movie, int pos) {
-                    deletedPos = pos;
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setTitle("Delete Rating");
-                    builder.setMessage("Are you sure you want to delete your rating for " + movie.getTitle());
-                    builder.setNegativeButton("Cancel", null);
-                    builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            DeleteRatingTask deleteRatingTask = new DeleteRatingTask(context, String.valueOf(movie.id()));
-                            deleteRatingTask.setOnCallBackListener(onDeleteCallBackListener);
-                            deleteRatingTask.execute();
-                        }
-                    });
-                    builder.create().show();
-                }
+            adapter.setOnRemoveListener((movie, pos) -> {
+                deletedPos = pos;
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setTitle("Delete Rating");
+                builder.setMessage("Are you sure you want to delete your rating for " + movie.getTitle());
+                builder.setNegativeButton("Cancel", null);
+                builder.setPositiveButton("Delete", (dialogInterface, i) -> {
+                    DeleteRatingTask deleteRatingTask = new DeleteRatingTask(context, String.valueOf(movie.id()));
+                    deleteRatingTask.setOnCallBackListener(onDeleteCallBackListener);
+                    deleteRatingTask.execute();
+                });
+                builder.create().show();
             });
         }
     }
@@ -188,24 +179,18 @@ public class FragmentRatedMovies extends KFragment implements UserMoviesAdapter.
         if (id == R.id.sort) {
             new AlertDialog.Builder(context)
                     .setTitle("Sort By")
-                    .setSingleChoiceItems(new String[]{"Date created ascending", "Date created descending"}, pos, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            boolean isSimilar = pos == whichButton;
-                            pos = whichButton;
-                            sortBy = whichButton == 0 ? "created_at.asc" : "created_at.desc";
-                            if (!isSimilar) {
-                                service.getRatedMovies(PreferencesHelper.getAccountId(context), PreferencesHelper.getSessionId(context)
-                                        , "1", false, sortBy, true);
-                                progressBar.setVisibility(View.VISIBLE);
-                            }
-                            dialog.cancel();
+                    .setSingleChoiceItems(new String[]{"Date created ascending", "Date created descending"}, pos, (dialog, whichButton) -> {
+                        boolean isSimilar = pos == whichButton;
+                        pos = whichButton;
+                        sortBy = whichButton == 0 ? "created_at.asc" : "created_at.desc";
+                        if (!isSimilar) {
+                            service.getRatedMovies(PreferencesHelper.getAccountId(context), PreferencesHelper.getSessionId(context)
+                                    , "1", false, sortBy, true);
+                            progressBar.setVisibility(View.VISIBLE);
                         }
+                        dialog.cancel();
                     })
-                    .setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            dialog.cancel();
-                        }
-                    }).create().show();
+                    .setPositiveButton("Cancel", (dialog, whichButton) -> dialog.cancel()).create().show();
         }
         if (id == R.id.sync) {
             loadMore = false;
@@ -270,13 +255,8 @@ public class FragmentRatedMovies extends KFragment implements UserMoviesAdapter.
         loadMore = true;
 
         final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                service.getRatedMovies(PreferencesHelper.getAccountId(context), PreferencesHelper.getSessionId(context)
-                        , String.valueOf(currentPage + 1), true, sortBy, true);
-            }
-        }, 500);
+        handler.postDelayed(() -> service.getRatedMovies(PreferencesHelper.getAccountId(context), PreferencesHelper.getSessionId(context)
+                , String.valueOf(currentPage + 1), true, sortBy, true), 500);
     }
 
     @Override
@@ -292,12 +272,7 @@ public class FragmentRatedMovies extends KFragment implements UserMoviesAdapter.
     public void onDeleteCallBack() {
         adapter.removeAt(deletedPos);
         final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                update(service, true);
-            }
-        }, 1000);
+        handler.postDelayed(() -> update(service, true), 1000);
     }
 
     @Override

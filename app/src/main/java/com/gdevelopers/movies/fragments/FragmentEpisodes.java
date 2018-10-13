@@ -84,19 +84,16 @@ public class FragmentEpisodes extends KFragment {
             final EpisodesAdapter adapter = new EpisodesAdapter(getContext(), episodeList);
             episodesRv.setAdapter(adapter);
 
-            adapter.setOnItemClickListener(new EpisodesAdapter.OnItemClickListener() {
-                @Override
-                public void onItemClick(int position) {
-                    Episode episode = (Episode) adapter.getItem(position);
-                    FragmentEpisodeDetails fragmentEpisodeDetails = new FragmentEpisodeDetails();
-                    fragmentEpisodeDetails.setTvId(id);
-                    fragmentEpisodeDetails.setEpisode(episode);
-                    activity.getSupportFragmentManager().beginTransaction()
-                            .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.left_to_right, R.anim.right_to_left)
-                            .replace(R.id.content_episodes, fragmentEpisodeDetails)
-                            .addToBackStack(null)
-                            .commit();
-                }
+            adapter.setOnItemClickListener(position -> {
+                Episode episode = (Episode) adapter.getItem(position);
+                FragmentEpisodeDetails fragmentEpisodeDetails = new FragmentEpisodeDetails();
+                fragmentEpisodeDetails.setTvId(id);
+                fragmentEpisodeDetails.setEpisode(episode);
+                activity.getSupportFragmentManager().beginTransaction()
+                        .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.left_to_right, R.anim.right_to_left)
+                        .replace(R.id.content_episodes, fragmentEpisodeDetails)
+                        .addToBackStack(null)
+                        .commit();
             });
         }
     }

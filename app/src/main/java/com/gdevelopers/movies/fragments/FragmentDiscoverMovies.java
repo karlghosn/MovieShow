@@ -108,13 +108,10 @@ public class FragmentDiscoverMovies extends KFragment implements GenreMovieAdapt
             } else adapter.notifyDataChanged();
 
             adapter.setLoadMoreListener(this);
-            adapter.setOnItemClickListener(new GenreMovieAdapter.OnItemClickListener() {
-                @Override
-                public void onItemClick(int position, ImageView imageView) {
-                    Movie movie = (Movie) adapter.getItem(position);
-                    OnClickHelper.movieClicked(getContext(), movie.getTitle(), movie.getPosterPath(),
-                            String.valueOf(movie.id()), imageView);
-                }
+            adapter.setOnItemClickListener((position, imageView) -> {
+                Movie movie = (Movie) adapter.getItem(position);
+                OnClickHelper.movieClicked(getContext(), movie.getTitle(), movie.getPosterPath(),
+                        String.valueOf(movie.id()), imageView);
             });
         }
     }
@@ -143,14 +140,11 @@ public class FragmentDiscoverMovies extends KFragment implements GenreMovieAdapt
         loadMore = true;
 
         final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                boolean hasConnection = Connection.isNetworkAvailable(context);
-                if (hasConnection && service != null) {
-                    service.getDiscoverMovies(genreId, String.valueOf(currentPage + 1), true, true);
-                } else DialogHelper.noConnectionDialog(getContext());
-            }
+        handler.postDelayed(() -> {
+            boolean hasConnection = Connection.isNetworkAvailable(context);
+            if (hasConnection && service != null) {
+                service.getDiscoverMovies(genreId, String.valueOf(currentPage + 1), true, true);
+            } else DialogHelper.noConnectionDialog(getContext());
         }, 500);
     }
 

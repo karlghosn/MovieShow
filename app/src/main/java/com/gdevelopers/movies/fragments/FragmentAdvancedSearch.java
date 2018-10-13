@@ -115,20 +115,17 @@ public class FragmentAdvancedSearch extends KFragment {
         autoCompleteAdapter = new AutoCompleteAdapter(context, searchList, R.layout.autocomplete_layout);
         editText.setAdapter(autoCompleteAdapter);
 
-        editText.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                //You can identify which key pressed buy checking keyCode value with KeyEvent.KEYCODE_
-                if (keyCode == KeyEvent.KEYCODE_DEL && event.getAction() == KeyEvent.ACTION_DOWN && TextUtils.isEmpty(editText.getText()) &&
-                        flowLayout.getChildCount() >= 2) {
-                    //this is for backspace
-                    View view = flowLayout.getChildAt(flowLayout.getChildCount() - 2);
-                    actorsIds.remove(String.valueOf((long) view.getTag()));
-                    flowLayout.removeViewAt(flowLayout.getChildCount() - 2);
-                    autoCompleteAdapter.clear();
-                }
-                return false;
+        editText.setOnKeyListener((v, keyCode, event) -> {
+            //You can identify which key pressed buy checking keyCode value with KeyEvent.KEYCODE_
+            if (keyCode == KeyEvent.KEYCODE_DEL && event.getAction() == KeyEvent.ACTION_DOWN && TextUtils.isEmpty(editText.getText()) &&
+                    flowLayout.getChildCount() >= 2) {
+                //this is for backspace
+                View view = flowLayout.getChildAt(flowLayout.getChildCount() - 2);
+                actorsIds.remove(String.valueOf((long) view.getTag()));
+                flowLayout.removeViewAt(flowLayout.getChildCount() - 2);
+                autoCompleteAdapter.clear();
             }
+            return false;
         });
 
         editText.addTextChangedListener(new TextWatcher() {
@@ -144,12 +141,7 @@ public class FragmentAdvancedSearch extends KFragment {
                 queryStr = queryStr.replaceAll("[\\s%\"^#<>{}\\\\|`]", "%20");
                 if (queryStr.length() > 0) {
                     final String finalQuery = queryStr;
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            service.getActors(finalQuery);
-                        }
-                    }).start();
+                    new Thread(() -> service.getActors(finalQuery)).start();
                 }
             }
 
@@ -367,48 +359,42 @@ public class FragmentAdvancedSearch extends KFragment {
 
             autoCompleteAdapter.notifyDataSetChanged();
 
-            editText.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    final Search search = autoCompleteAdapter.getItem(position);
-                    assert search != null;
-                    if (actorsIds.contains(String.valueOf(search.id())))
-                        Toast.makeText(context, "Actor already selected", Toast.LENGTH_SHORT).show();
-                    else {
-                        actorsIds.add(String.valueOf(search.id()));
-                        editText.setText("");
+            editText.setOnItemClickListener((parent, view, position, id) -> {
+                final Search search = autoCompleteAdapter.getItem(position);
+                assert search != null;
+                if (actorsIds.contains(String.valueOf(search.id())))
+                    Toast.makeText(context, "Actor already selected", Toast.LENGTH_SHORT).show();
+                else {
+                    actorsIds.add(String.valueOf(search.id()));
+                    editText.setText("");
 
-                        final Chip chip = new Chip(context);
-                        chip.setTextAppearance(R.style.TextAppearance_MaterialComponents_Body1);
-                        chip.setCloseIconVisible(true);
-                        chip.setChipIconVisible(true);
-                        chip.setTag(search.id());
+                    final Chip chip = new Chip(context);
+                    chip.setTextAppearance(R.style.TextAppearance_MaterialComponents_Body1);
+                    chip.setCloseIconVisible(true);
+                    chip.setChipIconVisible(true);
+                    chip.setTag(search.id());
 
-                        chip.setOnCloseIconClickListener(new View.OnClickListener() {
+                    chip.setOnCloseIconClickListener(v -> {
+                        flowLayout.removeView(chip);
+                        actorsIds.remove(String.valueOf(search.id()));
+                    });
+
+                    if (search.getPosterPath().endsWith("null")) {
+                        LetterTileProvider letterTileProvider = new LetterTileProvider(context);
+                        Drawable drawable = new BitmapDrawable(getResources(), letterTileProvider.getCircularLetterTile(search.getTitle()));
+                        chip.setChipIcon(drawable);
+                    } else
+                        GlideApp.with(context).load(search.getPosterPath()).apply(RequestOptions.circleCropTransform()).into(new SimpleTarget<Drawable>() {
                             @Override
-                            public void onClick(View v) {
-                                flowLayout.removeView(chip);
-                                actorsIds.remove(String.valueOf(search.id()));
+                            public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                                chip.setChipIcon(resource);
                             }
                         });
 
-                        if (search.getPosterPath().endsWith("null")) {
-                            LetterTileProvider letterTileProvider = new LetterTileProvider(context);
-                            Drawable drawable = new BitmapDrawable(getResources(), letterTileProvider.getCircularLetterTile(search.getTitle()));
-                            chip.setChipIcon(drawable);
-                        } else
-                            GlideApp.with(context).load(search.getPosterPath()).apply(RequestOptions.circleCropTransform()).into(new SimpleTarget<Drawable>() {
-                                @Override
-                                public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
-                                    chip.setChipIcon(resource);
-                                }
-                            });
+                    chip.setText(search.getTitle());
 
-                        chip.setText(search.getTitle());
-
-                        flowLayout.addView(chip, flowLayout.getChildCount() - 1);
-                        autoCompleteAdapter.clear();
-                    }
+                    flowLayout.addView(chip, flowLayout.getChildCount() - 1);
+                    autoCompleteAdapter.clear();
                 }
             });
         }

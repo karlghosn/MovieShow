@@ -44,12 +44,7 @@ public class MoreActivity extends AppCompatActivity implements ServiceConnection
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                MoreActivity.this.onBackPressed();
-            }
-        });
+        toolbar.setNavigationOnClickListener(view -> MoreActivity.this.onBackPressed());
 
         Bundle extra = getIntent().getExtras();
         List<Show> showList = new ArrayList<>();
@@ -70,28 +65,25 @@ public class MoreActivity extends AppCompatActivity implements ServiceConnection
         adapter = new ShowAdapter(MoreActivity.this, showList, isCrew);
         showsRv.setAdapter(adapter);
 
-        adapter.setOnItemClickListener(new ShowAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(Show show, View v) {
-                ImageView imageView = v.findViewById(R.id.show_image);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    imageView.setTransitionName(getString(R.string.movie_poster));
-                }
-                if (show.getMediaType().equals("movie")) {
-                    Intent intent = new Intent(MoreActivity.this, MovieDetailsActivity.class);
-                    intent.putExtra(Constants.STRINGS.TITLE, show.getTitle());
-                    intent.putExtra(Constants.STRINGS.IMAGE, show.getPosterPath());
-                    intent.putExtra("id", String.valueOf(show.getId()));
-                    Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(MoreActivity.this, imageView, getString(R.string.movie_poster)).toBundle();
-                    startActivity(intent, bundle);
-                } else if (show.getMediaType().equals("tv")) {
-                    Intent intent = new Intent(MoreActivity.this, TVDetailsActivity.class);
-                    intent.putExtra(Constants.STRINGS.TITLE, show.getTitle());
-                    intent.putExtra(Constants.STRINGS.IMAGE, show.getPosterPath());
-                    intent.putExtra("id", String.valueOf(show.getId()));
-                    Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(MoreActivity.this, imageView, getString(R.string.movie_poster)).toBundle();
-                    startActivity(intent, bundle);
-                }
+        adapter.setOnItemClickListener((show, v) -> {
+            ImageView imageView = v.findViewById(R.id.show_image);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                imageView.setTransitionName(getString(R.string.movie_poster));
+            }
+            if (show.getMediaType().equals("movie")) {
+                Intent intent = new Intent(MoreActivity.this, MovieDetailsActivity.class);
+                intent.putExtra(Constants.STRINGS.TITLE, show.getTitle());
+                intent.putExtra(Constants.STRINGS.IMAGE, show.getPosterPath());
+                intent.putExtra("id", String.valueOf(show.getId()));
+                Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(MoreActivity.this, imageView, getString(R.string.movie_poster)).toBundle();
+                startActivity(intent, bundle);
+            } else if (show.getMediaType().equals("tv")) {
+                Intent intent = new Intent(MoreActivity.this, TVDetailsActivity.class);
+                intent.putExtra(Constants.STRINGS.TITLE, show.getTitle());
+                intent.putExtra(Constants.STRINGS.IMAGE, show.getPosterPath());
+                intent.putExtra("id", String.valueOf(show.getId()));
+                Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(MoreActivity.this, imageView, getString(R.string.movie_poster)).toBundle();
+                startActivity(intent, bundle);
             }
         });
     }

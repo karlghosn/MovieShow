@@ -65,14 +65,11 @@ public class FragmentBiography extends Fragment {
         final List<String> imagesList = actor.getImages();
         imagesBt.setVisibility(imagesList.size() > 10 ? View.VISIBLE : View.GONE);
 
-        imagesBt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getContext(), GalleryActivity.class);
-                intent.putStringArrayListExtra("images", (ArrayList<String>) imagesList);
-                intent.putExtra("title", actor.getName());
-                startActivity(intent);
-            }
+        imagesBt.setOnClickListener(view -> {
+            Intent intent = new Intent(getContext(), GalleryActivity.class);
+            intent.putStringArrayListExtra("images", (ArrayList<String>) imagesList);
+            intent.putExtra("title", actor.getName());
+            startActivity(intent);
         });
 
         imagesRv.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
@@ -81,14 +78,11 @@ public class FragmentBiography extends Fragment {
         ImagesAdapter imagesAdapter = new ImagesAdapter(getContext(), imagesList, true);
         imagesRv.setAdapter(imagesAdapter);
 
-        imagesAdapter.setOnItemClickListener(new ImagesAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
-                Intent intent = new Intent(getContext(), GalleryPreviewActivity.class);
-                intent.putStringArrayListExtra("urls", (ArrayList<String>) imagesList);
-                intent.putExtra("position", position);
-                startActivity(intent);
-            }
+        imagesAdapter.setOnItemClickListener(position -> {
+            Intent intent = new Intent(getContext(), GalleryPreviewActivity.class);
+            intent.putStringArrayListExtra("urls", (ArrayList<String>) imagesList);
+            intent.putExtra("position", position);
+            startActivity(intent);
         });
 
         String birthDay = actor.getBirthday();
@@ -129,25 +123,19 @@ public class FragmentBiography extends Fragment {
 
         bioTv.setText(actor.getBiography().equals("") ? getString(R.string.empty_text) : actor.getBiography());
 
-        bioTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (isTextViewClicked) {
-                    bioTv.setMaxLines(lineCount);
-                    isTextViewClicked = false;
-                } else {
-                    bioTv.setMaxLines(Integer.MAX_VALUE);
-                    isTextViewClicked = true;
-                }
+        bioTv.setOnClickListener(view -> {
+            if (isTextViewClicked) {
+                bioTv.setMaxLines(lineCount);
+                isTextViewClicked = false;
+            } else {
+                bioTv.setMaxLines(Integer.MAX_VALUE);
+                isTextViewClicked = true;
             }
         });
 
-        bioTv.post(new Runnable() {
-            @Override
-            public void run() {
-                if (bioTv.getLineCount() > lineCount)
-                    bioTv.setMaxLines(lineCount);
-            }
+        bioTv.post(() -> {
+            if (bioTv.getLineCount() > lineCount)
+                bioTv.setMaxLines(lineCount);
         });
         return rootView;
     }

@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+@SuppressWarnings("WeakerAccess")
 public class CompanyActivity extends AppCompatActivity implements ServiceConnection, ModelService.ResponseListener, MoviesPageAdapter.OnLoadMoreListener {
     private ModelService service;
     private String companyId;
@@ -72,12 +73,7 @@ public class CompanyActivity extends AppCompatActivity implements ServiceConnect
             getSupportActionBar().setTitle(title);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                CompanyActivity.super.onBackPressed();
-            }
-        });
+        toolbar.setNavigationOnClickListener(view -> CompanyActivity.super.onBackPressed());
 
 
     }
@@ -180,12 +176,7 @@ public class CompanyActivity extends AppCompatActivity implements ServiceConnect
         loadMore = true;
 
         final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                service.getAdvancedSearch("movie", String.valueOf(currentPage + 1), hashMap, true, true);
-            }
-        }, 500);
+        handler.postDelayed(() -> service.getAdvancedSearch("movie", String.valueOf(currentPage + 1), hashMap, true, true), 500);
     }
 }
 

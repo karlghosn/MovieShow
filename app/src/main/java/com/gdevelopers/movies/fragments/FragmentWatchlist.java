@@ -110,18 +110,15 @@ public class FragmentWatchlist extends KFragment implements UserMoviesAdapter.On
         RelativeLayout tryLayout = rootView.findViewById(R.id.try_layout);
         tryLayout.setVisibility(View.VISIBLE);
         final ImageView watchlistIv = rootView.findViewById(R.id.watchlist_icon);
-        watchlistIv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Drawable.ConstantState state = watchlistIv.getDrawable().getConstantState();
-                assert state != null;
-                Drawable drawable = ContextCompat.getDrawable(context,
-                        R.drawable.ic_action_watchlist);
-                assert drawable != null;
-                if (state.equals(drawable.getConstantState())) {
-                    watchlistIv.setImageResource(R.drawable.ic_action_watchlist_filled);
-                } else watchlistIv.setImageResource(R.drawable.ic_action_watchlist);
-            }
+        watchlistIv.setOnClickListener(view -> {
+            Drawable.ConstantState state = watchlistIv.getDrawable().getConstantState();
+            assert state != null;
+            Drawable drawable = ContextCompat.getDrawable(context,
+                    R.drawable.ic_action_watchlist);
+            assert drawable != null;
+            if (state.equals(drawable.getConstantState())) {
+                watchlistIv.setImageResource(R.drawable.ic_action_watchlist_filled);
+            } else watchlistIv.setImageResource(R.drawable.ic_action_watchlist);
         });
 
 
@@ -151,24 +148,18 @@ public class FragmentWatchlist extends KFragment implements UserMoviesAdapter.On
             } else adapter.notifyDataChanged();
 
             adapter.setLoadMoreListener(this);
-            adapter.setOnItemClickListener(new UserMoviesAdapter.OnItemClickListener() {
-                @Override
-                public void onItemClick(int position, ImageView imageView) {
-                    Movie movie = (Movie) adapter.getItem(position);
-                    OnClickHelper.movieClicked(context, movie.getTitle(), movie.getPosterPath(),
-                            String.valueOf(movie.id()), imageView);
-                }
+            adapter.setOnItemClickListener((position, imageView) -> {
+                Movie movie = (Movie) adapter.getItem(position);
+                OnClickHelper.movieClicked(context, movie.getTitle(), movie.getPosterPath(),
+                        String.valueOf(movie.id()), imageView);
             });
 
-            adapter.setOnRemoveListener(new UserMoviesAdapter.OnRemoveListener() {
-                @Override
-                public void onRemove(Movie movie, int pos) {
-                    deletedPos = pos;
-                    ChangeMovieState changeMovieState = new ChangeMovieState(context, "watchlist", String.valueOf(movie.id()),
-                            service, fillJSON(movie), true);
-                    changeMovieState.setOnCallBackListener(onCallBackListener);
-                    changeMovieState.execute();
-                }
+            adapter.setOnRemoveListener((movie, pos) -> {
+                deletedPos = pos;
+                ChangeMovieState changeMovieState = new ChangeMovieState(context, "watchlist", String.valueOf(movie.id()),
+                        service, fillJSON(movie), true);
+                changeMovieState.setOnCallBackListener(onCallBackListener);
+                changeMovieState.execute();
             });
         }
     }
@@ -198,24 +189,18 @@ public class FragmentWatchlist extends KFragment implements UserMoviesAdapter.On
         if (id == R.id.sort) {
             new AlertDialog.Builder(context)
                     .setTitle("Sort By")
-                    .setSingleChoiceItems(new String[]{"Date created ascending", "Date created descending"}, pos, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            boolean isSimilar = pos == whichButton;
-                            pos = whichButton;
-                            sortBy = whichButton == 0 ? "created_at.asc" : "created_at.desc";
-                            if (!isSimilar) {
-                                service.getWatchlistMovies(PreferencesHelper.getAccountId(context), PreferencesHelper.getSessionId(context)
-                                        , "1", false, sortBy, true);
-                                progressBar.setVisibility(View.VISIBLE);
-                            }
-                            dialog.cancel();
+                    .setSingleChoiceItems(new String[]{"Date created ascending", "Date created descending"}, pos, (dialog, whichButton) -> {
+                        boolean isSimilar = pos == whichButton;
+                        pos = whichButton;
+                        sortBy = whichButton == 0 ? "created_at.asc" : "created_at.desc";
+                        if (!isSimilar) {
+                            service.getWatchlistMovies(PreferencesHelper.getAccountId(context), PreferencesHelper.getSessionId(context)
+                                    , "1", false, sortBy, true);
+                            progressBar.setVisibility(View.VISIBLE);
                         }
+                        dialog.cancel();
                     })
-                    .setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            dialog.cancel();
-                        }
-                    }).create().show();
+                    .setPositiveButton("Cancel", (dialog, whichButton) -> dialog.cancel()).create().show();
         }
         if (id == R.id.sync) {
             loadMore = false;
@@ -268,13 +253,8 @@ public class FragmentWatchlist extends KFragment implements UserMoviesAdapter.On
         loadMore = true;
 
         final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                service.getWatchlistMovies(PreferencesHelper.getAccountId(context), PreferencesHelper.getSessionId(context)
-                        , String.valueOf(currentPage + 1), true, sortBy, true);
-            }
-        }, 500);
+        handler.postDelayed(() -> service.getWatchlistMovies(PreferencesHelper.getAccountId(context), PreferencesHelper.getSessionId(context)
+                , String.valueOf(currentPage + 1), true, sortBy, true), 500);
     }
 
     @Override

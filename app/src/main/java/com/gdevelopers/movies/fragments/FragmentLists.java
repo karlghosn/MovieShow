@@ -119,63 +119,52 @@ public class FragmentLists extends KFragment implements RecyclerItemTouchHelper.
         FloatingActionButton fab = activity.getAddFab();
         if (hasConnection) fab.show();
         else fab.hide();
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (listCount < 20) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    View alertView = LayoutInflater.from(context).inflate(R.layout.add_list_dialog, container, false);
-                    final TextInputLayout nameTl = alertView.findViewById(R.id.list_name);
-                    final TextInputLayout descriptionTl = alertView.findViewById(R.id.list_description);
-                    Button cancelBt = alertView.findViewById(R.id.cancel);
-                    Button createBt = alertView.findViewById(R.id.create_list);
-                    builder.setView(alertView);
-                    final AlertDialog dialog = builder.create();
-                    cancelBt.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            dialog.cancel();
-                        }
-                    });
-                    createBt.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            if (Validation.hasText(nameTl) && Validation.isName(descriptionTl)) {
-                                @SuppressWarnings("ConstantConditions") String name = nameTl.getEditText().getText().toString();
-                                @SuppressWarnings("ConstantConditions") String description = descriptionTl.getEditText().getText().toString();
-                                PostRetrofit postRetrofit = new PostRetrofit();
-                                postRetrofit.setName(name);
-                                postRetrofit.setDescription(description);
-                                postRetrofit.setLanguage();
+        fab.setOnClickListener(view -> {
+            if (listCount < 20) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                View alertView = LayoutInflater.from(context).inflate(R.layout.add_list_dialog, container, false);
+                final TextInputLayout nameTl = alertView.findViewById(R.id.list_name);
+                final TextInputLayout descriptionTl = alertView.findViewById(R.id.list_description);
+                Button cancelBt = alertView.findViewById(R.id.cancel);
+                Button createBt = alertView.findViewById(R.id.create_list);
+                builder.setView(alertView);
+                final AlertDialog dialog = builder.create();
+                cancelBt.setOnClickListener(view12 -> dialog.cancel());
+                createBt.setOnClickListener(view1 -> {
+                    if (Validation.hasText(nameTl) && Validation.isName(descriptionTl)) {
+                        @SuppressWarnings("ConstantConditions") String name = nameTl.getEditText().getText().toString();
+                        @SuppressWarnings("ConstantConditions") String description = descriptionTl.getEditText().getText().toString();
+                        PostRetrofit postRetrofit = new PostRetrofit();
+                        postRetrofit.setName(name);
+                        postRetrofit.setDescription(description);
+                        postRetrofit.setLanguage();
 
-                                ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-                                Call<Response> call = apiService.createList(PreferencesHelper.getSessionId(context), postRetrofit);
-                                call.enqueue(new Callback<Response>() {
-                                    @Override
-                                    public void onResponse(@NonNull Call<Response> call, @NonNull retrofit2.Response<Response> response) {
-                                        int statusCode = response.code();
-                                        if (statusCode == 201) {
-                                            update(service, true);
-                                            dialog.cancel();
-                                        }
+                        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+                        Call<Response> call = apiService.createList(PreferencesHelper.getSessionId(context), postRetrofit);
+                        call.enqueue(new Callback<Response>() {
+                            @Override
+                            public void onResponse(@NonNull Call<Response> call, @NonNull retrofit2.Response<Response> response) {
+                                int statusCode = response.code();
+                                if (statusCode == 201) {
+                                    update(service, true);
+                                    dialog.cancel();
+                                }
 
-                                        //noinspection ConstantConditions
-                                        Snackbar.make(activity.findViewById(R.id.adView), response.body().getMessage(),
-                                                Snackbar.LENGTH_SHORT).show();
-                                    }
-
-                                    @Override
-                                    public void onFailure(@NonNull Call<Response> call, @NonNull Throwable t) {
-                                        // Log error here since request failed
-                                        Log.e("Failure", t.toString());
-                                    }
-                                });
+                                //noinspection ConstantConditions
+                                Snackbar.make(activity.findViewById(R.id.adView), response.body().getMessage(),
+                                        Snackbar.LENGTH_SHORT).show();
                             }
-                        }
-                    });
-                    dialog.show();
-                } else DialogHelper.proVersionDialog(context);
-            }
+
+                            @Override
+                            public void onFailure(@NonNull Call<Response> call, @NonNull Throwable t) {
+                                // Log error here since request failed
+                                Log.e("Failure", t.toString());
+                            }
+                        });
+                    }
+                });
+                dialog.show();
+            } else DialogHelper.proVersionDialog(context);
         });
     }
 
@@ -198,15 +187,12 @@ public class FragmentLists extends KFragment implements RecyclerItemTouchHelper.
             adapter = new UserListAdapter(context, userLists);
             listRv.setAdapter(adapter);
 
-            adapter.setOnItemClickListener(new UserListAdapter.OnItemClickListener() {
-                @Override
-                public void onItemClick(int position) {
-                    UserList userList = (UserList) adapter.getItem(position);
-                    FragmentListDetails fragmentListDetails = new FragmentListDetails();
-                    fragmentListDetails.setListId(String.valueOf(userList.id()));
-                    fragmentListDetails.setTitle(userList.getName());
-                    activity.replaceFragment(fragmentListDetails);
-                }
+            adapter.setOnItemClickListener(position -> {
+                UserList userList = (UserList) adapter.getItem(position);
+                FragmentListDetails fragmentListDetails = new FragmentListDetails();
+                fragmentListDetails.setListId(String.valueOf(userList.id()));
+                fragmentListDetails.setTitle(userList.getName());
+                activity.replaceFragment(fragmentListDetails);
             });
         }
     }
@@ -261,13 +247,10 @@ public class FragmentLists extends KFragment implements RecyclerItemTouchHelper.
             // showing snack bar with Undo option
             Snackbar snackbar = Snackbar
                     .make(activity.findViewById(R.id.ads_layout), name + " removed from list", Snackbar.LENGTH_LONG);
-            snackbar.setAction("UNDO", new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    // undo is selected, restore the deleted item
-                    clicked = true;
-                    adapter.restoreItem(deletedItem, deletedIndex);
-                }
+            snackbar.setAction("UNDO", view -> {
+                // undo is selected, restore the deleted item
+                clicked = true;
+                adapter.restoreItem(deletedItem, deletedIndex);
             });
 
             snackbar.addCallback(new Snackbar.Callback() {

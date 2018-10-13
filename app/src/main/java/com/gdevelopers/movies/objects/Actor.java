@@ -61,10 +61,6 @@ public class Actor extends KObject {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public List<Show> getTvList() {
         if (tvList == null)
             tvList = new ArrayList<>();

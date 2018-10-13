@@ -61,15 +61,10 @@ public class FragmentAbout extends KFragment {
 
         Element librariesElement = new Element();
         librariesElement.setTitle(getString(R.string.open_source_licenses));
-        librariesElement.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                new LibsBuilder()
-                        .withActivityStyle(Libs.ActivityStyle.LIGHT_DARK_TOOLBAR)
-                        .withActivityTitle(getString(R.string.libraries))
-                        .start(getContext());
-            }
-        });
+        librariesElement.setOnClickListener(view -> new LibsBuilder()
+                .withActivityStyle(Libs.ActivityStyle.LIGHT_DARK_TOOLBAR)
+                .withActivityTitle(getString(R.string.libraries))
+                .start(getContext()));
 
         assert context != null;
         aboutContainer.addView(new AboutPage(getContext())

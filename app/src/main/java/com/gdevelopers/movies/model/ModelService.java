@@ -135,12 +135,7 @@ public class ModelService extends Service {
                 responses.put((long) respId, b);
             }
             final AppCompatActivity activity = (AppCompatActivity) context;
-            activity.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    responseListener.onResponseListener(respId);
-                }
-            });
+            activity.runOnUiThread(() -> responseListener.onResponseListener(respId));
         }
     }
 

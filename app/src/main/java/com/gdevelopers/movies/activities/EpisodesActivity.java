@@ -25,6 +25,7 @@ import com.gdevelopers.movies.fragments.FragmentEpisodes;
 
 import java.util.List;
 
+@SuppressWarnings("WeakerAccess")
 public class EpisodesActivity extends AppCompatActivity implements ServiceConnection, ModelService.ResponseListener {
     private ModelService service = null;
     private KFragment visibleFragment;
@@ -48,12 +49,7 @@ public class EpisodesActivity extends AppCompatActivity implements ServiceConnec
 
         bundle = getIntent().getExtras();
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                EpisodesActivity.this.onBackPressed();
-            }
-        });
+        toolbar.setNavigationOnClickListener(view -> EpisodesActivity.this.onBackPressed());
 
         getSupportActionBar().setTitle(bundle.getString("title"));
     }

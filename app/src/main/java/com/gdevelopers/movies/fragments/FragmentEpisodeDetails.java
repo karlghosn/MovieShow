@@ -130,40 +130,31 @@ public class FragmentEpisodeDetails extends KFragment implements ObservableScrol
         final TextView overviewTv = rootView.findViewById(R.id.episode_overview);
         overviewTv.setText(episode.getOverview());
 
-        overviewTv.post(new Runnable() {
-            @Override
-            public void run() {
-                if (overviewTv.getLineCount() > 3)
-                    overviewTv.setMaxLines(3);
+        overviewTv.post(() -> {
+            if (overviewTv.getLineCount() > 3)
+                overviewTv.setMaxLines(3);
+        });
+
+        overviewTv.setOnClickListener(view -> {
+            if (isTextViewClicked) {
+                overviewTv.setMaxLines(3);
+                isTextViewClicked = false;
+            } else {
+                overviewTv.setMaxLines(Integer.MAX_VALUE);
+                isTextViewClicked = true;
             }
         });
 
-        overviewTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (isTextViewClicked) {
-                    overviewTv.setMaxLines(3);
-                    isTextViewClicked = false;
-                } else {
-                    overviewTv.setMaxLines(Integer.MAX_VALUE);
-                    isTextViewClicked = true;
-                }
+        adapter.setOnItemClickListener((position, imageView) -> {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                imageView.setTransitionName(getString(R.string.cast_image));
             }
-        });
-
-        adapter.setOnItemClickListener(new CastAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(int position, ImageView imageView) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    imageView.setTransitionName(getString(R.string.cast_image));
-                }
-                Cast cast = (Cast) adapter.getItem(position);
-                Intent intent = new Intent(getContext(), ActorDetailsActivity.class);
-                intent.putExtra("id", cast.getId());
-                intent.putExtra("title", cast.getName());
-                intent.putExtra("image", cast.getProfile_path());
-                startActivity(intent);
-            }
+            Cast cast = (Cast) adapter.getItem(position);
+            Intent intent = new Intent(getContext(), ActorDetailsActivity.class);
+            intent.putExtra("id", cast.getId());
+            intent.putExtra("title", cast.getName());
+            intent.putExtra("image", cast.getProfile_path());
+            startActivity(intent);
         });
 
         this.update(service, true);
@@ -179,24 +170,18 @@ public class FragmentEpisodeDetails extends KFragment implements ObservableScrol
             ImagesAdapter imagesAdapter = new ImagesAdapter(getContext(), imagesList, false);
             imagesRv.setAdapter(imagesAdapter);
 
-            imagesAdapter.setOnItemClickListener(new ImagesAdapter.OnItemClickListener() {
-                @Override
-                public void onItemClick(int position) {
-                    Intent intent = new Intent(getContext(), GalleryPreviewActivity.class);
-                    intent.putStringArrayListExtra("urls", (ArrayList<String>) imagesList);
-                    intent.putExtra("position", position);
-                    startActivity(intent);
-                }
+            imagesAdapter.setOnItemClickListener(position -> {
+                Intent intent = new Intent(getContext(), GalleryPreviewActivity.class);
+                intent.putStringArrayListExtra("urls", (ArrayList<String>) imagesList);
+                intent.putExtra("position", position);
+                startActivity(intent);
             });
 
-            imagesBt.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(getContext(), GalleryActivity.class);
-                    intent.putStringArrayListExtra("images", (ArrayList<String>) imagesList);
-                    intent.putExtra("title", episode.getName());
-                    startActivity(intent);
-                }
+            imagesBt.setOnClickListener(view -> {
+                Intent intent = new Intent(getContext(), GalleryActivity.class);
+                intent.putStringArrayListExtra("images", (ArrayList<String>) imagesList);
+                intent.putExtra("title", episode.getName());
+                startActivity(intent);
             });
         }
     }

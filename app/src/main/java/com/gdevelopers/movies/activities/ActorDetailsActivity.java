@@ -46,6 +46,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 
+@SuppressWarnings("WeakerAccess")
 public class ActorDetailsActivity extends AppCompatActivity implements ServiceConnection, ModelService.ResponseListener, ViewPager.OnPageChangeListener {
     private SectionsPagerAdapter mSectionsPagerAdapter;
     @BindView(R.id.container)
@@ -109,12 +110,7 @@ public class ActorDetailsActivity extends AppCompatActivity implements ServiceCo
         tabLayout.setupWithViewPager(mViewPager);
         collapsingToolbarLayout.setTitle(actorName);
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ActorDetailsActivity.this.finish();
-            }
-        });
+        toolbar.setNavigationOnClickListener(view -> ActorDetailsActivity.this.finish());
     }
 
     @Override

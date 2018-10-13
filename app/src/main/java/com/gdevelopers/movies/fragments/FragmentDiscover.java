@@ -92,18 +92,15 @@ public class FragmentDiscover extends KFragment {
             final DiscoverGenreAdapter adapter = new DiscoverGenreAdapter(context, genreList, images);
             discoverRv.setAdapter(adapter);
 
-            adapter.setOnItemClickListener(new CastAdapter.OnItemClickListener() {
-                @Override
-                public void onItemClick(int position, ImageView imageView) {
-                    Genre genre = (Genre) adapter.getItem(position);
-                    FragmentDiscoverMovies discoverMovies = new FragmentDiscoverMovies();
-                    discoverMovies.setGenreId(String.valueOf(genre.id()));
-                    discoverMovies.setTitle(genre.getName());
-                    activity.getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.content_main, discoverMovies)
-                            .addToBackStack(null)
-                            .commit();
-                }
+            adapter.setOnItemClickListener((position, imageView) -> {
+                Genre genre = (Genre) adapter.getItem(position);
+                FragmentDiscoverMovies discoverMovies = new FragmentDiscoverMovies();
+                discoverMovies.setGenreId(String.valueOf(genre.id()));
+                discoverMovies.setTitle(genre.getName());
+                activity.getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.content_main, discoverMovies)
+                        .addToBackStack(null)
+                        .commit();
             });
         }
     }

@@ -50,8 +50,8 @@ public class FragmentTvShows extends KFragment implements TVPageAdapter.OnLoadMo
     RecyclerView popularRv;
     @BindView(R.id.top_rated_list)
     RecyclerView topRatedRv;
-    private TVPageAdapter.OnLoadMoreListener onLoadMoreListener = this;
-    private TVPageAdapter.OnItemClickListener onItemClickListener = this;
+    private final TVPageAdapter.OnLoadMoreListener onLoadMoreListener = this;
+    private final TVPageAdapter.OnItemClickListener onItemClickListener = this;
     private TVPageAdapter onAirAdapter;
     private TVPageAdapter airingTodayAdapter;
     private TVPageAdapter popularAdapter;
@@ -108,97 +108,85 @@ public class FragmentTvShows extends KFragment implements TVPageAdapter.OnLoadMo
     }
 
     private void fetchOnAir(int page) {
-        TVShowService.getInstance().getOnTV(context, loadMore, page, new TVShowService.ServiceCallBack() {
-            @Override
-            public void successful(TVShowWrapper response) {
-                if (!loadMore) {
-                    onAirList = new ArrayList<>();
-                    onAirAdapter = new TVPageAdapter(getContext(), onAirList, Constants.STRINGS.ON_AIR);
-                    onAirRv.setAdapter(onAirAdapter);
-                } else mItems.remove(mItems.size() - 1);
+        TVShowService.getInstance().getOnTV(context, loadMore, page, response -> {
+            if (!loadMore) {
+                onAirList = new ArrayList<>();
+                onAirAdapter = new TVPageAdapter(getContext(), onAirList, Constants.STRINGS.ON_AIR);
+                onAirRv.setAdapter(onAirAdapter);
+            } else mItems.remove(mItems.size() - 1);
 
 
-                onAirAdapter.setCurrentPage(response.getPage());
-                onAirAdapter.setTotalPages(response.getTotalPages());
-                onAirList.addAll(response.getTvShows());
+            onAirAdapter.setCurrentPage(response.getPage());
+            onAirAdapter.setTotalPages(response.getTotalPages());
+            onAirList.addAll(response.getTvShows());
 
-                onAirAdapter.notifyDataChanged();
+            onAirAdapter.notifyDataChanged();
 
-                onAirAdapter.setLoadMoreListener(onLoadMoreListener);
-                onAirAdapter.setOnItemClickListener(onItemClickListener);
-                progressBar1.setVisibility(View.GONE);
-            }
+            onAirAdapter.setLoadMoreListener(onLoadMoreListener);
+            onAirAdapter.setOnItemClickListener(onItemClickListener);
+            progressBar1.setVisibility(View.GONE);
         });
     }
 
     private void fetchAiringToday(int page) {
-        TVShowService.getInstance().getAiringToday(context, loadMore, page, new TVShowService.ServiceCallBack() {
-            @Override
-            public void successful(TVShowWrapper response) {
-                if (!loadMore) {
-                    airingTodayList = new ArrayList<>();
-                    airingTodayAdapter = new TVPageAdapter(getContext(), airingTodayList, Constants.STRINGS.AIRING_TODAY);
-                    airingTodayRv.setAdapter(airingTodayAdapter);
-                } else mItems.remove(mItems.size() - 1);
+        TVShowService.getInstance().getAiringToday(context, loadMore, page, response -> {
+            if (!loadMore) {
+                airingTodayList = new ArrayList<>();
+                airingTodayAdapter = new TVPageAdapter(getContext(), airingTodayList, Constants.STRINGS.AIRING_TODAY);
+                airingTodayRv.setAdapter(airingTodayAdapter);
+            } else mItems.remove(mItems.size() - 1);
 
 
-                airingTodayAdapter.setCurrentPage(response.getPage());
-                airingTodayAdapter.setTotalPages(response.getTotalPages());
-                airingTodayList.addAll(response.getTvShows());
+            airingTodayAdapter.setCurrentPage(response.getPage());
+            airingTodayAdapter.setTotalPages(response.getTotalPages());
+            airingTodayList.addAll(response.getTvShows());
 
 
-                airingTodayAdapter.notifyDataChanged();
+            airingTodayAdapter.notifyDataChanged();
 
-                airingTodayAdapter.setLoadMoreListener(onLoadMoreListener);
-                airingTodayAdapter.setOnItemClickListener(onItemClickListener);
-                progressBar2.setVisibility(View.GONE);
-            }
+            airingTodayAdapter.setLoadMoreListener(onLoadMoreListener);
+            airingTodayAdapter.setOnItemClickListener(onItemClickListener);
+            progressBar2.setVisibility(View.GONE);
         });
     }
 
     private void fetchPopular(int page) {
-        TVShowService.getInstance().getPopular(context, loadMore, page, new TVShowService.ServiceCallBack() {
-            @Override
-            public void successful(TVShowWrapper response) {
-                if (!loadMore) {
-                    popularList = new ArrayList<>();
-                    popularAdapter = new TVPageAdapter(getContext(), popularList, Constants.STRINGS.POPULAR);
-                    popularRv.setAdapter(popularAdapter);
-                } else mItems.remove(mItems.size() - 1);
+        TVShowService.getInstance().getPopular(context, loadMore, page, response -> {
+            if (!loadMore) {
+                popularList = new ArrayList<>();
+                popularAdapter = new TVPageAdapter(getContext(), popularList, Constants.STRINGS.POPULAR);
+                popularRv.setAdapter(popularAdapter);
+            } else mItems.remove(mItems.size() - 1);
 
-                popularAdapter.setCurrentPage(response.getPage());
-                popularAdapter.setTotalPages(response.getTotalPages());
-                popularList.addAll(response.getTvShows());
+            popularAdapter.setCurrentPage(response.getPage());
+            popularAdapter.setTotalPages(response.getTotalPages());
+            popularList.addAll(response.getTvShows());
 
-                popularAdapter.notifyDataChanged();
+            popularAdapter.notifyDataChanged();
 
-                popularAdapter.setLoadMoreListener(onLoadMoreListener);
-                popularAdapter.setOnItemClickListener(onItemClickListener);
-                progressBar3.setVisibility(View.GONE);
-            }
+            popularAdapter.setLoadMoreListener(onLoadMoreListener);
+            popularAdapter.setOnItemClickListener(onItemClickListener);
+            progressBar3.setVisibility(View.GONE);
         });
     }
 
     private void fetchTopRated(int page) {
-        TVShowService.getInstance().getTopRated(context, loadMore, page, new TVShowService.ServiceCallBack() {
-            @Override
-            public void successful(TVShowWrapper response) {
-                if (!loadMore) {
-                    topRatedList = new ArrayList<>();
-                    topRatedAdapter = new TVPageAdapter(getContext(), topRatedList, Constants.STRINGS.TOP_RATED);
-                    topRatedRv.setAdapter(topRatedAdapter);
-                } else mItems.remove(mItems.size() - 1);
+        TVShowService.getInstance().getTopRated(context, loadMore, page, response -> {
+            if (!loadMore) {
+                topRatedList = new ArrayList<>();
+                topRatedAdapter = new TVPageAdapter(getContext(), topRatedList, Constants.STRINGS.TOP_RATED);
+                topRatedRv.setAdapter(topRatedAdapter);
+            } else mItems.remove(mItems.size() - 1);
 
-                topRatedAdapter.setCurrentPage(response.getPage());
-                topRatedAdapter.setTotalPages(response.getTotalPages());
-                topRatedList.addAll(response.getTvShows());
+            topRatedAdapter.setCurrentPage(response.getPage());
+            topRatedAdapter.setTotalPages(response.getTotalPages());
+            topRatedList.addAll(response.getTvShows());
 
-                topRatedAdapter.notifyDataChanged();
+            topRatedAdapter.notifyDataChanged();
 
-                topRatedAdapter.setLoadMoreListener(onLoadMoreListener);
-                topRatedAdapter.setOnItemClickListener(onItemClickListener);
-                progressBar4.setVisibility(View.GONE);
-            }
+            topRatedAdapter.setLoadMoreListener(onLoadMoreListener);
+            topRatedAdapter.setOnItemClickListener(onItemClickListener);
+            progressBar4.setVisibility(View.GONE);
         });
     }
 
@@ -251,23 +239,20 @@ public class FragmentTvShows extends KFragment implements TVPageAdapter.OnLoadMo
         Log.d("Current Page", String.valueOf(current_page));
 
         final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                switch (type) {
-                    case Constants.STRINGS.ON_AIR:
-                        fetchOnAir(current_page + 1);
-                        break;
-                    case Constants.STRINGS.AIRING_TODAY:
-                        fetchAiringToday(current_page + 1);
-                        break;
-                    case Constants.STRINGS.POPULAR:
-                        fetchPopular(current_page + 1);
-                        break;
-                    case Constants.STRINGS.TOP_RATED:
-                        fetchTopRated(current_page + 1);
-                        break;
-                }
+        handler.postDelayed(() -> {
+            switch (type) {
+                case Constants.STRINGS.ON_AIR:
+                    fetchOnAir(current_page + 1);
+                    break;
+                case Constants.STRINGS.AIRING_TODAY:
+                    fetchAiringToday(current_page + 1);
+                    break;
+                case Constants.STRINGS.POPULAR:
+                    fetchPopular(current_page + 1);
+                    break;
+                case Constants.STRINGS.TOP_RATED:
+                    fetchTopRated(current_page + 1);
+                    break;
             }
         }, 500);
     }

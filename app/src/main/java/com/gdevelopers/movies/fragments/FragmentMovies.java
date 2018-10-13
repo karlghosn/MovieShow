@@ -42,7 +42,7 @@ public class FragmentMovies extends KFragment implements MoviesPageAdapter.OnLoa
     RecyclerView popularRv;
     @BindView(R.id.top_rated_list)
     RecyclerView topRatedRv;
-    private MoviesPageAdapter.OnLoadMoreListener onLoadMoreListener = this;
+    private final MoviesPageAdapter.OnLoadMoreListener onLoadMoreListener = this;
     private MoviesPageAdapter upComingAdapter;
     private MoviesPageAdapter nowPlayingAdapter;
     private MoviesPageAdapter popularAdapter;

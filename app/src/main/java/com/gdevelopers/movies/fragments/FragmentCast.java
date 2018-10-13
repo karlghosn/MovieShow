@@ -58,19 +58,16 @@ public class FragmentCast extends Fragment {
         adapter = new AllCastAdapter(getContext(), castList);
         castRv.setAdapter(adapter);
 
-        adapter.setOnItemClickListener(new AllCastAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(int position, ImageView imageView) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    imageView.setTransitionName(getString(R.string.cast_image));
-                }
-                Cast cast = (Cast) adapter.getItem(position);
-                Intent intent = new Intent(getContext(), ActorDetailsActivity.class);
-                intent.putExtra("id", cast.getId());
-                intent.putExtra("title", cast.getName());
-                intent.putExtra("image", cast.getProfile_path());
-                startActivity(intent);
+        adapter.setOnItemClickListener((position, imageView) -> {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                imageView.setTransitionName(getString(R.string.cast_image));
             }
+            Cast cast = (Cast) adapter.getItem(position);
+            Intent intent = new Intent(getContext(), ActorDetailsActivity.class);
+            intent.putExtra("id", cast.getId());
+            intent.putExtra("title", cast.getName());
+            intent.putExtra("image", cast.getProfile_path());
+            startActivity(intent);
         });
 
 

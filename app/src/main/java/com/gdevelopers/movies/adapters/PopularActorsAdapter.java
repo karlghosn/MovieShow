@@ -68,11 +68,7 @@ public class PopularActorsAdapter extends RecyclerView.Adapter<RecyclerView.View
         if (i >= getItemCount() - 1 && !isLoading && loadMoreListener != null) {
             isLoading = true;
             Handler handler = new Handler();
-            final Runnable r = new Runnable() {
-                public void run() {
-                    loadMoreListener.onLoadMore(adapter);
-                }
-            };
+            final Runnable r = () -> loadMoreListener.onLoadMore(adapter);
 
             handler.post(r);
         }

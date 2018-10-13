@@ -69,12 +69,7 @@ public class MoreShowsActivity extends AppCompatActivity implements ServiceConne
         TabLayout tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                MoreShowsActivity.this.onBackPressed();
-            }
-        });
+        toolbar.setNavigationOnClickListener(view -> MoreShowsActivity.this.onBackPressed());
     }
 
 

@@ -27,17 +27,9 @@ public class Constants {
         public static final String SHORTCUT = "shortcut";
     }
 
-    public static final int UPCOMING = 1;
-    public static final int NOW_PLAYING = 2;
-    public static final int POPULAR = 3;
-    public static final int TOP_RATED = 4;
     public static final int MOVIE_DETAILS = 5;
     public static final int SEARCH = 6;
     public static final int ACTOR_DETAILS = 7;
-    public static final int ON_THE_AIR = 8;
-    public static final int AIRING_TODAY = 9;
-    public static final int TV_POPULAR = 10;
-    public static final int TV_TOP_RATED = 11;
     public static final int TV_SHOW_DETAILS = 12;
     public static final int EPISODES = 13;
     public static final int GENRES = 14;

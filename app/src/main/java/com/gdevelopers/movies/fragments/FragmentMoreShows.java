@@ -56,28 +56,25 @@ public class FragmentMoreShows extends Fragment {
         adapter = new ShowAdapter(getContext(), showList, isCrew);
         showsRv.setAdapter(adapter);
 
-        adapter.setOnItemClickListener(new ShowAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(Show show, View v) {
-                ImageView imageView = v.findViewById(R.id.show_image);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    imageView.setTransitionName(getString(R.string.movie_poster));
-                }
-                if (show.getMediaType().equals("movie")) {
-                    Intent intent = new Intent(getContext(), MovieDetailsActivity.class);
-                    intent.putExtra("title", show.getTitle());
-                    intent.putExtra("image", show.getPosterPath());
-                    intent.putExtra("id", String.valueOf(show.getId()));
-                    Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, imageView, getString(R.string.movie_poster)).toBundle();
-                    startActivity(intent, bundle);
-                } else if (show.getMediaType().equals("tv")) {
-                    Intent intent = new Intent(getContext(), TVDetailsActivity.class);
-                    intent.putExtra("title", show.getTitle());
-                    intent.putExtra("image", show.getPosterPath());
-                    intent.putExtra("id", String.valueOf(show.getId()));
-                    Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, imageView, getString(R.string.movie_poster)).toBundle();
-                    startActivity(intent, bundle);
-                }
+        adapter.setOnItemClickListener((show, v) -> {
+            ImageView imageView = v.findViewById(R.id.show_image);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                imageView.setTransitionName(getString(R.string.movie_poster));
+            }
+            if (show.getMediaType().equals("movie")) {
+                Intent intent = new Intent(getContext(), MovieDetailsActivity.class);
+                intent.putExtra("title", show.getTitle());
+                intent.putExtra("image", show.getPosterPath());
+                intent.putExtra("id", String.valueOf(show.getId()));
+                Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, imageView, getString(R.string.movie_poster)).toBundle();
+                startActivity(intent, bundle);
+            } else if (show.getMediaType().equals("tv")) {
+                Intent intent = new Intent(getContext(), TVDetailsActivity.class);
+                intent.putExtra("title", show.getTitle());
+                intent.putExtra("image", show.getPosterPath());
+                intent.putExtra("id", String.valueOf(show.getId()));
+                Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, imageView, getString(R.string.movie_poster)).toBundle();
+                startActivity(intent, bundle);
             }
         });
         return rootView;

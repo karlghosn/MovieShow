@@ -46,23 +46,15 @@ public class GalleryActivity extends AppCompatActivity implements ServiceConnect
             final ArrayList<String> images = bundle.getStringArrayList("images");
             GalleryAdapter adapter = new GalleryAdapter(GalleryActivity.this, images);
             galleryGv.setAdapter(adapter);
-            galleryGv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    Intent intent = new Intent(GalleryActivity.this, GalleryPreviewActivity.class);
-                    intent.putStringArrayListExtra("urls", images);
-                    intent.putExtra("position", i);
-                    startActivity(intent);
-                }
+            galleryGv.setOnItemClickListener((adapterView, view, i, l) -> {
+                Intent intent = new Intent(GalleryActivity.this, GalleryPreviewActivity.class);
+                intent.putStringArrayListExtra("urls", images);
+                intent.putExtra("position", i);
+                startActivity(intent);
             });
         }
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                GalleryActivity.this.onBackPressed();
-            }
-        });
+        toolbar.setNavigationOnClickListener(view -> GalleryActivity.this.onBackPressed());
     }
 
     @Override

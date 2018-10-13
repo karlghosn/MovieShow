@@ -34,12 +34,7 @@ public class ReviewsActivity extends AppCompatActivity implements ServiceConnect
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ReviewsActivity.this.onBackPressed();
-            }
-        });
+        toolbar.setNavigationOnClickListener(view -> ReviewsActivity.this.onBackPressed());
 
         Bundle bundle = getIntent().getExtras();
         ArrayList<Review> reviews = null;
@@ -55,15 +50,12 @@ public class ReviewsActivity extends AppCompatActivity implements ServiceConnect
         ReviewsAdapter adapter = new ReviewsAdapter(reviews, true);
         reviewsRv.setAdapter(adapter);
 
-        adapter.setOnItemClickListener(new ReviewsAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(Review review) {
-                Intent intent = new Intent(ReviewsActivity.this, WebViewActivity.class);
-                intent.putExtra("isHomePage", true);
-                intent.putExtra("homePage", review.getUrl());
-                intent.putExtra("title", title);
-                startActivity(intent);
-            }
+        adapter.setOnItemClickListener(review -> {
+            Intent intent = new Intent(ReviewsActivity.this, WebViewActivity.class);
+            intent.putExtra("isHomePage", true);
+            intent.putExtra("homePage", review.getUrl());
+            intent.putExtra("title", title);
+            startActivity(intent);
         });
     }
 

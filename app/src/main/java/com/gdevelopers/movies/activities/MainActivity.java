@@ -78,6 +78,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 
+@SuppressWarnings("WeakerAccess")
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, ServiceConnection, ModelService.ResponseListener {
     private ModelService service = null;
@@ -289,12 +290,7 @@ public class MainActivity extends AppCompatActivity
         builder.setTitle("Sign in");
         builder.setMessage("You need to sign in to access this feature");
         builder.setNegativeButton("Cancel", null);
-        builder.setPositiveButton("Sign in", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                service.getToken();
-            }
-        });
+        builder.setPositiveButton("Sign in", (dialogInterface, i) -> service.getToken());
         builder.create().show();
     }
 
@@ -363,12 +359,7 @@ public class MainActivity extends AppCompatActivity
             Boolean returnValue = data.getBooleanExtra("allow", false);
             if (returnValue) {
                 final Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        service.getSessionId(requestToken);
-                    }
-                }, 1000);
+                handler.postDelayed(() -> service.getSessionId(requestToken), 1000);
             }
         }
     }

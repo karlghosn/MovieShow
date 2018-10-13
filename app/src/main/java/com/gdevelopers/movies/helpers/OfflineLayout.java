@@ -15,18 +15,8 @@ public class OfflineLayout {
     public static void init(final Context context, final View emptyLayout, final KFragment kFragment, final ModelService service) {
         Button reloadBt = emptyLayout.findViewById(R.id.reload);
         Button settingsBt = emptyLayout.findViewById(R.id.settings);
-        reloadBt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                kFragment.update(service, true);
-            }
-        });
+        reloadBt.setOnClickListener(view -> kFragment.update(service, true));
 
-        settingsBt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                context.startActivity(new Intent(Settings.ACTION_SETTINGS));
-            }
-        });
+        settingsBt.setOnClickListener(view -> context.startActivity(new Intent(Settings.ACTION_SETTINGS)));
     }
 }

@@ -24,12 +24,7 @@ public class DialogHelper {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(R.string.you_are_offline);
         builder.setMessage(R.string.no_connection);
-        builder.setPositiveButton("Go to Settings", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                context.startActivity(new Intent(Settings.ACTION_SETTINGS));
-            }
-        });
+        builder.setPositiveButton("Go to Settings", (dialogInterface, i) -> context.startActivity(new Intent(Settings.ACTION_SETTINGS)));
         builder.setNegativeButton("Close", null);
         builder.create().show();
     }

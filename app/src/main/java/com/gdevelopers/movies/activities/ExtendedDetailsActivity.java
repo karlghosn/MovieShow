@@ -56,12 +56,7 @@ public class ExtendedDetailsActivity extends AppCompatActivity implements Servic
         TabLayout tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ExtendedDetailsActivity.this.onBackPressed();
-            }
-        });
+        toolbar.setNavigationOnClickListener(view -> ExtendedDetailsActivity.this.onBackPressed());
 
         Bundle bundle = getIntent().getExtras();
         castList = bundle.getParcelableArrayList("casts");

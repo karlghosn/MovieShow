@@ -63,6 +63,7 @@ import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.ButterKnife;
 
+@SuppressWarnings("WeakerAccess")
 public class TVDetailsActivity extends AppCompatActivity implements ServiceConnection, ModelService.ResponseListener,
         ObservableScrollViewCallbacks, View.OnClickListener {
     private String title;
@@ -148,27 +149,19 @@ public class TVDetailsActivity extends AppCompatActivity implements ServiceConne
 
         mParallaxImageHeight = getResources().getDimensionPixelSize(R.dimen.parallax_image_height);
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                TVDetailsActivity.super.onBackPressed();
-            }
-        });
+        toolbar.setNavigationOnClickListener(view -> TVDetailsActivity.super.onBackPressed());
 
         initViews();
 
-        seeAllBt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (currentTvShow != null) {
-                    Intent intent = new Intent(TVDetailsActivity.this, ExtendedDetailsActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putParcelableArrayList("casts", (ArrayList<Cast>) currentTvShow.getCastList());
-                    bundle.putString(Constants.STRINGS.TITLE, title);
-                    bundle.putBoolean(Constants.STRINGS.GALLERY, false);
-                    intent.putExtras(bundle);
-                    startActivity(intent);
-                }
+        seeAllBt.setOnClickListener(view -> {
+            if (currentTvShow != null) {
+                Intent intent = new Intent(TVDetailsActivity.this, ExtendedDetailsActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putParcelableArrayList("casts", (ArrayList<Cast>) currentTvShow.getCastList());
+                bundle.putString(Constants.STRINGS.TITLE, title);
+                bundle.putBoolean(Constants.STRINGS.GALLERY, false);
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
         });
     }
@@ -188,16 +181,13 @@ public class TVDetailsActivity extends AppCompatActivity implements ServiceConne
         String image = extra.getString(Constants.STRINGS.IMAGE);
         Glide.with(TVDetailsActivity.this).load(image).into(posterIv);
 
-        overviewTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (isTextViewClicked) {
-                    overviewTv.setMaxLines(3);
-                    isTextViewClicked = false;
-                } else {
-                    overviewTv.setMaxLines(Integer.MAX_VALUE);
-                    isTextViewClicked = true;
-                }
+        overviewTv.setOnClickListener(view -> {
+            if (isTextViewClicked) {
+                overviewTv.setMaxLines(3);
+                isTextViewClicked = false;
+            } else {
+                overviewTv.setMaxLines(Integer.MAX_VALUE);
+                isTextViewClicked = true;
             }
         });
 
@@ -278,14 +268,11 @@ public class TVDetailsActivity extends AppCompatActivity implements ServiceConne
                         imagesList.get(i)).error(R.drawable.placeholder).into(imageView);
             }
 
-            imagesBt.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(TVDetailsActivity.this, GalleryActivity.class);
-                    intent.putStringArrayListExtra("images", (ArrayList<String>) imagesList);
-                    intent.putExtra("title", title);
-                    startActivity(intent);
-                }
+            imagesBt.setOnClickListener(view -> {
+                Intent intent = new Intent(TVDetailsActivity.this, GalleryActivity.class);
+                intent.putStringArrayListExtra("images", (ArrayList<String>) imagesList);
+                intent.putExtra("title", title);
+                startActivity(intent);
             });
 
             voteCountTv.setText(getString(R.string.number_of_votes, tvShow.getVoteCount()));
@@ -295,12 +282,9 @@ public class TVDetailsActivity extends AppCompatActivity implements ServiceConne
             dateRuntimeTv.setText(getString(R.string.number_of_seasons, tvShow.getNumberOfSeasons()));
             final String overview = tvShow.getOverview();
             overviewTv.setText(overview);
-            overviewTv.post(new Runnable() {
-                @Override
-                public void run() {
-                    if (overviewTv.getLineCount() > 3)
-                        overviewTv.setMaxLines(3);
-                }
+            overviewTv.post(() -> {
+                if (overviewTv.getLineCount() > 3)
+                    overviewTv.setMaxLines(3);
             });
 
 
@@ -330,18 +314,15 @@ public class TVDetailsActivity extends AppCompatActivity implements ServiceConne
             final SeasonAdapter seasonAdapter = new SeasonAdapter(this, seasonList);
             seasonsRv.setAdapter(seasonAdapter);
 
-            seasonAdapter.setOnItemClickListener(new SeasonAdapter.OnItemClickListener() {
-                @Override
-                public void onItemClick(int position) {
-                    Season season = (Season) seasonAdapter.getItem(position);
-                    Intent intent = new Intent(TVDetailsActivity.this, EpisodesActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putString(Constants.STRINGS.IMAGE, "Season " + season.getNumber());
-                    bundle.putString("id", extra.getString("id"));
-                    bundle.putString("number", season.getNumber());
-                    intent.putExtras(bundle);
-                    startActivity(intent);
-                }
+            seasonAdapter.setOnItemClickListener(position -> {
+                Season season = (Season) seasonAdapter.getItem(position);
+                Intent intent = new Intent(TVDetailsActivity.this, EpisodesActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString(Constants.STRINGS.IMAGE, "Season " + season.getNumber());
+                bundle.putString("id", extra.getString("id"));
+                bundle.putString("number", season.getNumber());
+                intent.putExtras(bundle);
+                startActivity(intent);
             });
 
 
@@ -351,53 +332,44 @@ public class TVDetailsActivity extends AppCompatActivity implements ServiceConne
 
             videosCv.setVisibility(trailerList.isEmpty() ? View.GONE : View.VISIBLE);
 
-            trailerAdapter.setOnItemClickListener(new TrailerAdapter.OnItemClickListener() {
-                @Override
-                public void onItemClick(Trailer trailer) {
-                    String str = null;
-                    if (trailer != null) {
-                        str = MovieDB.youtube + trailer.getSource();
-                    }
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(str)));
+            trailerAdapter.setOnItemClickListener(trailer -> {
+                String str = null;
+                if (trailer != null) {
+                    str = MovieDB.youtube + trailer.getSource();
                 }
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(str)));
             });
 
             final List<Cast> actorList = tvShow.getCastList();
             final CastAdapter castAdapter = new CastAdapter(this, actorList);
             castRv.setAdapter(castAdapter);
 
-            castAdapter.setOnItemClickListener(new CastAdapter.OnItemClickListener() {
-                @Override
-                public void onItemClick(int position, ImageView imageView) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        imageView.setTransitionName(getString(R.string.cast_image));
-                    }
-                    Cast cast = (Cast) castAdapter.getItem(position);
-                    Intent intent = new Intent(TVDetailsActivity.this, ActorDetailsActivity.class);
-                    intent.putExtra("id", cast.getId());
-                    intent.putExtra("title", cast.getName());
-                    intent.putExtra("image", cast.getProfile_path());
-                    startActivity(intent);
+            castAdapter.setOnItemClickListener((position, imageView) -> {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    imageView.setTransitionName(getString(R.string.cast_image));
                 }
+                Cast cast = (Cast) castAdapter.getItem(position);
+                Intent intent = new Intent(TVDetailsActivity.this, ActorDetailsActivity.class);
+                intent.putExtra("id", cast.getId());
+                intent.putExtra("title", cast.getName());
+                intent.putExtra("image", cast.getProfile_path());
+                startActivity(intent);
             });
 
             TVPageAdapter adapter = new TVPageAdapter(TVDetailsActivity.this, tvShow.getRelatedShows(), "tv");
             relatedRv.setAdapter(adapter);
 
-            adapter.setOnItemClickListener(new TVPageAdapter.OnItemClickListener() {
-                @Override
-                public void onItemClick(TVShow tvShow, View v) {
-                    ImageView imageView = v.findViewById(R.id.movie_image);
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        imageView.setTransitionName(getString(R.string.movie_poster));
-                    }
-                    Intent intent = new Intent(TVDetailsActivity.this, TVDetailsActivity.class);
-                    intent.putExtra("title", tvShow.getName());
-                    intent.putExtra("image", tvShow.getPosterPath());
-                    intent.putExtra("id", String.valueOf(tvShow.id()));
-                    Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(TVDetailsActivity.this, imageView, getString(R.string.movie_poster)).toBundle();
-                    startActivity(intent, bundle);
+            adapter.setOnItemClickListener((tvShow1, v) -> {
+                ImageView imageView = v.findViewById(R.id.movie_image);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    imageView.setTransitionName(getString(R.string.movie_poster));
                 }
+                Intent intent = new Intent(TVDetailsActivity.this, TVDetailsActivity.class);
+                intent.putExtra("title", tvShow1.getName());
+                intent.putExtra("image", tvShow1.getPosterPath());
+                intent.putExtra("id", String.valueOf(tvShow1.id()));
+                Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(TVDetailsActivity.this, imageView, getString(R.string.movie_poster)).toBundle();
+                startActivity(intent, bundle);
             });
         }
     }

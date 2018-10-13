@@ -27,6 +27,7 @@ import com.gdevelopers.movies.R;
 import com.gdevelopers.movies.model.ModelService;
 import com.gdevelopers.movies.model.ServiceBinder;
 
+@SuppressWarnings("WeakerAccess")
 public class WebViewActivity extends AppCompatActivity implements ServiceConnection {
 
     @BindView(R.id.progressBar)
@@ -47,12 +48,7 @@ public class WebViewActivity extends AppCompatActivity implements ServiceConnect
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                WebViewActivity.this.onBackPressed();
-            }
-        });
+        toolbar.setNavigationOnClickListener(view -> WebViewActivity.this.onBackPressed());
 
         Bundle extras = getIntent().getExtras();
         String token = null;
