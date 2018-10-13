@@ -61,7 +61,7 @@ public class FragmentCrew extends Fragment {
         crewRv.setLayoutManager(new GridLayoutManager(getContext(), calculateNoOfColumns(activity)));
 
         final HashMap<String, List<Crew>> hashMap = new HashMap<>();
-        hashMap.put("All", new ArrayList<Crew>());
+        hashMap.put("All", new ArrayList<>());
         List<String> departmentList = new ArrayList<>();
         departmentList.add("All");
 
@@ -72,7 +72,7 @@ public class FragmentCrew extends Fragment {
                 if (hashMap.containsKey(department))
                     hashMap.get(department).add(crew);
                 else {
-                    hashMap.put(department, new ArrayList<Crew>());
+                    hashMap.put(department, new ArrayList<>());
                     hashMap.get(department).add(crew);
                     departmentList.add(department);
                 }

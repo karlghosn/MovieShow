@@ -86,7 +86,6 @@ public class FragmentTvShows extends KFragment implements TVPageAdapter.OnLoadMo
         context = getContext();
         assert activity != null;
         activity.setVisibleFragment(this);
-        ModelService service = activity.getService();
 
         onAirRv.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         onAirRv.setNestedScrollingEnabled(false);

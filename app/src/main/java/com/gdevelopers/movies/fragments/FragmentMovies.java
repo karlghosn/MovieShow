@@ -9,16 +9,15 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
-import com.gdevelopers.movies.activities.MainActivity;
 import com.gdevelopers.movies.R;
+import com.gdevelopers.movies.activities.MainActivity;
+import com.gdevelopers.movies.adapters.MoviesPageAdapter;
 import com.gdevelopers.movies.helpers.Constants;
 import com.gdevelopers.movies.model.KFragment;
 import com.gdevelopers.movies.model.KObject;
 import com.gdevelopers.movies.model.ModelService;
-import com.gdevelopers.movies.adapters.MoviesPageAdapter;
 import com.gdevelopers.movies.objects.Movie;
 import com.gdevelopers.movies.rest.services.MovieService;
-import com.gdevelopers.movies.wrappers.MoviesWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +34,6 @@ import butterknife.Unbinder;
 @SuppressWarnings("WeakerAccess")
 public class FragmentMovies extends KFragment implements MoviesPageAdapter.OnLoadMoreListener {
     private MainActivity activity;
-    private ModelService service;
     @BindView(R.id.upcoming_list)
     RecyclerView upComingRv;
     @BindView(R.id.now_playing_list)
@@ -79,7 +77,6 @@ public class FragmentMovies extends KFragment implements MoviesPageAdapter.OnLoa
         context = getContext();
         activity = (MainActivity) getActivity();
         if (activity != null) {
-            service = activity.getService();
             activity.setVisibleFragment(this);
         }
 
@@ -103,90 +100,78 @@ public class FragmentMovies extends KFragment implements MoviesPageAdapter.OnLoa
     }
 
     private void fetchUpComing(int page) {
-        MovieService.getInstance().getUpComingMovies(context, loadMore, page, new MovieService.ServiceCallBack() {
-            @Override
-            public void successful(MoviesWrapper response) {
-                if (!loadMore) {
-                    upComingList = new ArrayList<>();
-                    upComingAdapter = new MoviesPageAdapter(getContext(), R.layout.home_list_item_layout, R.layout.horizontal_row_load, upComingList, Constants.STRINGS.UPCOMING);
-                    upComingRv.setAdapter(upComingAdapter);
-                } else mItems.remove(mItems.size() - 1);
+        MovieService.getInstance().getUpComingMovies(context, loadMore, page, response -> {
+            if (!loadMore) {
+                upComingList = new ArrayList<>();
+                upComingAdapter = new MoviesPageAdapter(getContext(), R.layout.home_list_item_layout, R.layout.horizontal_row_load, upComingList, Constants.STRINGS.UPCOMING);
+                upComingRv.setAdapter(upComingAdapter);
+            } else mItems.remove(mItems.size() - 1);
 
-                upComingAdapter.setCurrentPage(response.getPage());
-                upComingAdapter.setTotalPages(response.getTotalPages());
+            upComingAdapter.setCurrentPage(response.getPage());
+            upComingAdapter.setTotalPages(response.getTotalPages());
 
-                upComingList.addAll(response.getMovies());
+            upComingList.addAll(response.getMovies());
 
-                upComingAdapter.notifyDataChanged();
+            upComingAdapter.notifyDataChanged();
 
-                upComingAdapter.setLoadMoreListener(onLoadMoreListener);
-                progressBar1.setVisibility(View.GONE);
-            }
+            upComingAdapter.setLoadMoreListener(onLoadMoreListener);
+            progressBar1.setVisibility(View.GONE);
         });
     }
 
     private void fetchNowPlaying(int page) {
-        MovieService.getInstance().getNowPlayingMovies(context, loadMore, page, new MovieService.ServiceCallBack() {
-            @Override
-            public void successful(MoviesWrapper response) {
-                if (!loadMore) {
-                    nowPlayingList = new ArrayList<>();
-                    nowPlayingAdapter = new MoviesPageAdapter(getContext(), R.layout.home_list_item_layout, R.layout.horizontal_row_load, nowPlayingList, Constants.STRINGS.NOW_PLAYING);
-                    nowPlayingRv.setAdapter(nowPlayingAdapter);
-                } else mItems.remove(mItems.size() - 1);
+        MovieService.getInstance().getNowPlayingMovies(context, loadMore, page, response -> {
+            if (!loadMore) {
+                nowPlayingList = new ArrayList<>();
+                nowPlayingAdapter = new MoviesPageAdapter(getContext(), R.layout.home_list_item_layout, R.layout.horizontal_row_load, nowPlayingList, Constants.STRINGS.NOW_PLAYING);
+                nowPlayingRv.setAdapter(nowPlayingAdapter);
+            } else mItems.remove(mItems.size() - 1);
 
-                nowPlayingAdapter.setCurrentPage(response.getPage());
-                nowPlayingAdapter.setTotalPages(response.getTotalPages());
-                nowPlayingList.addAll(response.getMovies());
+            nowPlayingAdapter.setCurrentPage(response.getPage());
+            nowPlayingAdapter.setTotalPages(response.getTotalPages());
+            nowPlayingList.addAll(response.getMovies());
 
-                nowPlayingAdapter.notifyDataChanged();
+            nowPlayingAdapter.notifyDataChanged();
 
-                nowPlayingAdapter.setLoadMoreListener(onLoadMoreListener);
-                progressBar2.setVisibility(View.GONE);
-            }
+            nowPlayingAdapter.setLoadMoreListener(onLoadMoreListener);
+            progressBar2.setVisibility(View.GONE);
         });
     }
 
     private void fetchPopular(int page) {
-        MovieService.getInstance().getPopularMovies(context, loadMore, page, new MovieService.ServiceCallBack() {
-            @Override
-            public void successful(MoviesWrapper response) {
-                if (!loadMore) {
-                    popularList = new ArrayList<>();
-                    popularAdapter = new MoviesPageAdapter(getContext(), R.layout.home_list_item_layout, R.layout.horizontal_row_load, popularList, Constants.STRINGS.POPULAR);
-                    popularRv.setAdapter(popularAdapter);
-                } else mItems.remove(mItems.size() - 1);
+        MovieService.getInstance().getPopularMovies(context, loadMore, page, response -> {
+            if (!loadMore) {
+                popularList = new ArrayList<>();
+                popularAdapter = new MoviesPageAdapter(getContext(), R.layout.home_list_item_layout, R.layout.horizontal_row_load, popularList, Constants.STRINGS.POPULAR);
+                popularRv.setAdapter(popularAdapter);
+            } else mItems.remove(mItems.size() - 1);
 
-                popularAdapter.setCurrentPage(response.getPage());
-                popularAdapter.setTotalPages(response.getTotalPages());
-                popularList.addAll(response.getMovies());
+            popularAdapter.setCurrentPage(response.getPage());
+            popularAdapter.setTotalPages(response.getTotalPages());
+            popularList.addAll(response.getMovies());
 
-                popularAdapter.notifyDataChanged();
+            popularAdapter.notifyDataChanged();
 
-                popularAdapter.setLoadMoreListener(onLoadMoreListener);
-                progressBar3.setVisibility(View.GONE);
-            }
+            popularAdapter.setLoadMoreListener(onLoadMoreListener);
+            progressBar3.setVisibility(View.GONE);
         });
     }
 
     private void fetchTopRated(final int page) {
-        MovieService.getInstance().getTopRatedMovies(context, loadMore, page, new MovieService.ServiceCallBack() {
-            @Override
-            public void successful(MoviesWrapper response) {
-                if (!loadMore) {
-                    topRatedList = new ArrayList<>();
-                    topRatedAdapter = new MoviesPageAdapter(getContext(), R.layout.home_list_item_layout, R.layout.horizontal_row_load, topRatedList, Constants.STRINGS.TOP_RATED);
-                    topRatedRv.setAdapter(topRatedAdapter);
-                } else mItems.remove(mItems.size() - 1);
+        MovieService.getInstance().getTopRatedMovies(context, loadMore, page, response -> {
+            if (!loadMore) {
+                topRatedList = new ArrayList<>();
+                topRatedAdapter = new MoviesPageAdapter(getContext(), R.layout.home_list_item_layout, R.layout.horizontal_row_load, topRatedList, Constants.STRINGS.TOP_RATED);
+                topRatedRv.setAdapter(topRatedAdapter);
+            } else mItems.remove(mItems.size() - 1);
 
-                topRatedAdapter.setCurrentPage(response.getPage());
-                topRatedAdapter.setTotalPages(response.getTotalPages());
-                topRatedList.addAll(response.getMovies());
+            topRatedAdapter.setCurrentPage(response.getPage());
+            topRatedAdapter.setTotalPages(response.getTotalPages());
+            topRatedList.addAll(response.getMovies());
 
-                topRatedAdapter.notifyDataChanged();
-                topRatedAdapter.setLoadMoreListener(onLoadMoreListener);
-                progressBar4.setVisibility(View.GONE);
-            }
+            topRatedAdapter.notifyDataChanged();
+            topRatedAdapter.setLoadMoreListener(onLoadMoreListener);
+            progressBar4.setVisibility(View.GONE);
         });
 
     }
@@ -213,23 +198,20 @@ public class FragmentMovies extends KFragment implements MoviesPageAdapter.OnLoa
         final int current_page = adapter.getCurrentPage();
 
         final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                switch (type) {
-                    case Constants.STRINGS.UPCOMING:
-                        fetchUpComing(current_page + 1);
-                        break;
-                    case Constants.STRINGS.NOW_PLAYING:
-                        fetchNowPlaying(current_page + 1);
-                        break;
-                    case Constants.STRINGS.POPULAR:
-                        fetchPopular(current_page + 1);
-                        break;
-                    case Constants.STRINGS.TOP_RATED:
-                        fetchTopRated(current_page + 1);
-                        break;
-                }
+        handler.postDelayed(() -> {
+            switch (type) {
+                case Constants.STRINGS.UPCOMING:
+                    fetchUpComing(current_page + 1);
+                    break;
+                case Constants.STRINGS.NOW_PLAYING:
+                    fetchNowPlaying(current_page + 1);
+                    break;
+                case Constants.STRINGS.POPULAR:
+                    fetchPopular(current_page + 1);
+                    break;
+                case Constants.STRINGS.TOP_RATED:
+                    fetchTopRated(current_page + 1);
+                    break;
             }
         }, 500);
     }

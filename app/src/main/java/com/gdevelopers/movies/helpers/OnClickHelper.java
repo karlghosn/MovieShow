@@ -11,8 +11,10 @@ import androidx.core.app.ActivityOptionsCompat;
 import android.widget.ImageView;
 
 import com.gdevelopers.movies.R;
+import com.gdevelopers.movies.activities.ActorDetailsActivity;
 import com.gdevelopers.movies.activities.MovieDetailsActivity;
 import com.gdevelopers.movies.activities.TVDetailsActivity;
+import com.gdevelopers.movies.objects.Actor;
 
 
 public class OnClickHelper {
@@ -38,5 +40,16 @@ public class OnClickHelper {
             Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) context, imageView, context.getString(R.string.movie_poster)).toBundle();
             context.startActivity(intent, bundle);
         } else context.startActivity(intent);
+    }
+
+    public static void actorClicked(Context context, Actor actor, ImageView imageView) {
+        Intent intent = new Intent(context, ActorDetailsActivity.class);
+        intent.putExtra("id", String.valueOf(actor.getId()));
+        intent.putExtra("title", actor.getName());
+        intent.putExtra("image", actor.getProfilePath());
+
+        Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(((Activity) context), imageView, context.getString(R.string.actor_transition)).toBundle();
+        context.startActivity(intent, bundle);
+
     }
 }

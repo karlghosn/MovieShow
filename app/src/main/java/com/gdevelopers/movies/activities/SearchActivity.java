@@ -27,7 +27,6 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.gdevelopers.movies.R;
@@ -37,7 +36,6 @@ import com.gdevelopers.movies.helpers.OnClickHelper;
 import com.gdevelopers.movies.model.KObject;
 import com.gdevelopers.movies.model.ModelService;
 import com.gdevelopers.movies.model.ServiceBinder;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -167,12 +165,7 @@ public class SearchActivity extends AppCompatActivity implements ServiceConnecti
             }
         });
 
-        searchView.setOnBackClickListener(new MaterialSearchView.OnBackClickListener() {
-            @Override
-            public void onBackClickListener() {
-                SearchActivity.this.onBackPressed();
-            }
-        });
+        searchView.setOnBackClickListener(SearchActivity.this::onBackPressed);
     }
 
 

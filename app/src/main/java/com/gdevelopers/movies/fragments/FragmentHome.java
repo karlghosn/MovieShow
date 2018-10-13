@@ -1,39 +1,33 @@
 package com.gdevelopers.movies.fragments;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.gdevelopers.movies.R;
-import com.gdevelopers.movies.activities.ActorDetailsActivity;
 import com.gdevelopers.movies.activities.MainActivity;
 import com.gdevelopers.movies.adapters.HomeAdapter;
 import com.gdevelopers.movies.adapters.PopularActorsAdapter;
 import com.gdevelopers.movies.database.DatabaseHandler;
 import com.gdevelopers.movies.helpers.MovieDB;
+import com.gdevelopers.movies.helpers.OnClickHelper;
 import com.gdevelopers.movies.model.KFragment;
 import com.gdevelopers.movies.model.KObject;
 import com.gdevelopers.movies.model.ModelService;
 import com.gdevelopers.movies.objects.Actor;
 import com.gdevelopers.movies.rest.services.MovieService;
 import com.gdevelopers.movies.rest.services.PeopleService;
-import com.gdevelopers.movies.wrappers.MoviesWrapper;
 import com.gdevelopers.movies.rest.services.TVShowService;
-import com.gdevelopers.movies.wrappers.PeopleWrapper;
-import com.gdevelopers.movies.wrappers.TVShowWrapper;
 
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityOptionsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
@@ -82,62 +76,39 @@ public class FragmentHome extends KFragment implements View.OnClickListener {
 
         activity.setVisibleFragment(this);
 
-        MovieService.getInstance().getUpComingMovies(context, false, 1, new MovieService.ServiceCallBack() {
-            @Override
-            public void successful(MoviesWrapper response) {
-                final HomeAdapter moviesAdapter = new HomeAdapter(context, response.getMovies(), null, true);
-                moviesRv.setAdapter(moviesAdapter);
-                progressBar1.setVisibility(View.GONE);
-            }
+        MovieService.getInstance().getUpComingMovies(context, false, 1, response -> {
+            final HomeAdapter moviesAdapter = new HomeAdapter(context, response.getMovies(), null, true);
+            moviesRv.setAdapter(moviesAdapter);
+            progressBar1.setVisibility(View.GONE);
         });
 
-        MovieService.getInstance().getNowPlayingMovies(context, false, 1, new MovieService.ServiceCallBack() {
-            @Override
-            public void successful(MoviesWrapper response) {
-                final HomeAdapter moviesAdapter = new HomeAdapter(context, response.getMovies(), null, true);
-                nowPlayingRv.setAdapter(moviesAdapter);
-                progressBar3.setVisibility(View.GONE);
-            }
+        MovieService.getInstance().getNowPlayingMovies(context, false, 1, response -> {
+            final HomeAdapter moviesAdapter = new HomeAdapter(context, response.getMovies(), null, true);
+            nowPlayingRv.setAdapter(moviesAdapter);
+            progressBar3.setVisibility(View.GONE);
         });
 
-        TVShowService.getInstance().getOnTV(context, false, 1, new TVShowService.ServiceCallBack() {
-            @Override
-            public void successful(TVShowWrapper response) {
-                final HomeAdapter tvShowsAdapter = new HomeAdapter(getContext(), null, response.getTvShows(), false);
-                tvShowsRv.setAdapter(tvShowsAdapter);
-                progressBar2.setVisibility(View.GONE);
-            }
+        TVShowService.getInstance().getOnTV(context, false, 1, response -> {
+            final HomeAdapter tvShowsAdapter = new HomeAdapter(getContext(), null, response.getTvShows(), false);
+            tvShowsRv.setAdapter(tvShowsAdapter);
+            progressBar2.setVisibility(View.GONE);
         });
 
-        TVShowService.getInstance().getPopular(context, false, 1, new TVShowService.ServiceCallBack() {
-            @Override
-            public void successful(TVShowWrapper response) {
-                HomeAdapter tvShowsAdapter = new HomeAdapter(getContext(), null, response.getTvShows(), false);
-                popularRv.setAdapter(tvShowsAdapter);
-                progressBar4.setVisibility(View.GONE);
-            }
+        TVShowService.getInstance().getPopular(context, false, 1, response -> {
+            HomeAdapter tvShowsAdapter = new HomeAdapter(getContext(), null, response.getTvShows(), false);
+            popularRv.setAdapter(tvShowsAdapter);
+            progressBar4.setVisibility(View.GONE);
         });
 
-        PeopleService.getInstance().getPopularPeople(false, 1, new PeopleService.ServiceCallBack() {
-            @Override
-            public void successful(PeopleWrapper response) {
-                final PopularActorsAdapter actorsAdapter = new PopularActorsAdapter(getContext(), response.getActorList(), true);
-                actorsRv.setAdapter(actorsAdapter);
+        PeopleService.getInstance().getPopularPeople(false, 1, response -> {
+            final PopularActorsAdapter actorsAdapter = new PopularActorsAdapter(getContext(), response.getActorList(), true);
+            actorsRv.setAdapter(actorsAdapter);
 
-                actorsAdapter.setOnItemClickListener(new PopularActorsAdapter.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(int position, ImageView imageView) {
-                        Actor actor = (Actor) actorsAdapter.getItem(position);
-                        Intent intent = new Intent(getContext(), ActorDetailsActivity.class);
-                        intent.putExtra("id", String.valueOf(actor.getId()));
-                        intent.putExtra("title", actor.getName());
-                        intent.putExtra("image", actor.getProfilePath());
+            actorsAdapter.setOnItemClickListener((position, imageView) -> {
+                Actor actor = (Actor) actorsAdapter.getItem(position);
+                OnClickHelper.actorClicked(context, actor, imageView);
+            });
 
-                        Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, imageView, getString(R.string.actor_transition)).toBundle();
-                        startActivity(intent, bundle);
-                    }
-                });
-            }
         });
 
         databaseHandler = MovieDB.getAppContext().getDatabaseHandler();
@@ -191,27 +162,6 @@ public class FragmentHome extends KFragment implements View.OnClickListener {
             moviesRv.setAdapter(moviesAdapter);
             progressBar1.setVisibility(View.GONE);
 
-        }*/
-
-        /*
-        if (responseID == Constants.POPULAR_PEOPLE && objects != null) {
-            Section section = (Section) objects.get(0);
-            final PopularActorsAdapter actorsAdapter = new PopularActorsAdapter(getContext(), section.getActorList(), true);
-            actorsRv.setAdapter(actorsAdapter);
-
-            actorsAdapter.setOnItemClickListener(new PopularActorsAdapter.OnItemClickListener() {
-                @Override
-                public void onItemClick(int position, ImageView imageView) {
-                    Actor actor = (Actor) actorsAdapter.getItem(position);
-                    Intent intent = new Intent(getContext(), ActorDetailsActivity.class);
-                    intent.putExtra("id", String.valueOf(actor.id()));
-                    intent.putExtra("title", actor.getName());
-                    intent.putExtra("image", actor.getProfilePath());
-
-                    Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, imageView, getString(R.string.actor_transition)).toBundle();
-                    startActivity(intent, bundle);
-                }
-            });
         }*/
     }
 
