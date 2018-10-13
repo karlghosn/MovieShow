@@ -104,8 +104,7 @@ public class FragmentHome extends KFragment implements View.OnClickListener {
             final PopularActorsAdapter actorsAdapter = new PopularActorsAdapter(getContext(), response.getActorList(), true);
             actorsRv.setAdapter(actorsAdapter);
 
-            actorsAdapter.setOnItemClickListener((position, imageView) -> {
-                Actor actor = (Actor) actorsAdapter.getItem(position);
+            actorsAdapter.setOnItemClickListener((actor, imageView) -> {
                 OnClickHelper.actorClicked(context, actor, imageView);
             });
 

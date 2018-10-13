@@ -30,7 +30,24 @@ public class PopularActorsAdapter extends RecyclerView.Adapter<RecyclerView.View
     private OnLoadMoreListener loadMoreListener;
     private boolean isLoading = false;
     private final boolean isHome;
+    private int currentPage;
+    private int totalPages;
 
+    public int getCurrentPage() {
+        return currentPage;
+    }
+
+    public void setCurrentPage(int currentPage) {
+        this.currentPage = currentPage;
+    }
+
+    public int getTotalPages() {
+        return totalPages;
+    }
+
+    public void setTotalPages(int totalPages) {
+        this.totalPages = totalPages;
+    }
 
     public PopularActorsAdapter(Context context, List<Actor> mItems, boolean isHome) {
         super();
@@ -65,7 +82,7 @@ public class PopularActorsAdapter extends RecyclerView.Adapter<RecyclerView.View
     @Override
     public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder viewHolder, final int i) {
 
-        if (i >= getItemCount() - 1 && !isLoading && loadMoreListener != null) {
+        if (i >= getItemCount() - 1 && !isLoading && loadMoreListener != null && currentPage < totalPages) {
             isLoading = true;
             Handler handler = new Handler();
             final Runnable r = () -> loadMoreListener.onLoadMore(adapter);
@@ -87,7 +104,7 @@ public class PopularActorsAdapter extends RecyclerView.Adapter<RecyclerView.View
 
 
     public interface OnItemClickListener {
-        void onItemClick(int position, ImageView imageView);
+        void onItemClick(Actor actor, ImageView imageView);
     }
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
@@ -118,7 +135,7 @@ public class PopularActorsAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         @Override
         public void onClick(View v) {
-            onItemClickListener.onItemClick(getAdapterPosition(), imageIv);
+            onItemClickListener.onItemClick(mItems.get(getAdapterPosition()), imageIv);
         }
     }
 

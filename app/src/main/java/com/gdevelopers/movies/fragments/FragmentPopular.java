@@ -4,6 +4,28 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+
+import com.gdevelopers.movies.R;
+import com.gdevelopers.movies.activities.ActorDetailsActivity;
+import com.gdevelopers.movies.activities.MainActivity;
+import com.gdevelopers.movies.adapters.PopularActorsAdapter;
+import com.gdevelopers.movies.helpers.Connection;
+import com.gdevelopers.movies.helpers.OfflineLayout;
+import com.gdevelopers.movies.helpers.OnClickHelper;
+import com.gdevelopers.movies.model.KFragment;
+import com.gdevelopers.movies.model.KObject;
+import com.gdevelopers.movies.model.ModelService;
+import com.gdevelopers.movies.objects.Actor;
+import com.gdevelopers.movies.rest.services.PeopleService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,35 +35,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-
-import com.gdevelopers.movies.activities.MainActivity;
-import com.gdevelopers.movies.R;
-import com.gdevelopers.movies.activities.ActorDetailsActivity;
-import com.gdevelopers.movies.helpers.Connection;
-import com.gdevelopers.movies.helpers.Constants;
-import com.gdevelopers.movies.helpers.DialogHelper;
-import com.gdevelopers.movies.helpers.OfflineLayout;
-import com.gdevelopers.movies.model.KFragment;
-import com.gdevelopers.movies.model.KObject;
-import com.gdevelopers.movies.model.ModelService;
-import com.gdevelopers.movies.objects.Actor;
-import com.gdevelopers.movies.objects.Section;
-import com.gdevelopers.movies.adapters.PopularActorsAdapter;
-
-import java.util.ArrayList;
-import java.util.List;
-
 
 @SuppressWarnings("WeakerAccess")
 public class FragmentPopular extends KFragment implements PopularActorsAdapter.OnItemClickListener, PopularActorsAdapter.OnLoadMoreListener {
     private MainActivity activity;
-    private ModelService service;
     @BindView(R.id.popular_people)
     RecyclerView peopleRv;
     private List<Actor> actorList;
@@ -50,7 +47,6 @@ public class FragmentPopular extends KFragment implements PopularActorsAdapter.O
     private List<Actor> mItems;
     private boolean loadMore = false;
     private PopularActorsAdapter adapter;
-    private int currentPage, totalPages;
     private Context context;
     private View rootView;
     @BindView(R.id.offline_layout)
@@ -66,16 +62,35 @@ public class FragmentPopular extends KFragment implements PopularActorsAdapter.O
         context = getContext();
         if (activity != null) {
             activity.setVisibleFragment(this);
-            service = activity.getService();
         }
 
         peopleRv.setLayoutManager(new GridLayoutManager(getContext(), 3));
 
-        this.update(service, false);
+        fetchActors(1);
 
         return rootView;
     }
 
+
+    private void fetchActors(int page) {
+        PeopleService.getInstance().getPopularPeople(loadMore, page, response -> {
+            if (!loadMore) {
+                actorList = new ArrayList<>();
+                adapter = new PopularActorsAdapter(getContext(), actorList, false);
+                peopleRv.setAdapter(adapter);
+            } else mItems.remove(mItems.size() - 1);
+
+            adapter.setCurrentPage(response.getPage());
+            adapter.setTotalPages(response.getTotalPages());
+            actorList.addAll(response.getActorList());
+
+            adapter.notifyDataChanged();
+
+            adapter.setLoadMoreListener(this);
+            adapter.setOnItemClickListener(this);
+            progressBar.setVisibility(View.GONE);
+        });
+    }
 
     @Override
     public void onResume() {
@@ -88,27 +103,6 @@ public class FragmentPopular extends KFragment implements PopularActorsAdapter.O
 
     @Override
     public void serviceResponse(int responseID, List<KObject> objects) {
-        progressBar.setVisibility(View.GONE);
-        if (responseID == Constants.POPULAR_PEOPLE && objects != null) {
-
-            if (!loadMore)
-                actorList = new ArrayList<>();
-            else mItems.remove(mItems.size() - 1);
-
-            Section section = (Section) objects.get(0);
-
-            currentPage = (int) section.id();
-            totalPages = section.getTotalPages();
-            actorList.addAll(section.getActorList());
-
-            if (!loadMore) {
-                adapter = new PopularActorsAdapter(getContext(), actorList, false);
-                peopleRv.setAdapter(adapter);
-            } else adapter.notifyDataChanged();
-
-            adapter.setLoadMoreListener(this);
-            adapter.setOnItemClickListener(this);
-        }
     }
 
     @Override
@@ -127,13 +121,8 @@ public class FragmentPopular extends KFragment implements PopularActorsAdapter.O
     }
 
     @Override
-    public void onItemClick(int position, ImageView imageView) {
-        Actor actor = (Actor) adapter.getItem(position);
-        Intent intent = new Intent(getContext(), ActorDetailsActivity.class);
-        intent.putExtra("id", String.valueOf(actor.id()));
-        intent.putExtra("title", actor.getName());
-        intent.putExtra("image", actor.getProfilePath());
-        startActivity(intent);
+    public void onItemClick(Actor actor, ImageView imageView) {
+        OnClickHelper.actorClicked(context, actor, imageView);
     }
 
     private void loadMore(final PopularActorsAdapter adapter) {
@@ -143,26 +132,17 @@ public class FragmentPopular extends KFragment implements PopularActorsAdapter.O
         //add loading progress view
         mItems.add(actor);
         adapter.notifyItemInserted(mItems.size() - 1);
-
+        int page = adapter.getCurrentPage() + 1;
         loadMore = true;
 
         final Handler handler = new Handler();
         handler.postDelayed(() -> {
-            if (service != null) {
-                boolean hasConnection = Connection.isNetworkAvailable(context);
-                if (hasConnection && service != null)
-                    service.getPopularPeople(String.valueOf(currentPage + 1), true, true);
-                else DialogHelper.noConnectionDialog(getContext());
-
-            }
+            fetchActors(page);
         }, 500);
     }
 
     @Override
     public void onLoadMore(PopularActorsAdapter adapter) {
-        if (currentPage == totalPages)
-            return;
-
         loadMore(adapter);
     }
 
