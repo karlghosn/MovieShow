@@ -4,12 +4,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.provider.Settings;
+import android.view.LayoutInflater;
+import android.widget.ListView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.core.content.ContextCompat;
 
 import com.gdevelopers.movies.R;
+import com.gdevelopers.movies.adapters.FeaturesAdapter;
+import com.gdevelopers.movies.objects.Feature;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class DialogHelper {
@@ -17,8 +24,23 @@ public class DialogHelper {
     public static void proVersionDialog(Context context) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("Feature is locked");
-        builder.setIcon(R.drawable.ic_action_locked);
-        builder.setMessage(R.string.unlock_pro);
+        ListView listView = (ListView) LayoutInflater.from(context).inflate(R.layout.features_dialog_layout, null);
+        String[] titles = context.getResources().getStringArray(R.array.feature_titles);
+        String[] descriptions = context.getResources().getStringArray(R.array.feature_descriptions);
+        int[] icons = {R.mipmap.ic_no_ads, R.mipmap.ic_statistics, R.mipmap.ic_comment, R.mipmap.ic_write_comment, R.mipmap.ic_search, R.mipmap.ic_more};
+
+        List<Feature> featureList = new ArrayList<>();
+        for (int i = 0; i < titles.length; i++) {
+            Feature feature = new Feature();
+            feature.setIcon(icons[i]);
+            feature.setTitle(titles[i]);
+            feature.setDescription(descriptions[i]);
+            featureList.add(feature);
+        }
+
+        FeaturesAdapter featuresAdapter = new FeaturesAdapter(context, R.layout.features_row_layout, featureList);
+        listView.setAdapter(featuresAdapter);
+        builder.setView(listView);
         builder.setPositiveButton("Get Pro", (dialog, which) -> {
             final String appPackageName = "com.gdevelopers.movies_pro"; // getPackageName() from Context or Activity object
             try {

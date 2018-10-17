@@ -330,6 +330,24 @@
     <string name="spoiler_warning">Spoiler Warning</string>
     <string name="show">Show</string>
 
+    <string-array name="feature_titles">
+        <item>No Ads</item>
+        <item>Statistics</item>
+        <item>Write Comments</item>
+        <item>Comments</item>
+        <item>Search</item>
+        <item>More features</item>
+    </string-array>
+
+    <string-array name="feature_descriptions">
+        <item>Get rid of those annoying Ads!</item>
+        <item>All of your stats over the years, combined and visualized</item>
+        <item>Write and edit comments for both movies and tv shows</item>
+        <item>Comments and ratings available for both Movies and TV Shows</item>
+        <item>Search for companies, collections and keywords</item>
+        <item>Look forward to many more features to come!</item>
+    </string-array>
+
     <array name="letter_tile_colors">
         <item>#f16364</item>
         <item>#f58559</item>
