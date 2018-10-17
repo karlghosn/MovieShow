@@ -14,7 +14,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.gdevelopers.movies.R;
 import com.gdevelopers.movies.adapters.ViewPagerAdapter;
@@ -23,6 +22,7 @@ import com.gdevelopers.movies.fragments.FragmentMoreShows;
 import com.gdevelopers.movies.helpers.Connection;
 import com.gdevelopers.movies.helpers.Constants;
 import com.gdevelopers.movies.helpers.DialogHelper;
+import com.gdevelopers.movies.helpers.GlideApp;
 import com.gdevelopers.movies.helpers.MovieDB;
 import com.gdevelopers.movies.model.KObject;
 import com.gdevelopers.movies.model.ModelService;
@@ -99,8 +99,9 @@ public class ActorDetailsActivity extends AppCompatActivity implements ServiceCo
 
         String image = extra.getString(Constants.STRINGS.IMAGE);
 
-        Glide.with(ActorDetailsActivity.this).load(MovieDB.IMAGE_URL + getString(R.string.imageSize) + image)
+        GlideApp.with(ActorDetailsActivity.this).load(MovieDB.IMAGE_URL + getString(R.string.imageSize) + image)
                 .apply(RequestOptions.circleCropTransform())
+                .error(R.drawable.placeholder)
                 .into(posterIv);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.

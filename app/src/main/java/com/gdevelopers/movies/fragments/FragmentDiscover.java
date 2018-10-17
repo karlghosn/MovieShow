@@ -15,13 +15,11 @@ import butterknife.Unbinder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.gdevelopers.movies.activities.MainActivity;
 import com.gdevelopers.movies.R;
-import com.gdevelopers.movies.adapters.CastAdapter;
 import com.gdevelopers.movies.adapters.DiscoverGenreAdapter;
 import com.gdevelopers.movies.helpers.Connection;
 import com.gdevelopers.movies.helpers.Constants;

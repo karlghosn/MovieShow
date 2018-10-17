@@ -1,7 +1,6 @@
 package com.gdevelopers.movies.fragments;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -12,7 +11,6 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.gdevelopers.movies.R;
-import com.gdevelopers.movies.activities.ActorDetailsActivity;
 import com.gdevelopers.movies.activities.MainActivity;
 import com.gdevelopers.movies.adapters.PopularActorsAdapter;
 import com.gdevelopers.movies.helpers.Connection;
@@ -136,9 +134,7 @@ public class FragmentPopular extends KFragment implements PopularActorsAdapter.O
         loadMore = true;
 
         final Handler handler = new Handler();
-        handler.postDelayed(() -> {
-            fetchActors(page);
-        }, 500);
+        handler.postDelayed(() -> fetchActors(page), 500);
     }
 
     @Override

@@ -83,7 +83,6 @@
     <string name="clear_list">%1$s wissen</string>
     <string name="delete">Verwijder</string>
     <string name="tmdb_critic_reviews">TMDb-kritieke overzichten</string>
-    <string name="show_more_reviews">Meer recensies weergeven (%1$s)</string>
     <string name="coming_soon">Binnenkort beschikbaar</string>
     <string name="view_collection">Bekijk de collectie</string>
     <string name="part_of_the_collection">Deel van de %1$s</string>
@@ -258,4 +257,12 @@
     <string name="people">Mensen</string>
     <string name="global">Globaal</string>
     <string name="main_actors">Belangrijkste acteurs</string>
+    <string name="apps">Apps</string>
+    <string name="pro_version">Pro-versie</string>
+    <string name="reviews">beoordelingen</string>
+    <string name="trakt_reviews">Trakt.tv Recensies</string>
+    <string name="add_review">Voeg een beoordeling toe</string>
+    <string name="leave_comment">Laat een reactie achter</string>
+    <string name="spoiler_warning">Spoiler waarschuwing</string>
+    <string name="show">Laten zien</string>
 </resources>

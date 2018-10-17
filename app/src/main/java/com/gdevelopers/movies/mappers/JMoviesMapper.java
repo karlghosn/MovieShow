@@ -64,7 +64,7 @@ public class JMoviesMapper extends JObjectMapper {
             movie.setType("movie");
             movie.setReleaseDate(movieJSON.getString("release_date"));
             movie.setVoteAverage(movieJSON.getDouble("vote_average"));
-            movie.setPosterPath(MovieDB.IMAGE_URL + context.getResources().getString(R.string.imageSize) + movieJSON.getString("poster_path"));
+            movie.setPosterPath(movieJSON.getString("poster_path"));
             movie.setBackdropPath(MovieDB.IMAGE_URL + context.getResources().getString(R.string.galleryImgSize) + movieJSON.getString("backdrop_path"));
             section.getMovieList().add(movie);
         }

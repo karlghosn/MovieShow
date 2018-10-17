@@ -19,7 +19,6 @@ import com.gdevelopers.movies.helpers.OnClickHelper;
 import com.gdevelopers.movies.model.KFragment;
 import com.gdevelopers.movies.model.KObject;
 import com.gdevelopers.movies.model.ModelService;
-import com.gdevelopers.movies.objects.Actor;
 import com.gdevelopers.movies.rest.services.MovieService;
 import com.gdevelopers.movies.rest.services.PeopleService;
 import com.gdevelopers.movies.rest.services.TVShowService;
@@ -62,8 +61,6 @@ public class FragmentHome extends KFragment implements View.OnClickListener {
     @BindView(R.id.container_layout)
     LinearLayout containerLayout;
     private Unbinder unbinder;
-    private long count;
-    private DatabaseHandler databaseHandler;
 
 
     @Nullable
@@ -104,14 +101,12 @@ public class FragmentHome extends KFragment implements View.OnClickListener {
             final PopularActorsAdapter actorsAdapter = new PopularActorsAdapter(getContext(), response.getActorList(), true);
             actorsRv.setAdapter(actorsAdapter);
 
-            actorsAdapter.setOnItemClickListener((actor, imageView) -> {
-                OnClickHelper.actorClicked(context, actor, imageView);
-            });
+            actorsAdapter.setOnItemClickListener((actor, imageView) -> OnClickHelper.actorClicked(context, actor, imageView));
 
         });
 
-        databaseHandler = MovieDB.getAppContext().getDatabaseHandler();
-        count = databaseHandler.getCount();
+        DatabaseHandler databaseHandler = MovieDB.getAppContext().getDatabaseHandler();
+        long count = databaseHandler.getCount();
 
         tvShowsRv.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         tvShowsRv.setNestedScrollingEnabled(false);

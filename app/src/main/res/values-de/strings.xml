@@ -83,7 +83,6 @@
     <string name="clear_list">Löschen Sie %1$s</string>
     <string name="delete">Löschen</string>
     <string name="tmdb_critic_reviews">TMDb Kritiken</string>
-    <string name="show_more_reviews">Mehr Bewertungen anzeigen (%1$s)</string>
     <string name="cast_crew">Besetzung und Crew</string>
     <string name="coming_soon">Demnächst</string>
     <string name="view_collection">Sehen Sie sich die Sammlung an</string>
@@ -261,4 +260,12 @@
     <string name="people">Menschen</string>
     <string name="global">Global</string>
     <string name="main_actors">Hauptdarsteller</string>
+    <string name="apps">Apps</string>
+    <string name="pro_version">Pro-Version</string>
+    <string name="reviews">Bewertungen</string>
+    <string name="trakt_reviews">Trakt.tv Bewertungen</string>
+    <string name="add_review">Bewertung hinzufügen</string>
+    <string name="leave_comment">Hinterlasse einen Kommentar</string>
+    <string name="spoiler_warning">Spoilerwarnung</string>
+    <string name="show">Show</string>
 </resources>

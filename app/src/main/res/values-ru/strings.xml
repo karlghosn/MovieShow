@@ -83,7 +83,6 @@
     <string name="clear_list">Очистить %1$s</string>
     <string name="delete">Удалить</string>
     <string name="tmdb_critic_reviews">Отзывы о TMDb Critic</string>
-    <string name="show_more_reviews">Показать больше отзывов (%1$s)</string>
     <string name="cast_crew">Актеры и экипажи</string>
     <string name="coming_soon">Скоро</string>
     <string name="view_collection">Просмотр коллекции</string>
@@ -260,4 +259,12 @@
     <string name="companies">Компании</string>
     <string name="collections">Коллекции</string>
     <string name="keywords">Ключевые слова</string>
+    <string name="apps">Программы</string>
+    <string name="pro_version">Версия Pro</string>
+    <string name="reviews">Отзывы</string>
+    <string name="trakt_reviews">Отзывы о Trakt.tv</string>
+    <string name="add_review">Добавить отзыв</string>
+    <string name="leave_comment">Оставить комментарий</string>
+    <string name="spoiler_warning">Предупреждение о спойлере</string>
+    <string name="show">Шоу</string>
 </resources>

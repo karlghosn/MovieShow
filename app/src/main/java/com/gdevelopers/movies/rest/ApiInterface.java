@@ -3,17 +3,21 @@ package com.gdevelopers.movies.rest;
 import com.gdevelopers.movies.helpers.MovieDB;
 import com.gdevelopers.movies.helpers.PostRetrofit;
 import com.gdevelopers.movies.helpers.Response;
+import com.gdevelopers.movies.objects.Comment;
 import com.gdevelopers.movies.wrappers.MoviesWrapper;
 import com.gdevelopers.movies.objects.OMDb;
 import com.gdevelopers.movies.wrappers.PeopleWrapper;
 import com.gdevelopers.movies.wrappers.TVShowWrapper;
 import com.gdevelopers.movies.objects.User;
 
+import java.util.List;
+
 import io.reactivex.Single;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -60,5 +64,10 @@ public interface ApiInterface {
 
     @GET("person/popular?api_key=" + MovieDB.API_KEY)
     Call<PeopleWrapper> getPopularPeople(@Query("page") int page);
+
+    @GET("movies/{id}/comments/newest")
+    Call<List<Comment>> getTraktComments(@Path("id") String id, @Header("Content-Type") String contentType,
+                                         @Header("trakt-api-version") String api_version,
+                                         @Header("trakt-api-key") String key, @Query("page") int page);
 }
 

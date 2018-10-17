@@ -30,7 +30,6 @@ import android.widget.Toast;
 import com.gdevelopers.movies.R;
 import com.gdevelopers.movies.adapters.CastAdapter;
 import com.gdevelopers.movies.adapters.HomeAdapter;
-import com.gdevelopers.movies.adapters.ReviewsAdapter;
 import com.gdevelopers.movies.adapters.TrailerAdapter;
 import com.gdevelopers.movies.adapters.ViewPagerAdapter;
 import com.gdevelopers.movies.helpers.AdBuilder;
@@ -84,6 +83,7 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.snackbar.Snackbar;
 import com.nex3z.flowlayout.FlowLayout;
+import com.tolstykh.textviewrichdrawable.TextViewRichDrawable;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -167,13 +167,11 @@ public class MovieDetailsActivity extends AppCompatActivity implements ServiceCo
     @BindView(R.id.see_all)
     Button seeAllBt;
     @BindView(R.id.go_to_review)
-    Button reviewsBt;
+    Button addReviewBt;
     @BindView(R.id.cast_list)
     RecyclerView castRv;
     @BindView(R.id.related_movies_list)
     RecyclerView relatedRv;
-    @BindView(R.id.reviews_list)
-    RecyclerView reviewsRv;
     @BindView(R.id.trailers_list)
     RecyclerView trailersRv;
     @BindView(R.id.toolbar)
@@ -216,7 +214,9 @@ public class MovieDetailsActivity extends AppCompatActivity implements ServiceCo
     TextView traktVotesTv;
     @BindView(R.id.trakt)
     TextView traktTv;
-
+    private String traktId;
+    @BindView(R.id.tmdb_reviews)
+    TextViewRichDrawable tmdbReviews;
     private boolean isTextViewClicked = false;
     private ModelService service;
     private final DeleteRatingTask.OnDeleteCallBackListener deleteCallBackListener = this;
@@ -273,7 +273,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements ServiceCo
         mChart.getAxisLeft().setEnabled(false);
         mChart.getAxisRight().setEnabled(false);
         mChart.getLegend().setEnabled(false);
-
 
         XAxis xAxis = mChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
@@ -338,6 +337,27 @@ public class MovieDetailsActivity extends AppCompatActivity implements ServiceCo
                         builder.create().show();
                     } else ratingDialog();
                 }
+            }
+        });
+
+        TextViewRichDrawable traktReviews = findViewById(R.id.trakt_reviews);
+        traktReviews.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MovieDetailsActivity.this, ReviewsActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("traktId", traktId);
+                bundle.putString("title", title);
+                bundle.putBoolean("isTMDB", false);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
+
+        addReviewBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogHelper.proVersionDialog(MovieDetailsActivity.this);
             }
         });
     }
@@ -479,7 +499,11 @@ public class MovieDetailsActivity extends AppCompatActivity implements ServiceCo
         castRv.setNestedScrollingEnabled(false);
 
         String image = extra.getString("image");
-        GlideApp.with(MovieDetailsActivity.this).asBitmap().load(image).error(R.drawable.placeholder).into(posterIv);
+        GlideApp.with(MovieDetailsActivity.this)
+                .asBitmap()
+                .load(MovieDB.IMAGE_URL + getResources().getString(R.string.imageSize) + image)
+                .error(R.drawable.placeholder)
+                .into(posterIv);
 
         posterIv.setOnClickListener(this);
         overviewTv.setOnClickListener(new View.OnClickListener() {
@@ -494,10 +518,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements ServiceCo
                 }
             }
         });
-
-        reviewsRv.setLayoutManager(new LinearLayoutManager(MovieDetailsActivity.this));
-        reviewsRv.setHasFixedSize(true);
-        reviewsRv.setNestedScrollingEnabled(false);
     }
 
     @Override
@@ -704,9 +724,10 @@ public class MovieDetailsActivity extends AppCompatActivity implements ServiceCo
             });
 
             final List<Review> reviewList = movie.getReviewList();
-            reviewsBt.setOnClickListener(new View.OnClickListener() {
+
+            tmdbReviews.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View view) {
+                public void onClick(View v) {
                     if (reviewList.isEmpty())
                         Toast.makeText(MovieDetailsActivity.this, R.string.no_reviews_available, Toast.LENGTH_SHORT).show();
                     else {
@@ -715,23 +736,10 @@ public class MovieDetailsActivity extends AppCompatActivity implements ServiceCo
                         bundle.putParcelableArrayList("reviews", (ArrayList<Review>) movie.getReviewList());
                         bundle.putString("id", extra.getString("id"));
                         bundle.putString(Constants.STRINGS.TITLE, title);
+                        bundle.putBoolean("isTMDB", true);
                         intent.putExtras(bundle);
                         startActivity(intent);
                     }
-                }
-            });
-
-            int reviewsCount = reviewList.size();
-            reviewsCv.setVisibility(reviewList.isEmpty() ? View.GONE : View.VISIBLE);
-            reviewsBt.setText(getString(R.string.show_more_reviews, String.valueOf(reviewsCount)));
-            reviewsBt.setVisibility(reviewsCount <= 3 ? View.GONE : View.VISIBLE);
-            ReviewsAdapter reviewsAdapter = new ReviewsAdapter(reviewList, false);
-            reviewsRv.setAdapter(reviewsAdapter);
-
-            reviewsAdapter.setOnItemClickListener(new ReviewsAdapter.OnItemClickListener() {
-                @Override
-                public void onItemClick(Review review) {
-                    goToWebView(review.getUrl());
                 }
             });
         } else if (responseID == Constants.GET_TOKEN && objects != null) {
@@ -780,6 +788,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements ServiceCo
             service.getAccountDetails(PreferencesHelper.getSessionId(this));
         } else if (responseID == Constants.SEARCH_TRAKT && objects != null && !objects.isEmpty()) {
             SearchTrakt searchTrakt = (SearchTrakt) objects.get(0);
+            traktId = searchTrakt.getMovieId();
             service.getTraktRatings(searchTrakt.getMovieId());
         } else if (responseID == Constants.TRAKT_RATINGS && objects != null) {
             TraktRating traktRating = (TraktRating) objects.get(0);

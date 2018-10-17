@@ -27,8 +27,8 @@
             android:id="@+id/review_author"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/white"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead" />
 
         <TextView
             android:id="@+id/review_content"
@@ -36,10 +36,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:ellipsize="end"
+            android:textColor="@android:color/white"
             android:lineSpacingExtra="1.5dp"
             android:maxLines="5"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
-            android:textColor="@android:color/white" />
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1" />
 
         <View
             android:id="@+id/separator"

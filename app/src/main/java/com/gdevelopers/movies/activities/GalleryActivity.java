@@ -10,8 +10,6 @@ import android.os.IBinder;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.GridView;
 
 import com.gdevelopers.movies.R;

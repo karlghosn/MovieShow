@@ -22,7 +22,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.gdevelopers.movies.R;
 import com.gdevelopers.movies.activities.ActorDetailsActivity;

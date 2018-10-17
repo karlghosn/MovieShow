@@ -175,7 +175,7 @@ public class JTVDetailsMapper extends JObjectMapper {
             TVShow tvShow1 = new TVShow(movieJSON.getInt("id"));
             tvShow1.setName(movieJSON.getString("name"));
             tvShow1.setVoteAverage((float) movieJSON.getInt("vote_average"));
-            tvShow1.setPosterPath(MovieDB.IMAGE_URL + context.getResources().getString(R.string.imageSize) + movieJSON.getString("poster_path"));
+            tvShow1.setPosterPath(movieJSON.getString("poster_path"));
             tvShow.getRelatedShows().add(tvShow1);
         }
 

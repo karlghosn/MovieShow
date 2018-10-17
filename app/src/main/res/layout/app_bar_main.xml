@@ -23,7 +23,6 @@
 
     <include layout="@layout/content_main" />
 
-
     <LinearLayout
         android:id="@+id/ads_layout"
         android:layout_width="match_parent"

@@ -2,8 +2,10 @@ package com.gdevelopers.movies.adapters;
 
 import android.content.Context;
 import android.os.Handler;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +17,7 @@ import android.widget.TextView;
 import com.gdevelopers.movies.R;
 import com.gdevelopers.movies.helpers.DateHelper;
 import com.gdevelopers.movies.helpers.GlideApp;
+import com.gdevelopers.movies.helpers.MovieDB;
 import com.gdevelopers.movies.objects.Movie;
 
 import java.util.ArrayList;
@@ -84,8 +87,7 @@ public class GenreMovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             holder.ratingTv.setText(context.getString(R.string.vote_average_over_ten, movie.getVoteAverage()));
             holder.dateTv.setText(DateHelper.formatDate(movie.getReleaseDate()));
 
-            GlideApp.with(context).load(movie.getPosterPath())
-                    .placeholder(R.drawable.placeholder)
+            GlideApp.with(context).load(MovieDB.IMAGE_URL + context.getString(R.string.imageSize) + movie.getPosterPath())
                     .error(R.drawable.placeholder)
                     .into(holder.movieIv);
         }

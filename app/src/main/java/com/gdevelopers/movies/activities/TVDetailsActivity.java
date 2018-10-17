@@ -179,7 +179,9 @@ public class TVDetailsActivity extends AppCompatActivity implements ServiceConne
         castRv.setNestedScrollingEnabled(false);
 
         String image = extra.getString(Constants.STRINGS.IMAGE);
-        Glide.with(TVDetailsActivity.this).load(image).into(posterIv);
+        Glide.with(TVDetailsActivity.this)
+                .load(MovieDB.IMAGE_URL + getString(R.string.imageSize) + image)
+                .into(posterIv);
 
         overviewTv.setOnClickListener(view -> {
             if (isTextViewClicked) {

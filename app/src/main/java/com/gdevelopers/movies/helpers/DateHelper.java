@@ -9,7 +9,8 @@ import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 public class DateHelper {
-    private static final String date = "yyyy-MM-dd";
+    private static final String DATE = "yyyy-MM-dd";
+    private static final String COMMENT_DATE = "yyyy-MM-dd'T'HH:mm:ss";
 
     private DateHelper() {
     }
@@ -19,7 +20,22 @@ public class DateHelper {
             return "";
 
         final SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM yyyy", Locale.US);
-        SimpleDateFormat format = new SimpleDateFormat(date, Locale.US);
+        SimpleDateFormat format = new SimpleDateFormat(DATE, Locale.US);
+        try {
+            Date date = format.parse(dateStr);
+            return sdf.format(date);
+        } catch (ParseException e) {
+            Log.d(Constants.STRINGS.EXCEPTION, e.getMessage());
+        }
+        return "";
+    }
+
+    public static String formatCommentDate(String dateStr) {
+        if (dateStr == null || dateStr.equals(""))
+            return "";
+
+        final SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM yyyy", Locale.US);
+        SimpleDateFormat format = new SimpleDateFormat(COMMENT_DATE, Locale.US);
         try {
             Date date = format.parse(dateStr);
             return sdf.format(date);
@@ -34,7 +50,7 @@ public class DateHelper {
             return "";
 
         final SimpleDateFormat sdf = new SimpleDateFormat("yyyy", Locale.US);
-        SimpleDateFormat format = new SimpleDateFormat(date, Locale.US);
+        SimpleDateFormat format = new SimpleDateFormat(DATE, Locale.US);
         try {
             Date date = format.parse(dateStr);
             return sdf.format(date);
@@ -45,7 +61,7 @@ public class DateHelper {
     }
 
     public static String getDays(String string) {
-        SimpleDateFormat sdf = new SimpleDateFormat(date, Locale.US);
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE, Locale.US);
         try {
             Date date = sdf.parse(string);
             Date now = new Date(System.currentTimeMillis());

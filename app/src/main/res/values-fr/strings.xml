@@ -81,7 +81,6 @@
     <string name="no_search_results">Aucun résultat trouvé</string>
     <string name="there_are_no_lists">Il n\'y a pas de listes disponibles</string>
     <string name="about_description">Movie Show est une source pour le contenu de film, de TV et de célébrité. Explorez des films, des émissions de télévision et des célébrités. Regardez des bandes-annonces, recherchez des avis, des avis et bien d\'autres contenus. Recherchez des films et des émissions de télévision à l\'aide de la fonction de recherche avancée. Suivez ce que vous voulez regarder sur votre liste de surveillance, faites une liste de vos favoris et évaluez les films.  Logo et fictifs réalisés respectivement par Fouad Makary et Daniel Zeitouny</string>
-    <string name="show_more_reviews">Afficher plus de commentaires (%1$s)</string>
     <string name="browsing_lists_rated">Lorsque vous parcourez la liste des films, vous pouvez les évaluer directement.</string>
     <string name="browsing_lists_favourites">Lorsque vous parcourez la liste des films, vous pouvez les ajouter directement à vos favoris.</string>
     <string name="browsing_lists_watch">Lorsque vous parcourez la liste des films, vous pouvez les ajouter directement à votre liste de suivi.</string>
@@ -261,4 +260,12 @@
     <string name="companies">Entreprises</string>
     <string name="collections">Collections</string>
     <string name="keywords">Mots clés</string>
+    <string name="apps">Applications</string>
+    <string name="pro_version">Version Pro</string>
+    <string name="reviews">Critiques</string>
+    <string name="trakt_reviews">Avis sur Trakt.tv</string>
+    <string name="add_review">Ajouter un commentaire</string>
+    <string name="leave_comment">Laissez un commentaire</string>
+    <string name="spoiler_warning">Avertissement spoiler</string>
+    <string name="show">Montrer</string>
 </resources>

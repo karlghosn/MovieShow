@@ -13,7 +13,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import android.util.Log;
-import android.view.View;
 
 import com.gdevelopers.movies.R;
 import com.gdevelopers.movies.helpers.Constants;

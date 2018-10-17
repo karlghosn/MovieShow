@@ -24,7 +24,6 @@ import com.gdevelopers.movies.model.KObject;
 import com.gdevelopers.movies.model.ModelService;
 import com.gdevelopers.movies.objects.TVShow;
 import com.gdevelopers.movies.rest.services.TVShowService;
-import com.gdevelopers.movies.wrappers.TVShowWrapper;
 
 import java.util.ArrayList;
 import java.util.List;

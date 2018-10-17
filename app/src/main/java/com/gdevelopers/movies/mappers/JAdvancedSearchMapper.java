@@ -2,7 +2,6 @@ package com.gdevelopers.movies.mappers;
 
 import android.content.Context;
 
-import com.gdevelopers.movies.R;
 import com.gdevelopers.movies.helpers.MovieDB;
 import com.gdevelopers.movies.helpers.PreferencesHelper;
 import com.gdevelopers.movies.model.JObjectMapper;
@@ -58,7 +57,7 @@ public class JAdvancedSearchMapper extends JObjectMapper {
             movie.setType("movie");
             movie.setReleaseDate(movieJSON.getString("release_date"));
             movie.setVoteAverage(movieJSON.getDouble("vote_average"));
-            movie.setPosterPath(MovieDB.IMAGE_URL + context.getResources().getString(R.string.imageSize) + movieJSON.getString("poster_path"));
+            movie.setPosterPath(movieJSON.getString("poster_path"));
             section.getMovieList().add(movie);
         }
         myParser.objects().add(section);

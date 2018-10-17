@@ -44,6 +44,7 @@
     <string name="number_of_votes">%1$s votes</string>
     <string name="number_of_votes_enclosed">(%1$s votes)</string>
     <string name="vote_average_over_ten" translatable="false">%1$.1f/10</string>
+    <string name="comment_rating" translatable="false">%1$d/10</string>
     <string name="season_number">Season %1$s</string>
     <string name="episode_number">Episode %1$s</string>
     <string name="episodes_number">%1$s Episodes</string>
@@ -259,7 +260,6 @@
     <string name="clear_list">Clear %1$s</string>
     <string name="delete">Delete</string>
     <string name="tmdb_critic_reviews">TMDb Critic Reviews</string>
-    <string name="show_more_reviews">Show more reviews (%1$s)</string>
     <string name="cast_crew"><![CDATA[Cast & Crew]]></string>
     <string name="coming_soon">Coming Soon</string>
     <string name="title_activity_gallery" translatable="false">GalleryActivity</string>
@@ -322,6 +322,13 @@
     <string name="collections">Collections</string>
     <string name="keywords">Keywords</string>
     <string name="apps">Apps</string>
+    <string name="pro_version">Pro Version</string>
+    <string name="reviews">Reviews</string>
+    <string name="trakt_reviews">Trakt.tv Reviews</string>
+    <string name="add_review">Add a review</string>
+    <string name="leave_comment">Leave a comment</string>
+    <string name="spoiler_warning">Spoiler Warning</string>
+    <string name="show">Show</string>
 
     <array name="letter_tile_colors">
         <item>#f16364</item>

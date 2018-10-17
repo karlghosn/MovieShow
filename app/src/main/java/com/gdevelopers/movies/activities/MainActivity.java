@@ -3,7 +3,6 @@ package com.gdevelopers.movies.activities;
 import android.app.Activity;
 import android.app.Service;
 import android.content.ComponentName;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.pm.PackageInfo;
@@ -15,21 +14,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
-
-import androidx.annotation.NonNull;
-
-import com.gdevelopers.movies.R;
-import com.gdevelopers.movies.helpers.MovieDB;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.navigation.NavigationView;
-
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -39,30 +23,33 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.gdevelopers.movies.R;
 import com.gdevelopers.movies.fragments.FragmentAbout;
 import com.gdevelopers.movies.fragments.FragmentAdvancedSearch;
 import com.gdevelopers.movies.fragments.FragmentDiscover;
-import com.gdevelopers.movies.helpers.AdBuilder;
-import com.gdevelopers.movies.helpers.Connection;
-import com.gdevelopers.movies.helpers.Constants;
-import com.gdevelopers.movies.helpers.PreferencesHelper;
+import com.gdevelopers.movies.fragments.FragmentFavourites;
 import com.gdevelopers.movies.fragments.FragmentHome;
 import com.gdevelopers.movies.fragments.FragmentLists;
+import com.gdevelopers.movies.fragments.FragmentMovies;
+import com.gdevelopers.movies.fragments.FragmentPopular;
+import com.gdevelopers.movies.fragments.FragmentRatedMovies;
+import com.gdevelopers.movies.fragments.FragmentTvShows;
+import com.gdevelopers.movies.fragments.FragmentWatchlist;
+import com.gdevelopers.movies.helpers.Connection;
+import com.gdevelopers.movies.helpers.Constants;
+import com.gdevelopers.movies.helpers.MovieDB;
+import com.gdevelopers.movies.helpers.PreferencesHelper;
 import com.gdevelopers.movies.model.KFragment;
 import com.gdevelopers.movies.model.KObject;
 import com.gdevelopers.movies.model.ModelService;
 import com.gdevelopers.movies.model.ServiceBinder;
-import com.gdevelopers.movies.fragments.FragmentMovies;
 import com.gdevelopers.movies.objects.Session;
 import com.gdevelopers.movies.objects.Token;
 import com.gdevelopers.movies.objects.User;
-import com.gdevelopers.movies.fragments.FragmentPopular;
 import com.gdevelopers.movies.rest.ApiClient;
 import com.gdevelopers.movies.rest.ApiInterface;
-import com.gdevelopers.movies.fragments.FragmentTvShows;
-import com.gdevelopers.movies.fragments.FragmentFavourites;
-import com.gdevelopers.movies.fragments.FragmentRatedMovies;
-import com.gdevelopers.movies.fragments.FragmentWatchlist;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.kobakei.ratethisapp.RateThisApp;
 
@@ -70,6 +57,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -125,7 +119,7 @@ public class MainActivity extends AppCompatActivity
         usernameTv = navigationView.getHeaderView(0).findViewById(R.id.user_name);
         profileIv = navigationView.getHeaderView(0).findViewById(R.id.imageView);
 
-        AdBuilder.buildAd(this);
+//        AdBuilder.buildAd(this);
 
         // Monitor launch times and interval from installation
         RateThisApp.onCreate(this);
@@ -138,6 +132,7 @@ public class MainActivity extends AppCompatActivity
         boolean hasConnection = Connection.isNetworkAvailable(MainActivity.this);
         if (hasConnection && PreferencesHelper.hasSessionId(this) && currentUser == null)
             getAccountDetails();
+
     }
 
 
@@ -157,6 +152,7 @@ public class MainActivity extends AppCompatActivity
         this.service = binder.getService();
         this.service.setContext(MainActivity.this);
         this.service.setOnResponseListener(this);
+
 
         Bundle extras = getIntent().getExtras();
         int position = 1;
@@ -261,6 +257,13 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setData(Uri.parse("https://play.google.com/store/apps/dev?id=9114263730237446857"));
             startActivity(intent);
+        } else if (id == R.id.nav_pro_version) {
+            final String appPackageName = "com.gdevelopers.movies_pro"; // getPackageName() from Context or Activity object
+            try {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+            } catch (android.content.ActivityNotFoundException exception) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+            }
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -466,7 +469,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         disposable.dispose();
+        super.onDestroy();
     }
 }

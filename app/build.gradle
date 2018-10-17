@@ -9,8 +9,8 @@ android {
         applicationId "com.gdevelopers.movies"
         minSdkVersion 16
         targetSdkVersion 28
-        versionCode 24
-        versionName "4.6"
+        versionCode 27
+        versionName "4.6.3"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
@@ -79,6 +79,8 @@ dependencies {
     implementation 'com.jakewharton:butterknife:9.0.0-SNAPSHOT'
     annotationProcessor 'com.jakewharton:butterknife-compiler:9.0.0-SNAPSHOT'
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    implementation 'com.android.support:customtabs:28.0.0'
 }
 
 apply plugin: 'com.google.gms.google-services'
